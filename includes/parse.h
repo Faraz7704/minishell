@@ -1,7 +1,18 @@
-#ifndef MINISHELL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
+/*   Updated: 2022/08/14 19:37:34 by fkhan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef	MINISHELL_H
 # define MINISHELL_H
 
-//# include "../libft/libft.h"
 # include <stdio.h> // printf, strerror, perror,
 # include <stdlib.h> // malloc, free, exit, getenv,
 # include <unistd.h> // write, access, read, close, fork, getcwd, chdir, unlink,  execve, dup, dup2, pipe, isatty, ttyname, ttyslot,
@@ -15,8 +26,8 @@
 # include <term.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <readline/readline.h> //readline, rl_on_new_line, rl_replace_line
 # include <readline/history.h> //rl_clear_history, add_history, rl_redisplay
-//# include "printf.h"
-//# include "libft.h"
+# include "printf.h"
+# include "libft.h"
 
 typedef struct s_list
 {
