@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/14 19:46:56 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/08/14 21:07:05 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,45 @@
 # include <readline/history.h> //rl_clear_history, add_history, rl_redisplay
 # include "ft_printf.h"
 # include "libft.h"
+# include "parse.h"
 
-typedef struct s_node
+enum e_execute_type {
+	SIGNAL = 0,
+	COMMAND = 1,
+};
+
+enum e_link_type {
+	L_REDIRECT = 1,
+	LL_REDIRECT = 2,
+	R_REDIRECT = 3,
+	RR_REDIRECT = 4,
+	AND = 5,
+	OR = 6
+};
+
+typedef struct s_option
 {
-	void			*key;
-	void			*data;
-	struct s_node	*next;
-}	t_node;
+	char	*key;
+	char	**data;
+}	t_option;
+
+typedef struct s_execute
+{
+	char				*key;
+	char				**data;
+	e_execute_type		type;
+	t_option			*options;
+	struct s_execute	*next;
+	e_link_type			link_type;
+}	t_execute;
+
+typedef struct s_pipeline
+{
+	struct s_pipeline	*parent;
+	t_execute			*pre_executes;
+	t_execute			*executes;
+	struct s_pipeline	*child;
+	e_link_type			link_type;
+}	t_pipeline;
 
 #endif
