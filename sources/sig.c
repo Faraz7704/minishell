@@ -1,22 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 19:44:44 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/14 19:58:30 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/15 19:54:42 by szhakypo          #+#    #+#             */
+/*   Updated: 2022/08/16 15:05:37 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static int	init_env(t_list **anv, char **env)
-// {
-// 	char	**tmp;
-// 	int		len;
-
-// 	printf("%s\n", env);
-// 	return (0);
-// }

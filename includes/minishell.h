@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/14 21:07:05 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/08/16 15:09:36 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ typedef struct s_execute
 {
 	char				*key;
 	char				**data;
-	e_execute_type		type;
+	//e_execute_type		type;
 	t_option			*options;
 	struct s_execute	*next;
-	e_link_type			link_type;
+	//e_link_type			link_type;
 }	t_execute;
 
 typedef struct s_pipeline
@@ -68,7 +68,7 @@ typedef struct s_pipeline
 	t_execute			*pre_executes;
 	t_execute			*executes;
 	struct s_pipeline	*child;
-	e_link_type			link_type;
+	//e_link_type			link_type;
 }	t_pipeline;
 
 #endif
