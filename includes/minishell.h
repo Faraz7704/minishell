@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/16 15:09:36 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:22:39 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define CLOSE "\001\033[0m\002"                 // Закрыть все свойства
+# define BLOD  "\001\033[1m\002"                 // Подчеркнуть, жирным шрифтом, выделить
+# define BEGIN(x,y) "\001\033["#x";"#y"m\002"    // x: background, y: foreground
 
 # include <stdio.h> // printf, strerror, perror
 # include <stdlib.h> // malloc, free, exit, getenv
@@ -25,12 +29,11 @@
 # include <sys/stat.h> // stat, lstat, fstat
 # include <sys/ioctl.h> // ioctl
 # include <termios.h> //  tcsetattr, tcgetattr
-# include <term.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <readline/readline.h> //readline, rl_on_new_line, rl_replace_line
 # include <readline/history.h> //rl_clear_history, add_history, rl_redisplay
+# include <term.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include "ft_printf.h"
 # include "libft.h"
-# include "parse.h"
 
 enum e_execute_type {
 	SIGNAL = 0,
@@ -70,5 +73,35 @@ typedef struct s_pipeline
 	struct s_pipeline	*child;
 	//e_link_type			link_type;
 }	t_pipeline;
+
+typedef struct s_keymap
+{
+	char			*key;
+	char			*val;
+	struct s_keymap	*next;
+}	t_km;
+
+typedef struct s_shellinfo
+{
+	char	*cmd;
+	t_km	*kms;
+}	t_si;
+
+// keymap
+t_km	*init_keymaps(char **env);
+void	add_keymap(t_km **kms, char *keyvalue);
+void	update_keymap(t_km *km, char *keyvalue);
+
+// km_utils
+t_km	*km_lstlast(t_km *lst);
+void	km_lstadd_back(t_km **lst, t_km *new);
+
+// str_utils
+int		ft_strclen(char *s, char c);
+char	*ft_strldup(char *src, int size);
+int		ft_strdlen(char **s);
+
+// debug
+void	print_keymaps(t_km *kms);
 
 #endif

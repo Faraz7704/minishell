@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
+/*   Updated: 2022/08/18 18:57:58 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
-int	parse_cmd(char *cmd)
+void	print_keymaps(t_km *kms)
 {
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
+	t_km	*curr;
+
+	curr = kms;
+	while (curr)
+	{
+		ft_printf("key: %s, val: %s\n", curr->key, curr->val);
+		curr = curr->next;
+	}
 }

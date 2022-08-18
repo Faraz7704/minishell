@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
+/*   Updated: 2022/08/18 19:17:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-int	parse_cmd(char *cmd)
-{
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
-}
+# include "minishell.h"
+
+void	executor(t_si si);
+
+#endif

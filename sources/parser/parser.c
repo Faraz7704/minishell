@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
+/*   Updated: 2022/08/18 19:20:23 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	parse_cmd(char *cmd)
+void	parser(t_si *si)
 {
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
+	(void)si;
 }

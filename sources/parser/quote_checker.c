@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quter_checker.c                                    :+:      :+:    :+:   */
+/*   quote_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 19:52:00 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/17 20:27:43 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:20:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minishell.h"
+//#include "parser.h"
 
-int		q_change_val(int q)
+int	q_change_val(int q)
 {
-	if(q == 1)
+	if (q == 1)
 		return (0);
 	return (1);
 }
 
 char	*check_close(char c, int *hm, char *cmd)
 {
-	if(*cmd == c)
+	if (*cmd == c)
 	{
-		*hm= q_change_val(*hm);
+		*hm = q_change_val(*hm);
 		cmd++;
-		if(*cmd == c)
+		if (*cmd == c)
 			*hm = q_change_val(*hm);
 		while (*cmd != c && *cmd)
 		{
 			cmd++;
-			if(*cmd == c)
+			if (*cmd == c)
 				*hm = q_change_val(*hm);
 		}
 	}
@@ -51,6 +51,6 @@ int	q_checker(char *str)
 		i++;
 	}
 	if (q == 1)
-		return(1);
+		return (1);
 	return (0);
 }

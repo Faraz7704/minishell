@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
+/*   Updated: 2022/08/18 19:24:42 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#ifndef PARSER_H
+# define PARSER_H
 
-int	parse_cmd(char *cmd)
+# include "minishell.h"
+
+typedef struct s_sig
 {
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
-}
+	int				sigint;
+	int				sigquit;
+	int				exit_status;
+	pid_t			pid;
+}	t_sig;
+
+// idk
+int		parse_cmd(char *cmd);
+int		q_checker(char *str);
+char	*check_close(char c, int *hm, char *cmd);
+
+//char	*checker_of_quater(char *s);
+
+#endif

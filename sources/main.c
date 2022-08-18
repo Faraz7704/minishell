@@ -3,41 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/17 20:32:16 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:29:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
+#include "parser.h"
 
-//t_sig	g_sig;//glabal signal;
-// static void	parsing(char **av, char **env)
-// {
-// 	(void)av;
-// 	(void)env;
-// 	ft_printf("Hello World!");
-// }
+static void	exit_shell(t_si *si)
+{
+	free(si->cmd);
+	free(si->kms);
+	free(si);
+}
 
 int	main(int ac, char **av, char **env)
 {
-	t_info	*info;
-	t_key	*keys;
-	int		i;
-
+	t_si	*si;
 
 	(void)ac;
 	(void)av;
-	info = malloc(sizeof(t_info));
-	i = 0;
-	while (i < size_liness(env))
-		list_key_addd(&keys, env[i++]);
+	si = malloc(sizeof(t_si));
+	si->kms = init_keymaps(env);
 	while (1)
 	{
-		info->cmd = readline(BEGIN(49, 34)"minishell>$"CLOSE);
-		find_cmd(info);
+		si->cmd = readline(BEGIN(49, 34)"minishell>$"CLOSE);
+		parse_cmd(si->cmd);
 	}
-	free(info->cmd);
+	exit_shell(si);
 	return (0);
 }

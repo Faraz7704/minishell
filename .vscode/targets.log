@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Thu Aug 18 17:46:12 2022
+# Make data base, printed on Thu Aug 18 19:24:33 2022
 
 # Variables
 
@@ -16,8 +16,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
+ 
 # makefile (from `Makefile', line 37)
-SOURCES_LIST = main.c parser/init_key.c parser/read_cmd.c parser/quter_checker.c
+SOURCES_LIST = main.c debug.c keymap.c km_utils.c str_utils.c executor/executor.c parser/parser.c parser/read_cmd.c parser/quote_checker.c
 # makefile (from `Makefile', line 28)
 FT_PRINTF = $(FT_PRINTF_DIRECTORY)libft_printf.a
 # automatic
@@ -40,10 +41,9 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 _ = /usr/bin/make
 # makefile (from `Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
-# makefile (from `Makefile', line 39)
-SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 # makefile (from `Makefile', line 41)
- 
+SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
+# makefile (from `Makefile', line 43)
 OBJECTS_DIRECTORY = objects/
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
@@ -77,7 +77,7 @@ rvm_bin_path = /Users/faraz/.rvm/bin
 PWD = /Users/faraz/Documents/Documents/42/cursus/minishell
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
-# makefile (from `Makefile', line 46)
+# makefile (from `Makefile', line 48)
 GREEN = \033[0;32m
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
@@ -135,7 +135,7 @@ TMPDIR = /var/folders/ry/tbxdcn2x34q_gjw4rn0_gv700000gn/T/
 VSCODE_IPC_HOOK = /Users/faraz/Library/Application Support/Code/1.70.0-main.sock
 # environment
 MallocNanoZone = 0
-# makefile (from `Makefile', line 47)
+# makefile (from `Makefile', line 49)
 RED = \033[0;31m
 # makefile
 MAKEFLAGS = Rrqp
@@ -158,10 +158,11 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
+ 
 COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
-# makefile (from `Makefile', line 42)
+# makefile (from `Makefile', line 44)
 OBJECTS_LIST = $(patsubst %.c, %.o, $(SOURCES_LIST))
 # makefile (from `Makefile', line 25)
 LIBFT_DIRECTORY = $(LIB_DIRECTORY)libft/
@@ -169,7 +170,7 @@ LIBFT_DIRECTORY = $(LIB_DIRECTORY)libft/
 <F = $(notdir $<)
 # environment
 LC_ALL = C
-# makefile (from `Makefile', line 48)
+# makefile (from `Makefile', line 50)
 RESET = \033[0m
 # makefile (from `Makefile', line 18)
 LIBRARIES = -lft -lft_printf -lreadline -L$(LIBFT_DIRECTORY) -L$(FT_PRINTF_DIRECTORY) -L/usr/local/Cellar/readline/8.1/lib 
@@ -189,7 +190,7 @@ FLAGS = -Wall -Werror -Wextra
 rvm_loaded_flag = 1
 # environment
 MAKELEVEL := 0
-# makefile (from `Makefile', line 43)
+# makefile (from `Makefile', line 45)
 OBJECTS = $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 # environment
 LANG = C
@@ -205,16 +206,17 @@ VSCODE_PID = 1512
 # Directories
 
 # . (device 16777220, inode 122403148): 12 files, no impossibilities.
-# sources (device 16777220, inode 122403290): 5 files, no impossibilities so far.
+# sources (device 16777220, inode 122403290): 10 files, no impossibilities so far.
 # sources/parser (device 16777220, inode 122403292): 5 files, no impossibilities so far.
 # includes (device 16777220, inode 122403220): 4 files, no impossibilities so far.
+# sources/executor (device 16777220, inode 122408838): 3 files, no impossibilities so far.
 
-# 26 files, no impossibilities in 4 directories.
+# 34 files, no impossibilities in 5 directories.
 
 # Implicit Rules
 
 objects/%.o: ./sources/%.c ./includes/minishell.h
-#  commands to execute (from `Makefile', line 65):
+#  commands to execute (from `Makefile', line 68):
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 	@echo ".\c"
 	
@@ -225,15 +227,37 @@ objects/%.o: ./sources/%.c ./includes/minishell.h
 
 objects/:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-18 17:46:03
+#  Last modified 2022-08-18 19:24:17
 #  File has been updated.
 #  Successfully updated.
-#  commands to execute (from `Makefile', line 60):
- 
+#  commands to execute (from `Makefile', line 62):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@mkdir -p $(OBJECTS_DIRECTORY)/parser
+	@mkdir -p $(OBJECTS_DIRECTORY)/executor
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
 	
+
+objects/debug.o: sources/debug.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `debug'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+# Not a target:
+sources/debug.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-18 18:57:58
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 all: minishell
 #  Phony target (prerequisite of .PHONY).
@@ -250,12 +274,48 @@ all: minishell
 #  Modification time never checked.
 #  File has not been updated.
 
-lib/ft_printf/libft_printf.a:
-#  Implicit rule search has not been done.
-#  Last modified 2022-08-18 17:46:02
+objects/parser/parser.o: sources/parser/parser.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `parser/parser'
+#  Last modified 2022-08-18 19:24:17
 #  File has been updated.
 #  Successfully updated.
-#  commands to execute (from `Makefile', line 73):
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+# Not a target:
+sources/parser/parser.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-18 19:20:23
+#  File has been updated.
+ 
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objects/keymap.o: sources/keymap.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `keymap'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+lib/ft_printf/libft_printf.a:
+#  Implicit rule search has not been done.
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `Makefile', line 76):
 	@echo "$(NAME): $(GREEN)Creating $(FT_PRINTF)...$(RESET)"
 	@$(MAKE) -sC $(FT_PRINTF_DIRECTORY)
 	
@@ -269,42 +329,73 @@ lib/ft_printf/libft_printf.a:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
+#  Last modified 2022-08-18 19:24:10
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-objects/parser/quter_checker.o: sources/parser/quter_checker.c includes/minishell.h
+# Not a target:
+sources/keymap.c:
 #  Implicit rule search has been done.
-#  Implicit/static pattern stem: `parser/quter_checker'
-#  Last modified 2022-08-18 17:46:03
+#  Last modified 2022-08-18 18:58:31
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 65):
+
+objects/executor/executor.o: sources/executor/executor.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `executor/executor'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+objects/str_utils.o: sources/str_utils.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `str_utils'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 	@echo ".\c"
 	
 
 # Not a target:
-sources/parser/quter_checker.c:
+sources/executor/executor.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
+#  Last modified 2022-08-18 19:19:41
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-minishell: lib/libft/libft.a lib/ft_printf/libft_printf.a objects/ objects/main.o objects/parser/init_key.o objects/parser/read_cmd.o objects/parser/quter_checker.o
-#  Implicit rule search has not been done.
-#  Last modified 2022-08-18 17:46:03
+# Not a target:
+sources/str_utils.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-18 18:21:13
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 55):
+
+minishell: lib/libft/libft.a lib/ft_printf/libft_printf.a objects/ objects/main.o objects/debug.o objects/keymap.o objects/km_utils.o objects/str_utils.o objects/executor/executor.o objects/parser/parser.o objects/parser/read_cmd.o objects/parser/quote_checker.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 57):
 	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) $(INCLUDES) -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
@@ -321,7 +412,7 @@ fclean: clean
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 83):
+#  commands to execute (from `Makefile', line 86):
 	@rm -f $(FT_PRINTF)
 	@echo "$(NAME): $(RED)$(FT_PRINTF) was deleted$(RESET)"
 	@rm -f $(LIBFT)
@@ -333,20 +424,21 @@ fclean: clean
 objects/parser/read_cmd.o: sources/parser/read_cmd.c includes/minishell.h
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `parser/read_cmd'
-#  Last modified 2022-08-18 17:46:03
+#  Last modified 2022-08-18 19:24:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 65):
+#  commands to execute (from `Makefile', line 68):
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+ 
 	@echo ".\c"
 	
 
 # Not a target:
 sources/parser/read_cmd.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
+#  Last modified 2022-08-18 19:22:51
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -358,70 +450,69 @@ sources/parser/read_cmd.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-objects/parser/init_key.o: sources/parser/init_key.c includes/minishell.h
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: `parser/init_key'
-#  Last modified 2022-08-18 17:46:03
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 65):
-	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
-	@echo ".\c"
-	
-
 re:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 91):
+#  commands to execute (from `Makefile', line 94):
 	@$(MAKE) fclean
 	@$(MAKE) all
 	
-
-# Not a target:
-sources/parser/init_key.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 clean:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 77):
+#  commands to execute (from `Makefile', line 80):
 	@$(MAKE) -sC $(LIBFT_DIRECTORY) clean
 	@$(MAKE) -sC $(FT_PRINTF_DIRECTORY) clean
 	@rm -rf $(OBJECTS_DIRECTORY)
 	@echo "$(NAME): $(RED)object files were deleted$(RESET)"
 	
 
-objects/main.o: sources/main.c includes/minishell.h
+objects/km_utils.o: sources/km_utils.c includes/minishell.h
 #  Implicit rule search has been done.
-#  Implicit/static pattern stem: `main'
-#  Last modified 2022-08-18 17:46:03
+#  Implicit/static pattern stem: `km_utils'
+#  Last modified 2022-08-18 19:24:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 65):
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+# Not a target:
+sources/km_utils.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-18 18:57:22
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objects/main.o: sources/main.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `main'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 	@echo ".\c"
 	
 
 lib/libft/libft.a:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-18 17:46:01
+#  Last modified 2022-08-18 19:24:16
 #  File has been updated.
 #  Successfully updated.
- 
-#  commands to execute (from `Makefile', line 69):
+#  commands to execute (from `Makefile', line 72):
 	@echo "$(NAME): $(GREEN)Creating $(LIBFT)...$(RESET)"
 	@$(MAKE) -sC $(LIBFT_DIRECTORY)
 	
@@ -429,23 +520,45 @@ lib/libft/libft.a:
 # Not a target:
 sources/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
+#  Last modified 2022-08-18 19:23:31
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+objects/parser/quote_checker.o: sources/parser/quote_checker.c includes/minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `parser/quote_checker'
+#  Last modified 2022-08-18 19:24:17
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 68):
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo ".\c"
+	
+
+# Not a target:
+includes/minishell.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-18 19:22:39
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-includes/minishell.h:
+sources/parser/quote_checker.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-18 17:45:38
+#  Last modified 2022-08-18 19:20:19
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # files hash-table stats:
-# Load=22/1024=2%, Rehash=0, Collisions=0/70=0%
+# Load=32/1024=3%, Rehash=0, Collisions=0/110=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -456,7 +569,8 @@ includes/minishell.h:
 # # of strcache buffers: 1
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+ 
 
-# Finished Make data base on Thu Aug 18 17:46:12 2022
+# Finished Make data base on Thu Aug 18 19:24:33 2022
 
  

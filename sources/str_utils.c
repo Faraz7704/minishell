@@ -1,23 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
+/*   Updated: 2022/08/18 18:21:13 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
-int	parse_cmd(char *cmd)
+int	ft_strclen(char *s, char c)
 {
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i] != c && s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strldup(char *src, int size)
+{
+	char	*dst;
+
+	dst = malloc(sizeof(char *) * size);
+	ft_strlcpy(dst, src, size);
+	if (!dst)
+		return (0);
+	return (dst);
+}
+
+int	ft_strdlen(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

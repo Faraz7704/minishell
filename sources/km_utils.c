@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   km_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:51 by fkhan            ###   ########.fr       */
+/*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
+/*   Updated: 2022/08/18 18:57:21 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
-int	parse_cmd(char *cmd)
+t_km	*km_lstlast(t_km *lst)
 {
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
+	t_km	*next_lst;
+
+	if (!lst)
+		return (0);
+	next_lst = lst;
+	while (next_lst->next)
+		next_lst = next_lst->next;
+	return (next_lst);
+}
+
+void	km_lstadd_back(t_km **lst, t_km *new)
+{
+	t_km	*last_lst;
+
+	if (!lst[0])
+		lst[0] = new;
+	else
+	{
+		last_lst = km_lstlast(lst[0]);
+		last_lst->next = new;
+	}
 }

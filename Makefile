@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/08/17 20:29:55 by szhakypo         ###   ########.fr        #
+#    Updated: 2022/08/18 19:24:10 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,10 @@ HEADERS_LIST 		= minishell.h
 HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY 	= ./sources/
-SOURCES_LIST 		= main.c parser/init_key.c parser/read_cmd.c \
-						parser/quter_checker.c
+SOURCES_LIST 		= main.c debug.c \
+						keymap.c km_utils.c str_utils.c \
+						executor/executor.c \
+						parser/parser.c parser/read_cmd.c parser/quote_checker.c
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY 	= objects/
@@ -59,6 +61,7 @@ $(NAME): $(LIBFT) $(FT_PRINTF) $(OBJECTS_DIRECTORY) $(OBJECTS)
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@mkdir -p $(OBJECTS_DIRECTORY)/parser
+	@mkdir -p $(OBJECTS_DIRECTORY)/executor
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
