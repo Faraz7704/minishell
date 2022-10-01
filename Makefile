@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
+#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/08/18 19:24:10 by fkhan            ###   ########.fr        #
+#    Updated: 2022/09/30 18:55:48 by szhakypo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SOURCES_DIRECTORY 	= ./sources/
 SOURCES_LIST 		= main.c debug.c \
 						keymap.c km_utils.c str_utils.c \
 						executor/executor.c \
-						parser/parser.c parser/read_cmd.c parser/quote_checker.c
+						parser/parser.c parser/read_cmd.c parser/quote_checker.c parser/init_list_for_cmd.c
+						
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY 	= objects/

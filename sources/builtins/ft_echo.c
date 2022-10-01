@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_cmd.c                                         :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/17 19:48:29 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/09/30 19:00:41 by szhakypo         ###   ########.fr       */
+/*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
+/*   Updated: 2022/09/30 18:13:40 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-
-int	parse_cmd(char *cmd)
+void	ft_echo(char **cmd)
 {
-	init_cmd_list(cmd);
-	if (cmd[0] == '\0')
-		return (1);
-	add_history(cmd);
-	if (q_checker(cmd) == 1)
-		return (1);
-	return (0);
+	int		i;
+	bool	n;
+
+	n = false;
+	if (cmd[1] == "-n")
+		n = true;
+	if (!cmd)
+	{
+		ft_printf("%s\n", cmd[2]);
+		if(n = true)
+			printf("\n");
+	}
 }

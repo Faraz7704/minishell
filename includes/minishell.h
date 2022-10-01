@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/08/18 19:22:39 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/30 18:57:40 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ typedef struct s_shellinfo
 	t_km	*kms;
 }	t_si;
 
+typedef struct s_cmd
+{
+	char	*str;
+	struct s_cmd	*next;
+	enum e_link_type type;
+}	t_cmd;
 // keymap
 t_km	*init_keymaps(char **env);
 void	add_keymap(t_km **kms, char *keyvalue);
@@ -103,5 +109,11 @@ int		ft_strdlen(char **s);
 
 // debug
 void	print_keymaps(t_km *kms);
+
+
+void	init_cmd_list(char *str);
+void	ft_list_cmd_add(char *str, t_cmd **cmd);
+void	ft_cmd_add(t_cmd **lst, t_cmd *new);
+t_cmd	*cmd_lstlast(t_cmd *cmd);
 
 #endif
