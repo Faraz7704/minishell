@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
+#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/01 20:39:09 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/02 19:11:41 by szhakypo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY 	= ./sources/
 SOURCES_LIST 		= main.c debug.c \
 						executor/executor.c \
-						parser/parser.c
+						parser/parser.c keymap.c km_utils.c str_utils.c
 # keymap.c km_utils.c str_utils.c
 # parser/read_cmd.c parser/quote_checker.c parser/init_list_for_cmd.c
 						

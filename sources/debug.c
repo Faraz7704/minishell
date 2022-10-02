@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 14:20:38 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/03 02:22:31 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,32 @@ void	print_keymaps(t_km *kms)
 	curr = kms;
 	while (curr)
 	{
-		ft_printf("key: %s, val: %s\n", curr->key, curr->val);
+		if (curr->val != NULL)
+			ft_printf("%s=%s\n", curr->key, curr->val);
 		curr = curr->next;
+	}
+}
+
+
+void	print_export(t_km *kms, char **av)
+{
+	int	i;
+	t_km	*tmp;
+
+	tmp = kms;
+	i = 1;
+	if (av[1] != NULL)
+		while(av[i] != NULL)
+		{
+			add_keymap(&kms, av[i]);
+			i++;
+		}
+	else
+	{
+		while(tmp)
+		{
+			printf("declare -x %s=%s\n", tmp->key, tmp->val);
+			tmp= tmp->next;
+		}
 	}
 }

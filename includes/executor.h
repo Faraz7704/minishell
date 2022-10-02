@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/01 20:35:58 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/03 00:25:35 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include "minishell.h"
 
-void	exec(char *argv_start, char **argv);
-void	runcmd(t_cmd *cmd);
+void	exec(char *cmd, char **argv, t_km *kms);
+void	runcmd(t_cmd *cmd, t_km *kms);
+
+	
 
 #endif

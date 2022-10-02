@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 14:23:27 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/03 01:01:30 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,19 @@ typedef struct s_pipecmd
 	t_cmd 		*right;
 }	t_pipecmd;
 
+typedef struct s_keymap
+{
+	char			*key;
+	char			*val;
+	struct s_keymap	*next;
+}	t_km;
+
+//typedef struct s_shellinfo
+//{
+//	t_cmd	*cmd;
+//	t_km	*kms;
+//}	t_si;
+
 typedef struct s_redircmd
 {
 	enum e_cmd_type	type;
@@ -75,18 +88,7 @@ typedef struct s_redircmd
 	int			fd;
 }	t_redircmd;
 
-typedef struct s_keymap
-{
-	char			*key;
-	char			*val;
-	struct s_keymap	*next;
-}	t_km;
 
-typedef struct s_shellinfo
-{
-	char	*cmd;
-	t_km	*kms;
-}	t_si;
 
 // typedef struct s_cmd
 // {
@@ -115,5 +117,9 @@ void		km_lstadd_back(t_km **lst, t_km *new);
 int			ft_strclen(char *s, char c);
 char		*ft_strldup(char *src, int size);
 int			ft_strdlen(char **s);
+
+void	print_export(t_km *kms, char **av);
+t_km	*ft_export_env(t_km *kms, char **av);
+t_km	*ft_copy_list(t_km *head);
 
 #endif

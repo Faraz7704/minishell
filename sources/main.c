@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 17:58:06 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/02 19:27:19 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ int	fork1(void)
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
+	t_km	*kms;
 
 	(void)ac;
 	(void)av;
-	(void)env;
+	kms = init_keymaps(env);
 	init_fd();
 	while (getcmd(&buf) >= 0)
 	{
@@ -73,7 +74,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		if (fork1() == 0)
-			runcmd(parsecmd(buf));
+			runcmd(parsecmd(buf), kms);
 		wait(0);
 	}
 	return (0);

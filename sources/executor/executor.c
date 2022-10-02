@@ -3,22 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 18:06:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/03 00:47:21 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-void	exec(char *argv_start, char **argv)
+void	exec(char *cmd, char **argv, t_km *kms)
 {
 	int	i;
 
-	(void)argv_start;
+	(void)cmd;
 	(void)argv;
-	ft_printf("exec %s\n", argv_start);
+
+	if (!ft_strncmp(cmd, "env", 3))
+		print_keymaps(kms);
+	else if(!ft_strncmp(cmd, "pwd", 3))
+	{
+		char	*str = NULL;
+		
+		ft_printf("%s\n", getcwd(str, 1000));
+	}
+	else if(!ft_strncmp(cmd, "echo", 4))
+	{
+		int	n;
+		int	i;
+
+		n = 0;
+		i = 1;
+		if ((ft_strncmp(argv[1], "-n", 2) == 0) && argv[1])
+		{
+			n = 1;
+			i = 2;
+		}
+		while(argv[i] && argv)
+		{
+			ft_printf("%s ", argv[i]);
+			i++;
+		}
+		if (n == 0)
+			ft_printf("\n");
+	}
+	else if(ft_strncmp(cmd, "export", 6) == 0)
+			print_export(kms, argv);
+	ft_printf("exec %s\n", cmd);
 	i = 0;
 	while (argv[i])
 	{
@@ -27,7 +58,7 @@ void	exec(char *argv_start, char **argv)
 	}
 }
 
-void	runcmd(t_cmd *cmd)
+void	runcmd(t_cmd *cmd, t_km *kms)
 {
 	int			p[2];
 	t_execcmd	*ecmd;
@@ -41,7 +72,7 @@ void	runcmd(t_cmd *cmd)
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->argv[0] == 0)
 			exit(1);
-		exec(ecmd->argv[0], ecmd->argv);
+		exec(ecmd->argv[0], ecmd->argv, kms);
 		ft_fprintf(2, "exec %s failed\n", ecmd->argv[0]);
 	}
 	else if (cmd->type == REDIR)
@@ -53,7 +84,7 @@ void	runcmd(t_cmd *cmd)
 			ft_fprintf(2, "open %s failed\n", rcmd->file);
 			exit(1);
 		}
-		runcmd(rcmd->cmd);
+		runcmd(rcmd->cmd, kms);
 	}
 	else if (cmd->type == PIPE)
 	{
@@ -66,7 +97,7 @@ void	runcmd(t_cmd *cmd)
 			dup(p[1]);
 			close(p[0]);
 			close(p[1]);
-			runcmd(pcmd->left);
+			runcmd(pcmd->left, kms);
 		}
 		if (fork1() == 0)
 		{
@@ -74,7 +105,7 @@ void	runcmd(t_cmd *cmd)
 			dup(p[0]);
 			close(p[0]);
 			close(p[1]);
-			runcmd(pcmd->right);
+			runcmd(pcmd->right, kms);
 		}
 		close(p[0]);
 		close(p[1]);
