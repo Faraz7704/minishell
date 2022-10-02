@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/30 18:57:40 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/02 14:23:27 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,44 +35,45 @@
 # include "ft_printf.h"
 # include "libft.h"
 
-enum e_execute_type {
-	SIGNAL = 0,
-	COMMAND = 1,
-};
+# define WHITESPACE " \t\r\n\v"
+# define SYMBOLS "<|>()"
 
-enum e_link_type {
-	L_REDIRECT = 1,
-	LL_REDIRECT = 2,
-	R_REDIRECT = 3,
-	RR_REDIRECT = 4,
-	AND = 5,
-	OR = 6
-};
+# define MAXARGS 10
 
-typedef struct s_option
+enum e_cmd_type {
+	EXEC = 0,
+	PIPE = 1,
+	REDIR = 2,
+}	cmd_type;
+
+typedef struct s_cmd
 {
-	char	*key;
-	char	**data;
-}	t_option;
+	enum e_cmd_type	type;
+}	t_cmd;
 
-typedef struct s_execute
+typedef struct s_execcmd
 {
-	char				*key;
-	char				**data;
-	//e_execute_type		type;
-	t_option			*options;
-	struct s_execute	*next;
-	//e_link_type			link_type;
-}	t_execute;
+	enum e_cmd_type	type;
+	char		*argv[MAXARGS];
+	char		*eargv[MAXARGS];
+}	t_execcmd;
 
-typedef struct s_pipeline
+typedef struct s_pipecmd
 {
-	struct s_pipeline	*parent;
-	t_execute			*pre_executes;
-	t_execute			*executes;
-	struct s_pipeline	*child;
-	//e_link_type			link_type;
-}	t_pipeline;
+	enum e_cmd_type	type;
+	t_cmd 		*left;
+	t_cmd 		*right;
+}	t_pipecmd;
+
+typedef struct s_redircmd
+{
+	enum e_cmd_type	type;
+	t_cmd 		*cmd;
+	char		*file;
+	char		*efile;
+	int			mode;
+	int			fd;
+}	t_redircmd;
 
 typedef struct s_keymap
 {
@@ -87,33 +88,32 @@ typedef struct s_shellinfo
 	t_km	*kms;
 }	t_si;
 
-typedef struct s_cmd
-{
-	char	*str;
-	struct s_cmd	*next;
-	enum e_link_type type;
-}	t_cmd;
-// keymap
-t_km	*init_keymaps(char **env);
-void	add_keymap(t_km **kms, char *keyvalue);
-void	update_keymap(t_km *km, char *keyvalue);
+// typedef struct s_cmd
+// {
+// 	char	*str;
+// 	struct s_cmd	*next;
+// 	enum e_link_type type;
+// }	t_cmd;
 
-// km_utils
-t_km	*km_lstlast(t_km *lst);
-void	km_lstadd_back(t_km **lst, t_km *new);
-
-// str_utils
-int		ft_strclen(char *s, char c);
-char	*ft_strldup(char *src, int size);
-int		ft_strdlen(char **s);
+// main
+int			fork1(void);
 
 // debug
-void	print_keymaps(t_km *kms);
+void		print_error(char *s);
+void		print_keymaps(t_km *kms);
 
+// keymap
+t_km		*init_keymaps(char **env);
+void		add_keymap(t_km **kms, char *keyvalue);
+void		update_keymap(t_km *km, char *keyvalue);
 
-void	init_cmd_list(char *str);
-void	ft_list_cmd_add(char *str, t_cmd **cmd);
-void	ft_cmd_add(t_cmd **lst, t_cmd *new);
-t_cmd	*cmd_lstlast(t_cmd *cmd);
+// km_utils
+t_km		*km_lstlast(t_km *lst);
+void		km_lstadd_back(t_km **lst, t_km *new);
+
+// str_utils
+int			ft_strclen(char *s, char c);
+char		*ft_strldup(char *src, int size);
+int			ft_strdlen(char **s);
 
 #endif

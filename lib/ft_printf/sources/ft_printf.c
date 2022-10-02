@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:30:01 by fkhan             #+#    #+#             */
-/*   Updated: 2022/04/26 13:26:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/09 22:33:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static int	parse_printf(va_list ap, const char **f, int fd)
 	return (len);
 }
 
-int	ft_printf(const char *str, ...)
+int	ft_fprintf(int fd, const char *str, ...)
 {
 	va_list	ap;
 	int		len;
-	int		fd;
 
 	len = 0;
-	fd = 1;
 	va_start(ap, str);
 	while (*str)
 	{
@@ -55,6 +53,28 @@ int	ft_printf(const char *str, ...)
 		}
 		else
 			len += write(fd, str, 1);
+		str++;
+	}
+	va_end(ap);
+	return (len);
+}
+
+int	ft_printf(const char *str, ...)
+{
+	va_list	ap;
+	int		len;
+
+	len = 0;
+	va_start(ap, str);
+	while (*str)
+	{
+		if (*str == '%')
+		{
+			str++;
+			len += parse_printf(ap, &str, 1);
+		}
+		else
+			len += write(1, str, 1);
 		str++;
 	}
 	va_end(ap);

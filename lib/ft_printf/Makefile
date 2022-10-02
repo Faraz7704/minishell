@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 13:01:55 by fkhan             #+#    #+#              #
-#    Updated: 2022/06/20 17:55:08 by fkhan            ###   ########.fr        #
+#    Updated: 2022/09/13 21:09:57 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@cp $(LIBFT) .
-	@mv libft.a $(NAME)
+	@mv libft.a $(NAME) 
 	@$(LIB) $(NAME) $(OBJECTS)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
