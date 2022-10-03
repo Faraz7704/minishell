@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 01:01:30 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:43:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,22 @@ int			fork1(void);
 // debug
 void		print_error(char *s);
 void		print_keymaps(t_km *kms);
+void		print_export(t_km *kms);
 
 // keymap
 t_km		*init_keymaps(char **env);
 void		add_keymap(t_km **kms, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
+t_km		*find_keymap_key(t_km *kms, char *keyvalue);
 
 // km_utils
 t_km		*km_lstlast(t_km *lst);
 void		km_lstadd_back(t_km **lst, t_km *new);
 
 // str_utils
-int			ft_strclen(char *s, char c);
+size_t		ft_strclen(char *s, char c);
 char		*ft_strldup(char *src, int size);
-int			ft_strdlen(char **s);
-
-void	print_export(t_km *kms, char **av);
-t_km	*ft_export_env(t_km *kms, char **av);
-t_km	*ft_copy_list(t_km *head);
+size_t		ft_strdlen(char **s);
+int			ft_strequals(char *s1, char *s2);
 
 #endif

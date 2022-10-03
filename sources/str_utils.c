@@ -6,15 +6,15 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/02 12:49:17 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/03 19:18:49 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strclen(char *s, char c)
+size_t	ft_strclen(char *s, char c)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != c && s[i])
@@ -33,12 +33,17 @@ char	*ft_strldup(char *src, int size)
 	return (dst);
 }
 
-int	ft_strdlen(char **s)
+size_t	ft_strdlen(char **s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
 		i++;
 	return (i);
+}
+
+int	ft_strequals(char *s1, char *s2)
+{
+	return (!ft_strncmp(s1, s2, ft_strlen(s1)));
 }

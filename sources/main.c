@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 19:27:19 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:10:08 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	main(int ac, char **av, char **env)
 				ft_fprintf(2, "cannot cd %s\n", buf + 3);
 			continue ;
 		}
-		if (fork1() == 0)
-			runcmd(parsecmd(buf), kms);
-		wait(0);
+		runcmd(parsecmd(buf), kms);
 	}
 	return (0);
 }

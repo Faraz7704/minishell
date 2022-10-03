@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keymap.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/02 19:00:16 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:56:45 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,59 @@
 
 void	update_keymap(t_km *km, char *keyvalue)
 {
-	int		size;
-	int		index;
+	size_t		size;
+	size_t		index;
 
 	size = ft_strclen(keyvalue, '=') + 1;
 	index = size;
 	km->key = ft_strldup(keyvalue, size);
+	if (index >= ft_strlen(keyvalue))
+	{
+		if (ft_strchr(keyvalue, '='))
+			km->val = "";
+		else
+			km->val = NULL;
+		return ;
+	}
 	size = ft_strlen(&keyvalue[index]) + 1;
 	km->val = ft_strldup(&keyvalue[index], size);
+}
+
+t_km	*find_keymap_key(t_km *kms, char *keyvalue)
+{
+	t_km	*curr;
+	size_t	size;
+	char	*key;
+
+	size = ft_strclen(keyvalue, '=') + 1;
+	key = ft_strldup(keyvalue, size);
+	curr = kms;
+	while (curr && !ft_strequals(curr->key, key))
+		curr = curr->next;
+	free(key);
+	return (curr);
 }
 
 void	add_keymap(t_km **kms, char *keyvalue)
 {
 	t_km	*keymap;
 
-	keymap = malloc(sizeof(t_km));
-	update_keymap(keymap, keyvalue);
-	km_lstadd_back(kms, keymap);
+	keymap = find_keymap_key(kms[0], keyvalue);
+	if (keymap)
+		update_keymap(keymap, keyvalue);
+	else
+	{
+		keymap = malloc(sizeof(t_km));
+		update_keymap(keymap, keyvalue);
+		keymap->next = NULL;
+		km_lstadd_back(kms, keymap);
+	}
 }
 
 t_km	*init_keymaps(char **env)
 {
-	int		i;
-	int		size;
+	size_t	i;
+	size_t	size;
 	t_km	*kms;
 
 	i = 0;
