@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 19:42:27 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 15:09:37 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
 int	exec(char *cmd, char **argv, t_km *kms)
 {
@@ -57,6 +57,19 @@ int	exec(char *cmd, char **argv, t_km *kms)
 		if (i == 1)
 			print_export(kms);
 	}
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+	{
+		int	i;
+
+		i = 1;
+		while(argv[i])
+		{
+			remove_keymap_if(&kms, argv[i], ft_strncmp);
+			i++;
+		}
+	}
+	else if (ft_strncmp(cmd, "clear", 5) == 0)
+		ft_printf("\e[1;1H\e[2J");
 	else
 	{
 		ft_printf("exec %s\n", cmd);

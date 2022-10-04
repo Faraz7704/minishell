@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keymap.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/03 19:56:45 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 14:47:57 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,29 @@ t_km	*init_keymaps(char **env)
 	while (i < size)
 		add_keymap(&kms, env[i++]);
 	return (kms);
+}
+
+void	remove_keymap_if(t_km **begin_list, char *data_ref, int (*cmp)())
+{
+	t_km	*current;
+	t_km	*last;
+	t_km	*next;
+
+	current = *begin_list;
+	last = ((void *)0);
+	while (current)
+	{
+		next = current->next;
+		if (cmp(current->key, data_ref) == 0)
+		{
+			if (last)
+				last->next = current->next;
+			else
+				*begin_list = current->next;
+			free(current);
+			current = ((void *)0);
+		}
+		last = current;
+		current = next;
+	}	
 }
