@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 18:02:23 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 21:18:34 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,6 @@ typedef struct s_pipecmd
 	t_cmd 		*right;
 }	t_pipecmd;
 
-typedef struct s_keymap
-{
-	char			*key;
-	char			*val;
-}	t_km;
-
-//typedef struct s_shellinfo
-//{
-//	t_cmd	*cmd;
-//	t_km	*kms;
-//}	t_si;
-
 typedef struct s_redircmd
 {
 	enum e_cmd_type	type;
@@ -87,12 +75,11 @@ typedef struct s_redircmd
 	int			fd;
 }	t_redircmd;
 
-// typedef struct s_cmd
-// {
-// 	char	*str;
-// 	struct s_cmd	*next;
-// 	enum e_link_type type;
-// }	t_cmd;
+typedef struct s_keymap
+{
+	char			*key;
+	char			*val;
+}	t_km;
 
 // main
 int			fork1(void);
@@ -114,5 +101,6 @@ size_t		ft_strclen(char *s, char c);
 char		*ft_strldup(char *src, int size);
 size_t		ft_strdlen(char **s);
 int			ft_strequals(char *s1, char *s2);
+int			ft_strcontains(char *s1, char *s2);
 
 #endif

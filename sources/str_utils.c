@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/04 14:45:58 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:18:18 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ size_t	ft_strdlen(char **s)
 int	ft_strequals(char *s1, char *s2)
 {
 	return (!ft_strncmp(s1, s2, ft_strlen(s1)));
+}
+
+int	ft_strcontains(char *s1, char *s2)
+{
+	return (!ft_strncmp(s1, s2, ft_strlen(s2)));
 }
