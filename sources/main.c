@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 19:10:08 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 16:17:40 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,16 @@ int	main(int ac, char **av, char **env)
 	{
 		if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ')
 		{
-			buf[ft_strlen(buf) - 1] = 0;
-			if (chdir(buf + 3) < 0)
-				ft_fprintf(2, "cannot cd %s\n", buf + 3);
+			if (ft_strlen(buf) > 3 && buf[3] == '~')
+			{
+				if (chdir(find_keymap_key(kms, "HOME")->val) < 0)
+					ft_fprintf(2, "cannot cd %s\n", buf + 3);
+			}
+			else
+			{
+				if (chdir(buf + 3) < 0)
+					ft_fprintf(2, "cannot cd %s\n", buf + 3);
+			}
 			continue ;
 		}
 		runcmd(parsecmd(buf), kms);
