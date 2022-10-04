@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 19:58:10 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 16:57:04 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,34 @@ void	print_error(char *s)
 	exit(1);
 }
 
-void	print_export(t_km *kms)
+void	print_export(t_list *lst)
 {
-	t_km	*curr;
+	t_list	*curr;
+	t_km	*km;
 
-	curr = kms;
+	curr = lst;
 	while (curr)
 	{
-		if (curr->val != NULL)
-			ft_printf("declare -x %s=\"%s\"\n", curr->key, curr->val);
+		km = (t_km *)curr->content;
+		if (km->val != NULL)
+			ft_printf("declare -x %s=\"%s\"\n", km->key, km->val);
 		else
-			ft_printf("declare -x %s\n", curr->key);
+			ft_printf("declare -x %s\n", km->key);
 		curr = curr->next;
 	}
 }
 
-void	print_keymaps(t_km *kms)
+void	print_keymaps(t_list *lst)
 {
-	t_km	*curr;
+	t_list	*curr;
+	t_km	*km;
 
-	curr = kms;
+	curr = lst;
 	while (curr)
 	{
-		if (curr->val != NULL)
-			ft_printf("%s=%s\n", curr->key, curr->val);
+		km = (t_km *)curr->content;
+		if (km->val != NULL)
+			ft_printf("%s=%s\n", km->key, km->val);
 		curr = curr->next;
 	}
 }

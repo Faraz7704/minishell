@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keymap.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/04 14:47:57 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:02:08 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,72 +32,78 @@ void	update_keymap(t_km *km, char *keyvalue)
 	km->val = ft_strldup(&keyvalue[index], size);
 }
 
-t_km	*find_keymap_key(t_km *kms, char *keyvalue)
+t_list	*find_keymap_key(t_list *lst, char *keyvalue)
 {
-	t_km	*curr;
+	t_list	*curr;
 	size_t	size;
 	char	*key;
 
 	size = ft_strclen(keyvalue, '=') + 1;
 	key = ft_strldup(keyvalue, size);
-	curr = kms;
-	while (curr && !ft_strequals(curr->key, key))
+	curr = lst;
+	while (curr && !ft_strequals(((t_km *)curr->content)->key, key))
 		curr = curr->next;
 	free(key);
 	return (curr);
 }
 
-void	add_keymap(t_km **kms, char *keyvalue)
+void	add_keymap(t_list **lst, char *keyvalue)
 {
-	t_km	*keymap;
+	t_list	*curr;
+	t_km	*km;
 
-	keymap = find_keymap_key(kms[0], keyvalue);
-	if (keymap)
-		update_keymap(keymap, keyvalue);
+	curr = find_keymap_key(lst[0], keyvalue);
+	if (curr)
+		update_keymap((t_km *)curr->content, keyvalue);
 	else
 	{
-		keymap = malloc(sizeof(t_km));
-		update_keymap(keymap, keyvalue);
-		keymap->next = NULL;
-		km_lstadd_back(kms, keymap);
+		km = malloc(sizeof(t_km));
+		update_keymap(km, keyvalue);
+		ft_lstadd_back(lst, ft_lstnew(km));
 	}
 }
 
-t_km	*init_keymaps(char **env)
+t_list	*init_keymaps(char **env)
 {
 	size_t	i;
 	size_t	size;
-	t_km	*kms;
+	t_list	*new;
+	t_km	*km;
 
 	i = 0;
-	kms = NULL;
+	new = NULL;
 	size = ft_strdlen(env);
 	while (i < size)
-		add_keymap(&kms, env[i++]);
-	return (kms);
+	{
+		km = malloc(sizeof(t_km));
+		update_keymap(km, env[i]);
+		ft_lstadd_back(&new, ft_lstnew(km));
+		i++;
+	}
+	return (new);
 }
 
-void	remove_keymap_if(t_km **begin_list, char *data_ref, int (*cmp)())
+void	remove_keymap(t_list **lst, char *key)
 {
-	t_km	*current;
-	t_km	*last;
-	t_km	*next;
+	t_list	*curr;
+	t_list	*last;
+	t_list	*next;
 
-	current = *begin_list;
-	last = ((void *)0);
-	while (current)
+	curr = *lst;
+	last = NULL;
+	while (curr)
 	{
-		next = current->next;
-		if (cmp(current->key, data_ref) == 0)
+		next = curr->next;
+		if (ft_strequals(((t_km *)curr->content)->key, key))
 		{
 			if (last)
-				last->next = current->next;
+				last->next = curr->next;
 			else
-				*begin_list = current->next;
-			free(current);
-			current = ((void *)0);
+				*lst = curr->next;
+			free(curr);
+			curr = NULL;
 		}
-		last = current;
-		current = next;
+		last = curr;
+		curr = next;
 	}	
 }

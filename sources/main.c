@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 16:17:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 17:28:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	fork1(void)
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
-	t_km	*kms;
+	t_list	*kms;
 
 	(void)ac;
 	(void)av;
@@ -70,7 +70,7 @@ int	main(int ac, char **av, char **env)
 		{
 			if (ft_strlen(buf) > 3 && buf[3] == '~')
 			{
-				if (chdir(find_keymap_key(kms, "HOME")->val) < 0)
+				if (chdir(((t_km *)find_keymap_key(kms, "HOME")->content)->val) < 0)
 					ft_fprintf(2, "cannot cd %s\n", buf + 3);
 			}
 			else

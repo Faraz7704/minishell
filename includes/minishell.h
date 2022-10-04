@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 15:04:14 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:02:23 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_keymap
 {
 	char			*key;
 	char			*val;
-	struct s_keymap	*next;
 }	t_km;
 
 //typedef struct s_shellinfo
@@ -88,8 +87,6 @@ typedef struct s_redircmd
 	int			fd;
 }	t_redircmd;
 
-
-
 // typedef struct s_cmd
 // {
 // 	char	*str;
@@ -102,27 +99,20 @@ int			fork1(void);
 
 // debug
 void		print_error(char *s);
-void		print_keymaps(t_km *kms);
-void		print_export(t_km *kms);
+void		print_keymaps(t_list *lst);
+void		print_export(t_list *lst);
 
 // keymap
-t_km		*init_keymaps(char **env);
-void		add_keymap(t_km **kms, char *keyvalue);
+t_list		*init_keymaps(char **env);
+void		add_keymap(t_list **lst, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
-t_km		*find_keymap_key(t_km *kms, char *keyvalue);
-void		remove_keymap_if(t_km **begin_list, char *data_ref, int (*cmp)());
-
-// km_utils
-t_km		*km_lstlast(t_km *lst);
-void		km_lstadd_back(t_km **lst, t_km *new);
+t_list		*find_keymap_key(t_list *lst, char *keyvalue);
+void		remove_keymap(t_list **lst, char *key);
 
 // str_utils
 size_t		ft_strclen(char *s, char c);
 char		*ft_strldup(char *src, int size);
 size_t		ft_strdlen(char **s);
 int			ft_strequals(char *s1, char *s2);
-
-// lst_utils
-int ft_ls(char **argv);
 
 #endif

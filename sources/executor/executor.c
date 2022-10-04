@@ -3,36 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 15:09:37 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:03:44 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec(char *cmd, char **argv, t_km *kms)
+int	exec(char *cmd, char **argv, t_list *kms)
 {
 	int		i;
 
-	(void)cmd;
-	(void)argv;
-	if (!ft_strncmp(cmd, "env", 3))
+	if (ft_strequals(cmd, "env"))
 		print_keymaps(kms);
-	else if (!ft_strncmp(cmd, "pwd", 3))
+	else if (ft_strequals(cmd, "pwd"))
 	{
 		char *str = NULL;
 		ft_printf("%s\n", getcwd(str, 1000));
 	}
-	else if (!ft_strncmp(cmd, "echo", 4))
+	else if (ft_strequals(cmd, "echo"))
 	{
 		int	n;
 		int	i;
 
 		n = 0;
 		i = 1;
-		if ((ft_strncmp(argv[1], "-n", 2) == 0) && argv[1])
+		if (ft_strequals(argv[1], "-n"))
 		{
 			n = 1;
 			i = 2;
@@ -45,7 +43,7 @@ int	exec(char *cmd, char **argv, t_km *kms)
 		if (n == 0)
 			ft_printf("\n");
 	}
-	else if (ft_strncmp(cmd, "export", 6) == 0)
+	else if (ft_strequals(cmd, "export"))
 	{
 		int	i;
 
@@ -57,18 +55,18 @@ int	exec(char *cmd, char **argv, t_km *kms)
 		if (i == 1)
 			print_export(kms);
 	}
-	else if (ft_strncmp(cmd, "unset", 6) == 0)
+	else if (ft_strequals(cmd, "unset"))
 	{
-		int	i;
+		int		i;
 
 		i = 1;
-		while(argv[i])
+		while (argv[i])
 		{
-			remove_keymap_if(&kms, argv[i], ft_strncmp);
+			remove_keymap(&kms, argv[i]);
 			i++;
 		}
 	}
-	else if (ft_strncmp(cmd, "clear", 5) == 0)
+	else if (ft_strequals(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
 	else
 	{
@@ -84,7 +82,7 @@ int	exec(char *cmd, char **argv, t_km *kms)
 	return (0);
 }
 
-int	runcmd(t_cmd *cmd, t_km *kms)
+int	runcmd(t_cmd *cmd, t_list *kms)
 {
 	int			p[2];
 	t_execcmd	*ecmd;
