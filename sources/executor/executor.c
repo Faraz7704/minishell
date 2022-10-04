@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 13:44:12 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:09:37 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ int	exec(char *cmd, char **argv, t_km *kms)
 		i = 1;
 		while(argv[i])
 		{
-			ft_list_remove_if(&kms, argv[i], ft_strncmp);
+			remove_keymap_if(&kms, argv[i], ft_strncmp);
 			i++;
 		}
 	}
+	else if (ft_strncmp(cmd, "clear", 5) == 0)
+		ft_printf("\e[1;1H\e[2J");
 	else
 	{
 		ft_printf("exec %s\n", cmd);

@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/04 13:24:44 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:47:57 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_km	*init_keymaps(char **env)
 	return (kms);
 }
 
-void	ft_list_remove_if(t_km **begin_list, char *data_ref, int (*cmp)())
+void	remove_keymap_if(t_km **begin_list, char *data_ref, int (*cmp)())
 {
 	t_km	*current;
 	t_km	*last;
