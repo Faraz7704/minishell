@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 19:42:27 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 13:44:12 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#include "minishell.h"
 
 int	exec(char *cmd, char **argv, t_km *kms)
 {
@@ -56,6 +56,17 @@ int	exec(char *cmd, char **argv, t_km *kms)
 		}
 		if (i == 1)
 			print_export(kms);
+	}
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+	{
+		int	i;
+
+		i = 1;
+		while(argv[i])
+		{
+			ft_list_remove_if(&kms, argv[i], ft_strncmp);
+			i++;
+		}
 	}
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/03 19:43:19 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/04 13:20:33 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_km		*init_keymaps(char **env);
 void		add_keymap(t_km **kms, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
 t_km		*find_keymap_key(t_km *kms, char *keyvalue);
+void		ft_list_remove_if(t_km **begin_list, char *data_ref, int (*cmp)());
 
 // km_utils
 t_km		*km_lstlast(t_km *lst);
