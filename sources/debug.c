@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 16:57:04 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/05 19:40:21 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ void	print_error(char *s)
 
 void	print_export(t_list *lst)
 {
+	t_list	*sorted;
 	t_list	*curr;
 	t_km	*km;
 
-	curr = lst;
+	sorted = sort_keymap_alpha(lst);
+	curr = sorted;
 	while (curr)
 	{
 		km = (t_km *)curr->content;
@@ -33,6 +35,7 @@ void	print_export(t_list *lst)
 			ft_printf("declare -x %s\n", km->key);
 		curr = curr->next;
 	}
+	free(sorted);
 }
 
 void	print_keymaps(t_list *lst)
