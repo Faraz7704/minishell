@@ -6,22 +6,27 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/09/30 18:13:40 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:15:26 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_echo(char **cmd)
+void	ft_echo(char **argv)
 {
-	int		i;
-	bool	n;
+	int	n;
+	int	i;
 
-	n = false;
-	if (cmd[1] == "-n")
-		n = true;
-	if (!cmd)
+	n = 0;
+	i = 1;
+	if (ft_strequals(argv[1], "-n"))
 	{
-		ft_printf("%s\n", cmd[2]);
-		if(n = true)
-			printf("\n");
+		n = 1;
+		i = 2;
 	}
+	while (argv[i] && argv)
+	{
+		ft_printf("%s ", argv[i]);
+		i++;
+	}
+	if (n == 0)
+		ft_printf("\n");
 }
