@@ -6,11 +6,14 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:24:52 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/05 18:53:46 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:20:36 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+
 
 void	ft_env(t_list	*kms)
 {

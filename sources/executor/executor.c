@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/05 18:48:11 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:31:24 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	exec(char *cmd, char **argv, t_list *kms)
 		ft_printf("\e[1;1H\e[2J");
 	else if (ft_strequals(cmd, "exit"))
 		ft_exit(&kms, argv);
+	add_keymap(&kms, "OLDPWD");
 	return (0);
 }
 

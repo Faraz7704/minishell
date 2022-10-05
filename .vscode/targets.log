@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Wed Oct  5 18:57:11 2022
+# Make data base, printed on Wed Oct  5 19:04:07 2022
 
 # Variables
 
@@ -29,7 +29,7 @@ INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(FT_PRINTF_HEADERS)
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/szhakypo/Desktop/minishell
+CURDIR := /Users/szhakypo/Desktop/MInihell
 # makefile
 SHELL = /bin/sh
 # environment
@@ -63,7 +63,7 @@ HEADERS_LIST = minishell.h
 # makefile (from `Makefile', line 36)
 SOURCES_DIRECTORY = ./sources/
 # environment
-PWD = /Users/szhakypo/Desktop/minishell
+PWD = /Users/szhakypo/Desktop/MInihell
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # makefile (from `Makefile', line 56)
@@ -181,7 +181,7 @@ VSCODE_PID = 13259
 
 # Directories
 
-# . (device 16777225, inode 2115647): 11 files, no impossibilities.
+# . (device 16777225, inode 2122269): 11 files, no impossibilities.
 
 # 11 files, no impossibilities in 1 directories.
 
@@ -260,7 +260,8 @@ lib/ft_printf/libft_printf.a:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-10-05 18:48:50
+ 
+#  Last modified 2022-10-05 19:03:49
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -286,7 +287,6 @@ minishell: lib/libft/libft.a lib/ft_printf/libft_printf.a objects objects/main.o
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/12=0%
 #  commands to execute (from `Makefile', line 65):
- 
 	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) $(INCLUDES) -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
@@ -424,6 +424,6 @@ objects/builtins/ft_unset.o:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Oct  5 18:57:11 2022
+# Finished Make data base on Wed Oct  5 19:04:07 2022
 
  
