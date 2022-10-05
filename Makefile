@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/04 18:02:59 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/05 19:16:30 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,9 @@ SOURCES_LIST 		= main.c debug.c \
 						executor/executor.c \
 						parser/parser.c \
 						keymap.c \
-						str_utils.c
-						
+						str_utils.c \
+						sort_list.c \
+						list_utils.c
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY 	= objects/

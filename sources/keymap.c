@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/04 18:02:08 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/05 19:10:56 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ void	remove_keymap(t_list **lst, char *key)
 		if (ft_strequals(((t_km *)curr->content)->key, key))
 		{
 			if (last)
-				last->next = curr->next;
+				last->next = next;
 			else
-				*lst = curr->next;
+				*lst = next;
 			free(curr);
 			curr = NULL;
 		}
 		last = curr;
 		curr = next;
-	}	
+	}
 }

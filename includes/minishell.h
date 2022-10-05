@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 21:18:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/05 19:17:18 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,11 @@ char		*ft_strldup(char *src, int size);
 size_t		ft_strdlen(char **s);
 int			ft_strequals(char *s1, char *s2);
 int			ft_strcontains(char *s1, char *s2);
+
+// sort_list
+t_list		*sort_keymap_alpha(t_list *lst);
+
+// list_utils
+void		ft_lstdel(void *content);
 
 #endif
