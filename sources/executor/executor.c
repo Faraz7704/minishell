@@ -3,82 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 18:03:44 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/05 18:48:11 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 int	exec(char *cmd, char **argv, t_list *kms)
 {
-	int		i;
-
 	if (ft_strequals(cmd, "env"))
 		print_keymaps(kms);
 	else if (ft_strequals(cmd, "pwd"))
-	{
-		char *str = NULL;
-		ft_printf("%s\n", getcwd(str, 1000));
-	}
+		ft_pwd();
 	else if (ft_strequals(cmd, "echo"))
-	{
-		int	n;
-		int	i;
-
-		n = 0;
-		i = 1;
-		if (ft_strequals(argv[1], "-n"))
-		{
-			n = 1;
-			i = 2;
-		}
-		while (argv[i] && argv)
-		{
-			ft_printf("%s ", argv[i]);
-			i++;
-		}
-		if (n == 0)
-			ft_printf("\n");
-	}
+		ft_echo(argv);
 	else if (ft_strequals(cmd, "export"))
-	{
-		int	i;
-
-		i = 1;
-		while (argv[i])
-		{
-			add_keymap(&kms, argv[i++]);
-		}
-		if (i == 1)
-			print_export(kms);
-	}
+		ft_export(&kms, argv);
 	else if (ft_strequals(cmd, "unset"))
-	{
-		int		i;
-
-		i = 1;
-		while (argv[i])
-		{
-			remove_keymap(&kms, argv[i]);
-			i++;
-		}
-	}
+		ft_unset(&kms, argv);
 	else if (ft_strequals(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
-	else
-	{
-		ft_printf("exec %s\n", cmd);
-		i = 0;
-		while (argv[i])
-		{
-			ft_printf("arg %s\n", argv[i]);
-			i++;
-		}
-		return (1);
-	}
+	else if (ft_strequals(cmd, "exit"))
+		ft_exit(&kms, argv);
 	return (0);
 }
 

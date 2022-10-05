@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
+#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/04 18:02:59 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/05 18:48:50 by szhakypo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,13 @@ SOURCES_LIST 		= main.c debug.c \
 						executor/executor.c \
 						parser/parser.c \
 						keymap.c \
-						str_utils.c
+						str_utils.c \
+						builtins/ft_echo.c \
+						builtins/ft_env.c \
+						builtins/ft_exit.c \
+						builtins/ft_export.c \
+						builtins/ft_pwd.c \
+						builtins/ft_unset.c
 						
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
@@ -64,6 +70,7 @@ $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@mkdir -p $(OBJECTS_DIRECTORY)/parser
 	@mkdir -p $(OBJECTS_DIRECTORY)/executor
+	@mkdir -p $(OBJECTS_DIRECTORY)/builtins
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)

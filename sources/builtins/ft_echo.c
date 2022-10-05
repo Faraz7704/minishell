@@ -6,9 +6,11 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/05 18:15:26 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:47:42 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 void	ft_echo(char **argv)
 {
