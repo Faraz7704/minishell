@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/05 19:31:24 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:37:18 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 
-int	exec(char *cmd, char **argv, t_list *kms)
+int	exec(char *cmd, char **argv, t_list **kms)
 {
 	if (ft_strequals(cmd, "env"))
-		print_keymaps(kms);
+		print_keymaps(*kms);
 	else if (ft_strequals(cmd, "pwd"))
 		ft_pwd();
 	else if (ft_strequals(cmd, "echo"))
 		ft_echo(argv);
 	else if (ft_strequals(cmd, "export"))
-		ft_export(&kms, argv);
+		ft_export(kms, argv);
 	else if (ft_strequals(cmd, "unset"))
-		ft_unset(&kms, argv);
+		ft_unset(kms, argv);
 	else if (ft_strequals(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
 	else if (ft_strequals(cmd, "exit"))
-		ft_exit(&kms, argv);
-	add_keymap(&kms, "OLDPWD");
+		ft_exit(kms, argv);
+	add_keymap(kms, "OLDPWD");
 	return (0);
 }
 
-int	runcmd(t_cmd *cmd, t_list *kms)
+int	runcmd(t_cmd *cmd, t_list **kms)
 {
 	int			p[2];
 	t_execcmd	*ecmd;

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/04 17:28:19 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:35:27 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	getcmd(char **buf)
 	buf[0] = readline(BEGIN(49, 34)"minishell>$"CLOSE);
 	if (buf[0] == 0)
 		return (-1);
+	add_history(buf[0]);
 	return (0);
 }
 
@@ -80,7 +81,7 @@ int	main(int ac, char **av, char **env)
 			}
 			continue ;
 		}
-		runcmd(parsecmd(buf), kms);
+		runcmd(parsecmd(buf), &kms);
 	}
 	return (0);
 }
