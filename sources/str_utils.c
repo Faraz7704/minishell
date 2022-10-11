@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/04 21:18:18 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:39:43 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,27 @@ int	ft_strequals(char *s1, char *s2)
 int	ft_strcontains(char *s1, char *s2)
 {
 	return (!ft_strncmp(s1, s2, ft_strlen(s2)));
+}
+
+void removeChar(char * str, char charToRemmove)
+{
+	int i = 0;
+	int j = 0;
+    int len = ft_strlen(str);
+
+    while(i < len)
+	{
+		if(str[i] == charToRemmove)
+		{
+			j = i;
+			while (j < len)
+			{
+				str[j] = str[j+1];
+				j++;
+			}
+			len--;
+			i--;
+		}
+		i++;
+	}
 }

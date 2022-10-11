@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/01 20:50:42 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:39:18 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,11 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd);
 t_cmd	*execcmd(void);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 int		gettoken(char **ps, char *es, char **q, char **eq);
+int		check_q_change_val(int q);
+char	*check_q_iter(char *s, int *q, char quote);
+int		check_q(char *s);
+int		parser_argv(char **av);
+void	removeChar(char * str, char charToRemmove);
+void	del_quots(char **av);
 
 #endif

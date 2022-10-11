@@ -3,37 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/06 17:37:18 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:40:42 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
+#include "parser.h"
 
-int	exec(char *cmd, char **argv, t_list **kms)
+int	exec(char *cmd, char **argv, t_list **kms, char **env)
 {
-	if (ft_strequals(cmd, "env"))
+	if (parser_argv(argv) == 1)
+		return (1);
+	if (ft_strcontains(cmd, "env"))
 		print_keymaps(*kms);
-	else if (ft_strequals(cmd, "pwd"))
+	else if (ft_strcontains(cmd, "pwd"))
 		ft_pwd();
-	else if (ft_strequals(cmd, "echo"))
+	else if (ft_strcontains(cmd, "echo"))
 		ft_echo(argv);
-	else if (ft_strequals(cmd, "export"))
+	else if (ft_strcontains(cmd, "export"))
 		ft_export(kms, argv);
-	else if (ft_strequals(cmd, "unset"))
+	else if (ft_strcontains(cmd, "unset"))
 		ft_unset(kms, argv);
-	else if (ft_strequals(cmd, "clear"))
+	else if (ft_strcontains(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
-	else if (ft_strequals(cmd, "exit"))
+	else if (ft_strcontains(cmd, "exit"))
 		ft_exit(kms, argv);
-	add_keymap(kms, "OLDPWD");
+	else
+	{
+		t_list	*temp = find_keymap_key(*kms, "PATH");
+		char	**path = ft_split(((t_km *)temp->content)->val, ':');
+		int		i = 0;
+		if (execve(path[i], &cmd, env)  == -1)
+			i++;
+		//printf("%s\n", ((t_km *)temp->content)->val);
+	}
+		
+	//add_keymap(kms, "OLDPWD");
+	
 	return (0);
 }
 
-int	runcmd(t_cmd *cmd, t_list **kms)
+int	runcmd(t_cmd *cmd, t_list **kms, char **env)
 {
 	int			p[2];
 	t_execcmd	*ecmd;
@@ -47,7 +61,7 @@ int	runcmd(t_cmd *cmd, t_list **kms)
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->argv[0] == 0)
 			return (1);
-		if (exec(ecmd->argv[0], ecmd->argv, kms))
+		if (exec(ecmd->argv[0], ecmd->argv, kms, env))
 		{
 			ft_fprintf(2, "exec %s failed\n", ecmd->argv[0]);
 			return (1);
@@ -62,7 +76,7 @@ int	runcmd(t_cmd *cmd, t_list **kms)
 			ft_fprintf(2, "open %s failed\n", rcmd->file);
 			return (1);
 		}
-		runcmd(rcmd->cmd, kms);
+		runcmd(rcmd->cmd, kms, env);
 	}
 	else if (cmd->type == PIPE)
 	{
@@ -78,7 +92,7 @@ int	runcmd(t_cmd *cmd, t_list **kms)
 			dup(p[1]);
 			close(p[0]);
 			close(p[1]);
-			runcmd(pcmd->left, kms);
+			runcmd(pcmd->left, kms, env);
 		}
 		if (fork1() == 0)
 		{
@@ -86,7 +100,7 @@ int	runcmd(t_cmd *cmd, t_list **kms)
 			dup(p[0]);
 			close(p[0]);
 			close(p[1]);
-			runcmd(pcmd->right, kms);
+			runcmd(pcmd->right, kms, env);
 		}
 		close(p[0]);
 		close(p[1]);

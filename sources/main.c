@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/06 17:35:27 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/11 19:14:03 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	main(int ac, char **av, char **env)
 			}
 			continue ;
 		}
-		runcmd(parsecmd(buf), &kms);
+		runcmd(parsecmd(buf), &kms, env);
 	}
+	//rl_clear_history();
 	return (0);
 }
