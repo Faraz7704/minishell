@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
+#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/05 19:42:47 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/11 17:04:32 by szhakypo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,9 @@ SOURCES_LIST 		= main.c debug.c \
 						builtins/ft_exit.c \
 						builtins/ft_export.c \
 						builtins/ft_pwd.c \
-						builtins/ft_unset.c
+						builtins/ft_unset.c \
+						parser/parser_argv.c \
+						parser/quts_check.c
 						
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
