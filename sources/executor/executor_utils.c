@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 20:44:46 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/11 20:45:14 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:40:21 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	len_ch(char *str, char ch)
 	return (-1);
 }
 
-// Если строки до n одинаковы, возвращаем 0
+// if string same retunt n
 
 int	ncompare(char *str1, char *str2, int n)
 {
@@ -38,7 +38,7 @@ int	ncompare(char *str1, char *str2, int n)
 	return (*str2 - *str1);
 }
 
-// соединяем путь и команду
+// Connect comands
 
 char	*make_command(char *path, char *bin)
 {
@@ -59,7 +59,7 @@ char	*make_command(char *path, char *bin)
 	return (buff);
 }
 
-// Копируем строку до n
+// Dub until n
 
 char	*str_ndup(char *str, unsigned int n)
 {

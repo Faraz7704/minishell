@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/11 20:49:41 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:41:14 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,41 +60,9 @@ int	exec(char *cmd, char **argv, t_list **kms, char **env)
 		ft_exit(kms, argv);
 	else
 	{
-		//DIR *dir;
-		//struct dirent *entry;
-		//t_list	*temp = find_keymap_key(*kms, "PATH");
-		//char	**path = ft_split(((t_km *)temp->content)->val, ':');
-		//int		i = 0;
 		char *path = full_command_path(cmd, env);
 		execve(path, argv, env);
-		//printf("%s\n", comand);
-		
-		//struct stat info;
-
-		//if ((dir = opendir(cmd)) == NULL)
-   		//	perror("opendir() error");
-		//else
-		//	while ((entry = readdir(dir)) != NULL)
-		//	{
-		//		if (entry->d_name[0] != '.')
-		//		{
-		//			strcpy(path, cmd);
-       	//			strcat(path, "/");
-        //			strcat(path, entry->d_name);
-       	//			if (stat(path, &info) != 0)
-        // 				 fprintf(stderr, "stat() error on %s: %s\n", path,
-        //          	strerror());
-       	//			else if (S_ISDIR(info.st_mode))
-        //       			traverse(path, indent+1);
-		//		}
-		//	}
-		//printf("%s\n", path[i]);
-		//if (execve(path[i], argv, env)  == -1)
-		//	i++;
-	}
-		
-	//add_keymap(kms, "OLDPWD");
-	
+	}	
 	return (0);
 }
 
