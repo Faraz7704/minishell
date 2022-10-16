@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/13 20:37:15 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/15 16:37:23 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_echo(char **argv)
 
 	n = 0;
 	i = 1;
+
 	if (ft_strcontains(argv[1], "-n"))
 	{
 		n = 1;

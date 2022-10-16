@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/13 20:41:14 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/15 16:48:28 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	exec(char *cmd, char **argv, t_list **kms, char **env)
 	{
 		char *path = full_command_path(cmd, env);
 		execve(path, argv, env);
-	}	
+		ft_fprintf(2, "Command not found\n");
+	}
 	return (0);
 }
 
