@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/15 16:48:28 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:52:44 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ int	exec(char *cmd, char **argv, t_list **kms, char **env)
 {
 	if (parser_argv(argv) == 1)
 		return (1);
-	if (ft_strcontains(cmd, "env"))
+	if (ft_strequals(cmd, "env"))
 		print_keymaps(*kms);
-	else if (ft_strcontains(cmd, "pwd"))
+	else if (ft_strequals(cmd, "pwd"))
 		ft_pwd();
-	else if (ft_strcontains(cmd, "echo"))
+	else if (ft_strequals(cmd, "echo"))
 		ft_echo(argv);
-	else if (ft_strcontains(cmd, "export"))
+	else if (ft_strequals(cmd, "export"))
 		ft_export(kms, argv);
-	else if (ft_strcontains(cmd, "unset"))
+	else if (ft_strequals(cmd, "unset"))
 		ft_unset(kms, argv);
-	else if (ft_strcontains(cmd, "clear"))
+	else if (ft_strequals(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
-	else if (ft_strcontains(cmd, "exit"))
+	else if (ft_strequals(cmd, "exit"))
 		ft_exit(kms, argv);
 	else
 	{

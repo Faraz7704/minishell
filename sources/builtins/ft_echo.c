@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/15 16:37:23 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:57:25 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_echo(char **argv)
 	n = 0;
 	i = 1;
 
-	if (ft_strcontains(argv[1], "-n"))
+	if (ft_strcontains(argv[i], "-n"))
 	{
 		n = 1;
 		i = 2;
