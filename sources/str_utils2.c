@@ -1,54 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utils.c                                        :+:      :+:    :+:   */
+/*   str_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 19:34:04 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 19:33:06 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_strclen(char *s, char c)
+char	*ft_first_word(char *str)
 {
-	size_t	i;
+	int		i;
+	int		len;
+	char	*new;
 
 	i = 0;
-	while (s[i] != c && s[i])
+	while (str[i] && !ft_strchr(WHITESPACE, str[i]))
 		i++;
-	return (i);
+	len = i;
+	new = ft_calloc(sizeof(char), len);
+	if (!new)
+		print_error("malloc error\n");
+	i = 0;
+	while (i < len)
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }
 
-char	*ft_strldup(char *src, int size)
+void	ft_remove_char(char *str, char c)
 {
-	char	*dst;
-
-	dst = malloc(sizeof(char *) * size);
-	ft_strlcpy(dst, src, size);
-	if (!dst)
-		return (0);
-	return (dst);
-}
-
-size_t	ft_strdlen(char **s)
-{
-	size_t	i;
+	int	i;
+	int	j;
+	int	len;
 
 	i = 0;
-	while (s[i])
+	j = 0;
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] == c)
+		{
+			j = i;
+			while (j < len)
+			{
+				str[j] = str[j + 1];
+				j++;
+			}
+			len--;
+			i--;
+		}
 		i++;
-	return (i);
-}
-
-int	ft_strequals(char *s1, char *s2)
-{
-	return (s1 && s2 && !ft_strncmp(s1, s2, ft_strlen(s1)));
-}
-
-int	ft_strcontains(char *s1, char *s2)
-{
-	return (s1 && s2 && !ft_strncmp(s1, s2, ft_strlen(s2)));
+	}
 }

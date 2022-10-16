@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/11 19:39:18 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/16 19:33:12 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int		check_q_change_val(int q);
 char	*check_q_iter(char *s, int *q, char quote);
 int		check_q(char *s);
 int		parser_argv(char **av);
-void	removeChar(char * str, char charToRemmove);
 void	del_quots(char **av);
 
 #endif

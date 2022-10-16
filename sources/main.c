@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 19:18:13 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 19:42:29 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,11 @@ pid_t	fork1(void)
 	return (pid);
 }
 
-char	*ft_first_word(char *str)
-{
-	int		i;
-	int		len;
-	char	*new;
-
-	i = 0;
-	while (str[i] && !ft_strchr(WHITESPACE, str[i]))
-		i++;
-	len = i;
-	new = ft_calloc(sizeof(char), len);
-	if (!new)
-		print_error("malloc error\n");
-	i = 0;
-	while (i < len)
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
-
 void	ft_chdir(char *path, t_list	*kms)
 {
 	char	*parse_path;
 
-	if (*path == '~')
+	if (!*path || *path == '~')
 	{
 		if (chdir(((t_km *)find_keymap_key(kms, "HOME")->content)->val) < 0)
 			ft_fprintf(2, "cd: %s: No such file or directory\n", path);
@@ -107,6 +84,5 @@ int	main(int ac, char **av, char **env)
 		runcmd(parsecmd(buf), &kms, env);
 		free(buf);
 	}
-	// rl_clear_history();
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
+#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/11 20:47:27 by szhakypo         ###   ########.fr        #
+#    Updated: 2022/10/16 19:33:51 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SOURCES_LIST 		= main.c debug.c \
 						executor/executor.c \
 						parser/parser.c \
 						keymap.c \
-						str_utils.c list_utils.c \
+						str_utils.c str_utils2.c list_utils.c \
 						sort_list.c \
 						builtins/ft_echo.c \
 						builtins/ft_env.c \

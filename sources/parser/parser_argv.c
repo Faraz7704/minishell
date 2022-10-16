@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 15:53:28 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 14:05:58 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 19:31:58 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	del_quots(char **av)
 			|| (av[i][0] == 34 && av[i][z] == 34))
 		{			
 			if (av[i][0] == 39)
-				removeChar(av[i], 39);
+				ft_remove_char(av[i], 39);
 			else
-				removeChar(av[i], 34);
+				ft_remove_char(av[i], 34);
 		}
 		i++;
 	}
