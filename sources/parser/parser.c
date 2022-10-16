@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/02 14:20:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 15:20:35 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)cmd);
 }
 
-int	gettoken(char **ps, char *es, char **q, char **eq)
+int gettoken(char **ps, char *es, char **q, char **eq)
 {
 	char	*s;
 	int		ret;
@@ -210,7 +210,7 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	if (q)
 		*q = s;
 	ret = *s;
-	if (*s == '<')
+	if (*s == '<' || *s == '|' || *s == '(' || *s == ')')
 		s++;
 	else if (*s == '>')
 	{

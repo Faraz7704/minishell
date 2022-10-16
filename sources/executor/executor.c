@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 13:52:44 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 18:25:32 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*full_command_path(char *cmd, char **env)
 
 int	exec(char *cmd, char **argv, t_list **kms, char **env)
 {
-	if (parser_argv(argv) == 1)
-		return (1);
+	// if (parser_argv(argv) == 1)
+	// 	return (1);
 	if (ft_strequals(cmd, "env"))
 		print_keymaps(*kms);
 	else if (ft_strequals(cmd, "pwd"))
@@ -61,15 +61,21 @@ int	exec(char *cmd, char **argv, t_list **kms, char **env)
 	else
 	{
 		char *path = full_command_path(cmd, env);
-		execve(path, argv, env);
-		ft_fprintf(2, "Command not found\n");
+		pid_t p_id = fork1();
+		if (p_id == 0)
+		{
+			execve(path, argv, env);
+			print_error("Command not found\n");
+		}
+		waitpid(p_id, NULL, 0);
 	}
 	return (0);
 }
 
 int	runcmd(t_cmd *cmd, t_list **kms, char **env)
 {
-	int			p[2];
+	int			fd_pipe[2];
+	pid_t		p_ids[2];
 	t_execcmd	*ecmd;
 	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
@@ -101,31 +107,33 @@ int	runcmd(t_cmd *cmd, t_list **kms, char **env)
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
-		if (pipe(p) < 0)
+		if (pipe(fd_pipe) < 0)
 		{
 			print_error("pipe");
 			return (1);
 		}
-		if (fork1() == 0)
+		p_ids[0] = fork1();
+		if (p_ids[0] == 0)
 		{
-			close(1);
-			dup(p[1]);
-			close(p[0]);
-			close(p[1]);
+			close(fd_pipe[0]);
+			dup2(fd_pipe[1], STDOUT_FILENO);
 			runcmd(pcmd->left, kms, env);
+			close(fd_pipe[1]);
+			exit(0);
 		}
-		if (fork1() == 0)
+		p_ids[1] = fork1();
+		if (p_ids[1] == 0)
 		{
-			close(0);
-			dup(p[0]);
-			close(p[0]);
-			close(p[1]);
+			close(fd_pipe[1]);
+			dup2(fd_pipe[0], STDIN_FILENO);
 			runcmd(pcmd->right, kms, env);
+			close(fd_pipe[0]);
+			exit(0);
 		}
-		close(p[0]);
-		close(p[1]);
-		wait(0);
-		wait(0);
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		waitpid(p_ids[0], NULL, 0);
+		waitpid(p_ids[1], NULL, 0);
 	}
 	else
 	{

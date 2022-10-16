@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 13:57:25 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 15:32:46 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	ft_echo(char **argv)
 	}
 	while (argv[i] && argv)
 	{
-		ft_printf("%s ", argv[i]);
+		ft_printf("%s", argv[i]);
 		i++;
+		if (argv[i])
+			ft_printf(" ");
+
 	}
 	if (n == 0)
 		ft_printf("\n");
