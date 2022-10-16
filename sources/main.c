@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 18:14:42 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/16 19:18:13 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,47 @@ pid_t	fork1(void)
 
 	pid = fork();
 	if (pid == -1)
-		print_error("fork");
+		print_error("fork: Resource temporarily unavailable");
 	return (pid);
 }
 
-void	ft_chdir(char *buf, t_list	*kms)
+char	*ft_first_word(char *str)
 {
-	if (ft_strlen(buf) > 3 && buf[3] == '~')
+	int		i;
+	int		len;
+	char	*new;
+
+	i = 0;
+	while (str[i] && !ft_strchr(WHITESPACE, str[i]))
+		i++;
+	len = i;
+	new = ft_calloc(sizeof(char), len);
+	if (!new)
+		print_error("malloc error\n");
+	i = 0;
+	while (i < len)
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+void	ft_chdir(char *path, t_list	*kms)
+{
+	char	*parse_path;
+
+	if (*path == '~')
 	{
 		if (chdir(((t_km *)find_keymap_key(kms, "HOME")->content)->val) < 0)
-			ft_fprintf(2, "cannot cd %s\n", buf + 3);
+			ft_fprintf(2, "cd: %s: No such file or directory\n", path);
+		return ;
 	}
-	else
-	{
-		if (chdir(buf + 3) < 0)
-			ft_fprintf(2, "cannot cd %s\n", buf + 3);
-	}
+	parse_path = ft_first_word(path);
+	if (chdir(parse_path) < 0)
+		ft_fprintf(2, "cd: %s: No such file or directory\n", parse_path);
+	free(parse_path);
 }
 
 int	main(int ac, char **av, char **env)
@@ -76,11 +101,12 @@ int	main(int ac, char **av, char **env)
 	{
 		if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ')
 		{
-			ft_chdir(buf, kms);
+			ft_chdir(buf + 3, kms);
 			continue ;
 		}
 		runcmd(parsecmd(buf), &kms, env);
+		free(buf);
 	}
-	//rl_clear_history();
+	// rl_clear_history();
 	return (0);
 }
