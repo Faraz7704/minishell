@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 18:03:18 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 23:41:26 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ pid_t		ft_fork(void);
 void		print_error(char *s);
 void		print_keymaps(t_list *lst);
 void		print_export(t_list *lst);
+void		print_env(t_list *lst);
 
 // keymap
 t_list		*init_keymaps(char **env);
