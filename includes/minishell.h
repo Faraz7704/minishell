@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 19:33:24 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:03:26 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,15 @@ typedef struct s_keymap
 	char			*val;
 }	t_km;
 
+typedef struct s_env
+{
+	t_list	*kms;
+	char	**env;
+}	t_env;
+
 
 // main
-pid_t		fork1(void);
+pid_t		ft_fork(void);
 
 // debug
 void		print_error(char *s);
@@ -107,6 +113,8 @@ int			ft_strcontains(char *s1, char *s2);
 // str_utils2
 char		*ft_first_word(char *str);
 void		ft_remove_char(char *str, char c);
+
+//echo here > text.txt
 
 // sort_list
 t_list		*sort_keymap_alpha(t_list *lst);

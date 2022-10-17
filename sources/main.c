@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 19:42:29 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:05:59 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	getcmd(char **buf)
 	return (0);
 }
 
-pid_t	fork1(void)
+pid_t	ft_fork(void)
 {
 	pid_t	pid;
 
@@ -68,20 +68,21 @@ void	ft_chdir(char *path, t_list	*kms)
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
-	t_list	*kms;
+	t_env	environment;
 
 	(void)ac;
 	(void)av;
-	kms = init_keymaps(env);
+	environment.kms = init_keymaps(env);
+	environment.env = env;
 	init_fd();
 	while (getcmd(&buf) >= 0)
 	{
 		if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ')
 		{
-			ft_chdir(buf + 3, kms);
+			ft_chdir(buf + 3, environment.kms);
 			continue ;
 		}
-		runcmd(parsecmd(buf), &kms, env);
+		runcmd(parsecmd(buf), &environment);
 		free(buf);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 15:32:46 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:28:06 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_echo(char **argv)
 
 	n = 0;
 	i = 1;
-
 	if (ft_strcontains(argv[i], "-n"))
 	{
 		n = 1;
@@ -31,7 +30,6 @@ void	ft_echo(char **argv)
 		i++;
 		if (argv[i])
 			ft_printf(" ");
-
 	}
 	if (n == 0)
 		ft_printf("\n");

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 18:25:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:25:26 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,31 @@
 #include "executor.h"
 #include "parser.h"
 
-char	*full_command_path(char *cmd, char **env)
-{
-	int		i;
-	char	*path;
-	char	*dir;
-	char	*full;
-
-	i = 0;
-	while (env[i] && ncompare(env[i], "PATH=", 5))
-		i++;
-	if (!env[i])
-		return (cmd);
-	path = env[i] + 5;
-	while (path && len_ch(path, ':') > -1)
-	{
-		dir = str_ndup(path, len_ch(path, ':'));
-		full = make_command(dir, cmd);
-		free(dir);
-		if (access(full, F_OK) == 0)
-			return (full);
-		free(full);
-		path += len_ch(path, ':') + 1;
-	}
-	return (cmd);
-}
-
-int	exec(char *cmd, char **argv, t_list **kms, char **env)
+int	exec(char *cmd, char **argv, t_env *env)
 {
 	// if (parser_argv(argv) == 1)
 	// 	return (1);
 	if (ft_strequals(cmd, "env"))
-		print_keymaps(*kms);
+		print_keymaps(env->kms);
 	else if (ft_strequals(cmd, "pwd"))
 		ft_pwd();
 	else if (ft_strequals(cmd, "echo"))
 		ft_echo(argv);
 	else if (ft_strequals(cmd, "export"))
-		ft_export(kms, argv);
+		ft_export(argv, env);
 	else if (ft_strequals(cmd, "unset"))
-		ft_unset(kms, argv);
+		ft_unset(argv, env);
 	else if (ft_strequals(cmd, "clear"))
 		ft_printf("\e[1;1H\e[2J");
 	else if (ft_strequals(cmd, "exit"))
-		ft_exit(kms, argv);
+		ft_exit(argv, env);
 	else
 	{
-		char *path = full_command_path(cmd, env);
-		pid_t p_id = fork1();
+		char *path = full_command_path(cmd, env->env);
+		pid_t p_id = ft_fork();
 		if (p_id == 0)
 		{
-			execve(path, argv, env);
+			execve(path, argv, env->env);
 			print_error("Command not found\n");
 		}
 		waitpid(p_id, NULL, 0);
@@ -72,13 +46,72 @@ int	exec(char *cmd, char **argv, t_list **kms, char **env)
 	return (0);
 }
 
-int	runcmd(t_cmd *cmd, t_list **kms, char **env)
+int	run_redircmd(t_cmd *cmd, t_env *env)
 {
-	int			fd_pipe[2];
-	pid_t		p_ids[2];
-	t_execcmd	*ecmd;
-	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
+	int			p_id;
+
+	rcmd = (t_redircmd *)cmd;
+	p_id = ft_fork();
+	if (p_id == 0)
+	{
+		close(rcmd->fd);
+		if (open(rcmd->file, rcmd->mode, 0666) < 0)
+		{
+			ft_fprintf(2, "open %s failed\n", rcmd->file);
+			return (1);
+		}
+		runcmd(rcmd->cmd, env);
+		exit(0);
+	}
+	waitpid(p_id, NULL, 0);
+	return (0);
+}
+
+int	child_pipecmd(t_cmd *cmd, t_env *env, int *argv)
+{
+	int	p_id;
+
+	p_id = ft_fork();
+	if (p_id == 0)
+	{
+		close(argv[2]);
+		dup2(argv[1], argv[0]);
+		runcmd(cmd, env);
+		close(argv[1]);
+		exit(0);
+	}
+	return (p_id);
+}
+
+int	run_pipecmd(t_cmd *cmd, t_env *env)
+{
+	t_pipecmd	*pcmd;
+	int			fd_pipe[2];
+	int			p_ids[2];
+	int			fdargs[3];
+
+	pcmd = (t_pipecmd *)cmd;
+	if (pipe(fd_pipe) < 0)
+		print_error("pipe");
+	fdargs[0] = STDOUT_FILENO;
+	fdargs[1] = fd_pipe[1];
+	fdargs[2] = fd_pipe[0];
+	p_ids[0] = child_pipecmd(pcmd->left, env, fdargs);
+	fdargs[0] = STDIN_FILENO;
+	fdargs[1] = fd_pipe[0];
+	fdargs[2] = fd_pipe[1];
+	p_ids[1] = child_pipecmd(pcmd->right, env, fdargs);
+	close(fd_pipe[0]);
+	close(fd_pipe[1]);
+	waitpid(p_ids[0], NULL, 0);
+	waitpid(p_ids[1], NULL, 0);
+	return (0);
+}
+
+int	runcmd(t_cmd *cmd, t_env *env)
+{
+	t_execcmd	*ecmd;
 
 	if (cmd == 0)
 		return (1);
@@ -87,58 +120,17 @@ int	runcmd(t_cmd *cmd, t_list **kms, char **env)
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->argv[0] == 0)
 			return (1);
-		if (exec(ecmd->argv[0], ecmd->argv, kms, env))
+		if (exec(ecmd->argv[0], ecmd->argv, env))
 		{
 			ft_fprintf(2, "exec %s failed\n", ecmd->argv[0]);
 			return (1);
 		}
 	}
 	else if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		close(rcmd->fd);
-		if (open(rcmd->file, rcmd->mode) < 0)
-		{
-			ft_fprintf(2, "open %s failed\n", rcmd->file);
-			return (1);
-		}
-		runcmd(rcmd->cmd, kms, env);
-	}
+		return (run_redircmd(cmd, env));
 	else if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		if (pipe(fd_pipe) < 0)
-		{
-			print_error("pipe");
-			return (1);
-		}
-		p_ids[0] = fork1();
-		if (p_ids[0] == 0)
-		{
-			close(fd_pipe[0]);
-			dup2(fd_pipe[1], STDOUT_FILENO);
-			runcmd(pcmd->left, kms, env);
-			close(fd_pipe[1]);
-			exit(0);
-		}
-		p_ids[1] = fork1();
-		if (p_ids[1] == 0)
-		{
-			close(fd_pipe[1]);
-			dup2(fd_pipe[0], STDIN_FILENO);
-			runcmd(pcmd->right, kms, env);
-			close(fd_pipe[0]);
-			exit(0);
-		}
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
-		waitpid(p_ids[0], NULL, 0);
-		waitpid(p_ids[1], NULL, 0);
-	}
+		return (run_pipecmd(cmd, env));
 	else
-	{
 		print_error("runcmd");
-		return (1);
-	}
 	return (0);
 }

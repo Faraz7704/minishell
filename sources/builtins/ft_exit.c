@@ -6,15 +6,15 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:39:54 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 19:39:21 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:21:30 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(t_list **kms, char **argv)
+void	ft_exit(char **argv, t_env *env)
 {
-	(void)kms;
+	(void)env;
 	if (argv[1])
 		exit(ft_atoi(argv[1]) % 256);
 	exit(0);

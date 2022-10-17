@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:24:52 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/05 19:20:36 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:20:54 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
-void	ft_env(t_list	*kms)
+void	ft_env(t_env *env)
 {
-	print_keymaps(kms);
+	print_keymaps(env->kms);
 }

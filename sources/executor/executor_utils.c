@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 20:44:46 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/13 20:40:21 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:25:34 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,30 @@ char	*str_ndup(char *str, unsigned int n)
 		buff[i++] = *str++;
 	buff[n] = 0;
 	return (buff);
+}
+
+char	*full_command_path(char *cmd, char **env)
+{
+	int		i;
+	char	*path;
+	char	*dir;
+	char	*full;
+
+	i = 0;
+	while (env[i] && ncompare(env[i], "PATH=", 5))
+		i++;
+	if (!env[i])
+		return (cmd);
+	path = env[i] + 5;
+	while (path && len_ch(path, ':') > -1)
+	{
+		dir = str_ndup(path, len_ch(path, ':'));
+		full = make_command(dir, cmd);
+		free(dir);
+		if (access(full, F_OK) == 0)
+			return (full);
+		free(full);
+		path += len_ch(path, ':') + 1;
+	}
+	return (cmd);
 }

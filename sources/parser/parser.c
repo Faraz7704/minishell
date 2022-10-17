@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/16 15:20:35 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:29:43 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 		if (tok == '<')
 			cmd = redircmd(cmd, q, eq, O_RDONLY, 0);
 		else if (tok == '>')
-			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT, 1);
+			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (tok == '+')
-			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT, 1);
+			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT | O_APPEND, 1);
 	}
 	return (cmd);
 }
