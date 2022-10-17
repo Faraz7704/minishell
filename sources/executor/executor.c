@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 13:25:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 18:16:12 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ int	run_redircmd(t_cmd *cmd, t_env *env)
 		close(rcmd->fd);
 		if (open(rcmd->file, rcmd->mode, 0666) < 0)
 		{
-			ft_fprintf(2, "open %s failed\n", rcmd->file);
-			return (1);
+			if (access(rcmd->file, R_OK | W_OK | X_OK) == -1)
+				ft_fprintf(2, "%s: Permission denied\n", rcmd->file);
+			else
+				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
+			exit(1);
 		}
 		runcmd(rcmd->cmd, env);
 		exit(0);

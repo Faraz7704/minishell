@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/17 13:33:47 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/17 19:23:51 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,6 @@ SOURCES_LIST 		= main.c debug.c keymap.c sort_list.c \
 						builtins/ft_pwd.c \
 						builtins/ft_unset.c \
 						parser/parser.c \
-						parser/parser_argv.c \
-						parser/quts_check.c \
 						executor/executor.c \
 						executor/executor_utils.c
 						

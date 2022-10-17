@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 13:29:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 19:47:05 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,8 @@ int gettoken(char **ps, char *es, char **q, char **eq)
 	if (q)
 		*q = s;
 	ret = *s;
-	if (*s == '<' || *s == '|' || *s == '(' || *s == ')')
+	if (*s == '<' || *s == '|' || *s == '('
+		|| *s == ')')
 		s++;
 	else if (*s == '>')
 	{
@@ -220,6 +221,24 @@ int gettoken(char **ps, char *es, char **q, char **eq)
 			ret = '+';
 			s++;
 		}
+	}
+	else if (*s == '\"')
+	{
+		ret = 'a';
+		while (s < es && ft_strchr("\"", *s))
+			s++;
+		*q = s;
+		while (s < es && !ft_strchr("\"", *s))
+			s++;
+	}
+	else if (*s == '\'')
+	{
+		ret = 'a';
+		while (s < es && ft_strchr("\'", *s))
+			s++;
+		*q = s;
+		while (s < es && !ft_strchr("\'", *s))
+			s++;
 	}
 	else if (*s)
 	{
