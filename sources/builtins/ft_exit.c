@@ -3,19 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:39:54 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/17 13:21:30 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 18:55:48 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int				ft_isspace_atoi(int c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' ||
+		c == '\r' || c == '\v' || c == '\f')
+		return (1);
+	else
+		return (0);
+}
+
+static int		check_numeric(char *str)
+{
+	int i;
+
+	i = 0;
+	if (ft_strlen(str) > 20)
+		return (1);
+	if (str[i] != '-' && !ft_isdigit(str[i]))
+		return (1);
+	i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+unsigned long long		ft_atoull(char *str, int *minus)
+{
+	int					i;
+	unsigned long long	num;
+
+	i = 0;
+	num = 0;
+	while (ft_isspace_atoi(str[i]))
+		i = i + 1;
+	if (str[i] == '-')
+		*minus = 1;
+	if (str[i] == '-' || str[i] == '+')
+		i = i + 1;
+	while (ft_isdigit(str[i]))
+	{
+		num = num * 10 + str[i] - '0';
+		i = i + 1;
+	}
+	return (num);
+}
+
 void	ft_exit(char **argv, t_env *env)
 {
-	(void)env;
-	if (argv[1])
-		exit(ft_atoi(argv[1]) % 256);
-	exit(0);
+	int		minus;
+
+	(void) env;
+	minus = 0;
+	write(2, "exit\n", ft_strlen("exit\n"));
+	if (!argv || !argv[1])
+		exit(0);
+	if (argv[2])
+	{
+		ft_putendl_fd("bash: exit: too many arguments", 2);
+		return ;
+	}
+	ft_atoull(argv[1], &minus);
+	if (check_numeric(argv[1]) || \
+		((!minus && ft_atoull(argv[1], &minus) > __LONG_LONG_MAX__) || \
+		(minus && ft_atoull(argv[1], &minus) - 1 > __LONG_LONG_MAX__)))
+	{
+		ft_putstr_fd("bash: exit: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		exit(255);
+	}
+	exit((int)(ft_atoi(argv[1]) % 256));
 }
