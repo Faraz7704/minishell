@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/16 19:33:51 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/17 13:33:47 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,20 +34,20 @@ HEADERS_LIST 		= minishell.h
 HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY 	= ./sources/
-SOURCES_LIST 		= main.c debug.c \
-						executor/executor.c \
-						parser/parser.c \
-						keymap.c \
-						str_utils.c str_utils2.c list_utils.c \
-						sort_list.c \
+SOURCES_LIST 		= main.c debug.c keymap.c sort_list.c \
+						utils/str_utils.c \
+						utils/str_utils2.c \
+						utils/list_utils.c \
 						builtins/ft_echo.c \
 						builtins/ft_env.c \
 						builtins/ft_exit.c \
 						builtins/ft_export.c \
 						builtins/ft_pwd.c \
 						builtins/ft_unset.c \
+						parser/parser.c \
 						parser/parser_argv.c \
 						parser/quts_check.c \
+						executor/executor.c \
 						executor/executor_utils.c
 						
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
@@ -75,6 +75,7 @@ $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)/parser
 	@mkdir -p $(OBJECTS_DIRECTORY)/executor
 	@mkdir -p $(OBJECTS_DIRECTORY)/builtins
+	@mkdir -p $(OBJECTS_DIRECTORY)/utils
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)

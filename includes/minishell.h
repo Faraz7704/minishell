@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 13:03:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 13:34:35 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ void		update_keymap(t_km *km, char *keyvalue);
 t_list		*find_keymap_key(t_list *lst, char *keyvalue);
 void		remove_keymap(t_list **lst, char *key);
 
+// sort_list
+t_list		*sort_keymap_alpha(t_list *lst);
+
 // str_utils
 size_t		ft_strclen(char *s, char c);
 char		*ft_strldup(char *src, int size);
@@ -113,11 +116,6 @@ int			ft_strcontains(char *s1, char *s2);
 // str_utils2
 char		*ft_first_word(char *str);
 void		ft_remove_char(char *str, char c);
-
-//echo here > text.txt
-
-// sort_list
-t_list		*sort_keymap_alpha(t_list *lst);
 
 // list_utils
 void		ft_lstdel(void *content);
