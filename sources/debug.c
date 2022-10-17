@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/05 19:40:21 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 23:28:30 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,30 @@ void	print_export(t_list *lst)
 	{
 		km = (t_km *)curr->content;
 		if (km->val != NULL)
-			ft_printf("declare -x %s=\"%s\"\n", km->key, km->val);
+		{
+			if (!ft_strequals(km->key, "_"))
+				ft_printf("declare -x %s=\"%s\"\n", km->key, km->val);
+		}
 		else
 			ft_printf("declare -x %s\n", km->key);
 		curr = curr->next;
 	}
 	free(sorted);
+}
+
+void	print_env(t_list *lst)
+{
+	t_list	*curr;
+	t_km	*km;
+
+	curr = lst;
+	while (curr)
+	{
+		km = (t_km *)curr->content;
+		if (km->val != NULL && !ft_strequals(km->key, "OLDPWD"))
+			ft_printf("%s=%s\n", km->key, km->val);
+		curr = curr->next;
+	}
 }
 
 void	print_keymaps(t_list *lst)

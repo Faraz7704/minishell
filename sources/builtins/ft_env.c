@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:24:52 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/17 13:20:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 22:54:16 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_env(t_env *env)
 {
-	print_keymaps(env->kms);
+	print_env(env->kms);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:45:11 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/17 13:07:20 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 23:33:58 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_get_pwd(void)
+char	*ft_get_pwd(void)
 {
 	char	*buff;
 
@@ -30,4 +30,22 @@ void	ft_pwd(void)
 	else
 		printf("Error\n");
 	free(pwd);
+}
+
+char	*ft_add_pwd(char *key, t_env *env)
+{
+	t_list	*curr;
+	char	*keyvalue;
+	char	*keytemp;
+
+	keyvalue = NULL;
+	curr = find_keymap_key(env->kms, key);
+	if (curr)
+	{
+		keytemp = ft_strjoin(key, "=");
+		keyvalue = ft_strjoin(keytemp, ft_get_pwd());
+		free(keytemp);
+		update_keymap((t_km *)curr->content, keyvalue);
+	}
+	return (keyvalue);
 }
