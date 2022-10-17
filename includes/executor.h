@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 13:26:39 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/17 18:52:57 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int		ncompare(char *str1, char *str2, int n);
 char	*make_command(char *path, char *bin);
 char	*str_ndup(char *str, unsigned int n);
 char	*full_command_path(char *cmd, char **env);
+unsigned long long		ft_atoull(char *str, int *minus);
 
 #endif
