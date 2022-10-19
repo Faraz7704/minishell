@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 23:25:49 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/20 00:22:54 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	main(int ac, char **av, char **env)
 	{
 		if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ')
 		{
-			ft_add_pwd("OLDPWD", &environment);
+			ft_update_pwd("OLDPWD", &environment);
 			ft_chdir(buf + 3, environment.kms);
-			ft_add_pwd("PWD", &environment);
+			ft_update_pwd("PWD", &environment);
 			continue ;
 		}
 		runcmd(parsecmd(buf), &environment);

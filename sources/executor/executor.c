@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 18:16:12 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:20:05 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 int	exec(char *cmd, char **argv, t_env *env)
 {
-	// if (parser_argv(argv) == 1)
-	// 	return (1);
 	if (ft_strequals(cmd, "env"))
 		print_keymaps(env->kms);
 	else if (ft_strequals(cmd, "pwd"))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:45:11 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/17 23:33:58 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/20 00:23:33 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_pwd(void)
 	free(pwd);
 }
 
-char	*ft_add_pwd(char *key, t_env *env)
+char	*ft_update_pwd(char *key, t_env *env)
 {
 	t_list	*curr;
 	char	*keyvalue;

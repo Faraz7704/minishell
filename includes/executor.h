@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 23:20:52 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/20 00:23:25 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_exit(char **argv, t_env *env);
 void	ft_export(char **argv, t_env *env);
 void	ft_pwd(void);
 char	*ft_get_pwd(void);
-char	*ft_add_pwd(char *key, t_env *env);
+char	*ft_update_pwd(char *key, t_env *env);
 void	ft_unset(char **argv, t_env *env);
 
 // executor_utils
