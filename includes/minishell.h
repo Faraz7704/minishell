@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 00:28:36 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:32:30 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define BLOD  "\001\033[1m\002"                 // Подчеркнуть, жирным шрифтом, выделить
 # define BEGIN(x,y) "\001\033["#x";"#y"m\002"    // x: background, y: foreground
 
-# include <stdio.h> // printf, strerror, perror
 # include <stdlib.h> // malloc, free, exit, getenv
 // write, access, read, close, fork, getcwd, chdir
 // unlink, execve, dup, dup2, pipe, isatty, ttyname, ttyslot
