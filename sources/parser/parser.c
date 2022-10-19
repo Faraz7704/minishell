@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 19:47:05 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:11:05 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ t_cmd	*parsecmd(char *s)
 
 	es = s + ft_strlen(s);
 	cmd = parseline(&s, es);
-	peek(&s, es, "");
 	if (s != es)
 	{
 		ft_fprintf(2, "leftovers: %s\n", s);
 		print_error("syntax");
 	}
-	nulterminate(cmd);
 	return (cmd);
 }
 
@@ -55,7 +53,7 @@ t_cmd	*parsepipe(char **ps, char *es)
 	cmd = parseexec(ps, es);
 	if (peek(ps, es, "|"))
 	{
-		gettoken(ps, es, 0, 0);
+		gettoken(ps, es, 0);
 		cmd = pipecmd(cmd, parsepipe(ps, es));
 	}
 	return (cmd);
@@ -63,8 +61,7 @@ t_cmd	*parsepipe(char **ps, char *es)
 
 t_cmd	*parseexec(char **ps, char *es)
 {
-	char		*q;
-	char		*eq;
+	char		*argv;
 	int			tok;
 	int			argc;
 	t_execcmd	*cmd;
@@ -78,20 +75,18 @@ t_cmd	*parseexec(char **ps, char *es)
 	ret = parseredirs(ret, ps, es);
 	while (!peek(ps, es, "|)"))
 	{
-		tok = gettoken(ps, es, &q, &eq);
+		tok = gettoken(ps, es, &argv);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
 			print_error("syntax");
-		cmd->argv[argc] = q;
-		cmd->eargv[argc] = eq;
+		cmd->argv[argc] = argv;
 		argc++;
 		if (argc >= MAXARGS)
 			print_error("too many args");
 		ret = parseredirs(ret, ps, es);
 	}
 	cmd->argv[argc] = 0;
-	cmd->eargv[argc] = 0;
 	return (ret);
 }
 
@@ -101,11 +96,11 @@ t_cmd	*parseblock(char **ps, char *es)
 
 	if (!peek(ps, es, "("))
 		print_error("parseblock");
-	gettoken(ps, es, 0, 0);
+	gettoken(ps, es, 0);
 	cmd = parseline(ps, es);
 	if (!peek(ps, es, ")"))
 		print_error("syntax - missing )");
-	gettoken(ps, es, 0, 0);
+	gettoken(ps, es, 0);
 	cmd = parseredirs(cmd, ps, es);
 	return (cmd);
 }
@@ -113,56 +108,24 @@ t_cmd	*parseblock(char **ps, char *es)
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 {
 	int		tok;
-	char	*q;
-	char	*eq;
+	char	*file;
 
 	while (peek(ps, es, "<>"))
 	{
-		tok = gettoken(ps, es, 0, 0);
-		if (gettoken(ps, es, &q, &eq) != 'a')
+		tok = gettoken(ps, es, 0);
+		if (gettoken(ps, es, &file) != 'a')
 			print_error("missing file for redirection");
 		if (tok == '<')
-			cmd = redircmd(cmd, q, eq, O_RDONLY, 0);
+			cmd = redircmd(cmd, file, O_RDONLY, 0);
 		else if (tok == '>')
-			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT | O_TRUNC, 1);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (tok == '+')
-			cmd = redircmd(cmd, q, eq, O_WRONLY | O_CREAT | O_APPEND, 1);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
 	}
 	return (cmd);
 }
 
-t_cmd	*nulterminate(t_cmd *cmd)
-{
-	int			i;
-	t_execcmd	*ecmd;
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
-
-	if (cmd == 0)
-		return (0);
-	if (cmd->type == EXEC)
-	{
-		ecmd = (t_execcmd *)cmd;
-		i = 0;
-		while (ecmd->argv[i])
-			*ecmd->eargv[i++] = 0;
-	}
-	else if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		nulterminate(rcmd->cmd);
-		*rcmd->efile = 0;
-	}
-	else if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		nulterminate(pcmd->left);
-		nulterminate(pcmd->right);
-	}
-	return (cmd);
-}
-
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
+t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd)
 {
 	t_redircmd	*cmd;
 
@@ -171,7 +134,6 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
 	cmd->file = file;
-	cmd->efile = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
 	return ((t_cmd *)cmd);
@@ -199,57 +161,118 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)cmd);
 }
 
-int gettoken(char **ps, char *es, char **q, char **eq)
+char	*parsequote(char *s, char *eq)
+{
+	int		i;
+	int		j;
+	int		len;
+	int		flag;
+	int		in_quotes;
+	char	quote;
+	char	*new;
+
+	len = 0;
+	i = 0;
+	flag = 1;
+	in_quotes = 0;
+	while (&s[i] < eq)
+	{
+		if (flag && ft_strchr("\'\"", s[i]))
+		{
+			quote = s[i];
+			flag = 0;
+		}
+		if (s[i] == quote)
+		{
+			in_quotes = !in_quotes;
+			i++;
+			continue ;
+		}
+		if (!in_quotes && (ft_strchr(WHITESPACE, s[i]) || ft_strchr(SYMBOLS, s[i])))
+			break ;
+		len++;
+		i++;
+	}
+	if (in_quotes)
+	{
+		ft_fprintf(2, "syntax - missing %c\n", quote);
+		exit(1);
+	}
+	new = malloc(sizeof(char) * (len + 1));
+	if (!new)
+		print_error("malloc error");
+	i = 0;
+	j = 0;
+	flag = 1;
+	in_quotes = 0;
+	while (&s[i] < eq)
+	{
+		if (flag && ft_strchr("\'\"", s[i]))
+		{
+			quote = s[i];
+			flag = 0;
+		}
+		if (s[i] == quote)
+		{
+			in_quotes = !in_quotes;
+			i++;
+			continue ;
+		}
+		if (!in_quotes && (ft_strchr(WHITESPACE, s[i]) || ft_strchr(SYMBOLS, s[i])))
+			break ;
+		new[j] = s[i];
+		i++;
+		j++;
+	}
+	new[j] = '\0';
+	return (new);
+}
+
+int gettoken(char **ps, char *es, char **argv)
 {
 	char	*s;
+	int		i;
+	int		index;
 	int		ret;
 
 	s = *ps;
-	while (s < es && ft_strchr(WHITESPACE, *s))
-		s++;
-	if (q)
-		*q = s;
+	i = 0;
+	while (&s[i] < es && ft_strchr(WHITESPACE, s[i]))
+		i++;
+	index = i;
 	ret = *s;
-	if (*s == '<' || *s == '|' || *s == '('
-		|| *s == ')')
-		s++;
-	else if (*s == '>')
+	if (s[i] == '|' || s[i] == '(' || s[i] == ')')
+		i++;
+	else if (s[i] == '<')
 	{
-		s++;
-		if (*s == '>')
+		i++;
+		if (s[i] == '<')
 		{
-			ret = '+';
-			s++;
+			ret = '-';
+			i++;
 		}
 	}
-	else if (*s == '\"')
+	else if (s[i] == '>')
+	{
+		i++;
+		if (s[i] == '>')
+		{
+			ret = '+';
+			i++;
+		}
+	}
+	else if (s[i])
 	{
 		ret = 'a';
-		while (s < es && ft_strchr("\"", *s))
-			s++;
-		*q = s;
-		while (s < es && !ft_strchr("\"", *s))
-			s++;
+		if (argv)
+			*argv = parsequote(&s[i], es);
+		while (&s[i] < es && !ft_strchr(WHITESPACE, s[i]) && !ft_strchr(SYMBOLS, s[i]))
+			i++;
 	}
-	else if (*s == '\'')
-	{
-		ret = 'a';
-		while (s < es && ft_strchr("\'", *s))
-			s++;
-		*q = s;
-		while (s < es && !ft_strchr("\'", *s))
-			s++;
-	}
-	else if (*s)
-	{
-		ret = 'a';
-		while (s < es && !ft_strchr(WHITESPACE, *s) && !ft_strchr(SYMBOLS, *s))
-			s++;
-	}
-	if (eq)
-		*eq = s;
-	while (s < es && ft_strchr(WHITESPACE, *s))
-		s++;
-	*ps = s;
+	if (ret != 'a' && argv)
+		*argv = ft_strldup(&s[index], i - index + 1);
+	while (&s[i] < es && ft_strchr(WHITESPACE, s[i]))
+		i++;
+	*ps = &s[i];
 	return (ret);
 }

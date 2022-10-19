@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 23:41:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/19 23:14:37 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_execcmd
 {
 	enum e_cmd_type	type;
 	char		*argv[MAXARGS];
-	char		*eargv[MAXARGS];
 }	t_execcmd;
 
 typedef struct s_pipecmd
@@ -70,7 +69,6 @@ typedef struct s_redircmd
 	enum e_cmd_type	type;
 	t_cmd 		*cmd;
 	char		*file;
-	char		*efile;
 	int			mode;
 	int			fd;
 }	t_redircmd;
