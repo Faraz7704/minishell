@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:45:11 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/20 00:23:33 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:29:38 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	ft_pwd(void)
 
 	pwd = ft_get_pwd();
 	if (pwd)
-		printf("%s\n", pwd);
+		ft_printf("%s\n", pwd);
 	else
-		printf("Error\n");
+		print_error("Error\n");
 	free(pwd);
 }
 

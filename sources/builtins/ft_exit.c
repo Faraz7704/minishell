@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:39:54 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/17 18:55:48 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/20 00:29:06 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int				ft_isspace_atoi(int c)
+static int	ft_isspace_atoi(int c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' ||
-		c == '\r' || c == '\v' || c == '\f')
+	if (ft_strchr(WHITESPACE, c))
 		return (1);
 	else
 		return (0);
 }
 
-static int		check_numeric(char *str)
+static int	check_numeric(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_strlen(str) > 20)
@@ -40,7 +39,7 @@ static int		check_numeric(char *str)
 	return (0);
 }
 
-unsigned long long		ft_atoull(char *str, int *minus)
+unsigned long long	ft_atoull(char *str, int *minus)
 {
 	int					i;
 	unsigned long long	num;

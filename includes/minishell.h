@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/19 23:14:37 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:28:36 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include "ft_printf.h"
 # include "libft.h"
 
-# define WHITESPACE " \t\r\n\v"
+# define WHITESPACE " \t\r\n\v\f"
 # define SYMBOLS "<|>()"
 
 # define MAXARGS 10
