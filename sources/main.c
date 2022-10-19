@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 00:22:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 00:58:17 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ pid_t	ft_fork(void)
 	return (pid);
 }
 
-void	ft_chdir(char *path, t_list	*kms)
-{
-	t_list	*home_km;
-	char	*parse_path;
-
-	if (!*path || *path == '~')
-	{
-		home_km = find_keymap_key(kms, "HOME");
-		if (home_km && chdir(((t_km *)home_km->content)->val) < 0)
-			ft_fprintf(2, "cd: %s: No such file or directory\n", path);
-		return ;
-	}
-	parse_path = ft_first_word(path);
-	if (chdir(parse_path) < 0)
-		ft_fprintf(2, "cd: %s: No such file or directory\n", parse_path);
-	free(parse_path);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
@@ -79,13 +61,6 @@ int	main(int ac, char **av, char **env)
 	init_fd();
 	while (getcmd(&buf) >= 0)
 	{
-		if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ')
-		{
-			ft_update_pwd("OLDPWD", &environment);
-			ft_chdir(buf + 3, environment.kms);
-			ft_update_pwd("PWD", &environment);
-			continue ;
-		}
 		runcmd(parsecmd(buf), &environment);
 		free(buf);
 	}

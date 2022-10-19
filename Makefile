@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/17 19:23:51 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/20 01:01:24 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SOURCES_LIST 		= main.c debug.c keymap.c sort_list.c \
 						utils/str_utils.c \
 						utils/str_utils2.c \
 						utils/list_utils.c \
+						builtins/ft_cd.c \
 						builtins/ft_echo.c \
 						builtins/ft_env.c \
 						builtins/ft_exit.c \
