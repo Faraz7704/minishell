@@ -6,45 +6,86 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:28:37 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 20:55:02 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	parsequote(char *s, char *eq, char **argv)
+static int	quotelen(char *ps, char *es, char *quote)
 {
 	int		i;
-	int		j;
 	int		len;
-	int		flag;
-	int		in_quotes;
-	char	quote;
-	char	*new;
+	int		in_quote;
 
-	len = 0;
 	i = 0;
-	flag = 1;
-	in_quotes = 0;
-	while (&s[i] < eq)
+	len = 0;
+	in_quote = 0;
+	while (&ps[i] < es)
 	{
-		if (flag && ft_strchr("\'\"", s[i]))
+		if (!*quote && ft_strchr("\'\"", ps[i]))
+			*quote = ps[i];
+		if (ps[i] == *quote)
 		{
-			quote = s[i];
-			flag = 0;
-		}
-		if (s[i] == quote)
-		{
-			in_quotes = !in_quotes;
+			in_quote = !in_quote;
 			i++;
 			continue ;
 		}
-		if (!in_quotes && (ft_strchr(WHITESPACE, s[i]) || ft_strchr(SYMBOLS, s[i])))
+		if (!in_quote && (ft_strchr(WHITESPACE, ps[i])
+				|| ft_strchr(SYMBOLS, ps[i])))
 			break ;
 		len++;
 		i++;
 	}
-	if (in_quotes)
+	if (in_quote)
+		return (-1);
+	return (len);
+}
+
+static int	trimquote(char *ps, char *es, char **new)
+{
+	int		i;
+	int		j;
+	int		in_quote;
+	char	quote;
+
+	i = 0;
+	j = 0;
+	quote = '\0';
+	in_quote = 0;
+	while (&ps[i] < es)
+	{
+		if (!quote && ft_strchr("\'\"", ps[i]))
+			quote = ps[i];
+		if (ps[i] == quote)
+		{
+			in_quote = !in_quote;
+			i++;
+			continue ;
+		}
+		if (!in_quote && (ft_strchr(WHITESPACE, ps[i])
+				|| ft_strchr(SYMBOLS, ps[i])))
+			break ;
+		(*new)[j] = ps[i];
+		i++;
+		j++;
+	}
+	(*new)[j] = '\0';
+	if (in_quote)
+		return (-1);
+	return (i);
+}
+
+int	parsequote(char *ps, char *es, char **argv)
+{
+	int		len;
+	int		total_len;
+	char	*new;
+	char	quote;
+
+	quote = '\0';
+	len = quotelen(ps, es, &quote);
+	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
 		exit(1);
@@ -52,30 +93,7 @@ int	parsequote(char *s, char *eq, char **argv)
 	new = malloc(sizeof(char) * (len + 1));
 	if (!new)
 		print_error("malloc error");
-	i = 0;
-	j = 0;
-	flag = 1;
-	in_quotes = 0;
-	while (&s[i] < eq)
-	{
-		if (flag && ft_strchr("\'\"", s[i]))
-		{
-			quote = s[i];
-			flag = 0;
-		}
-		if (s[i] == quote)
-		{
-			in_quotes = !in_quotes;
-			i++;
-			continue ;
-		}
-		if (!in_quotes && (ft_strchr(WHITESPACE, s[i]) || ft_strchr(SYMBOLS, s[i])))
-			break ;
-		new[j] = s[i];
-		i++;
-		j++;
-	}
-	new[j] = '\0';
+	total_len = trimquote(ps, es, &new);
 	*argv = new;
-	return (i);
+	return (total_len);
 }

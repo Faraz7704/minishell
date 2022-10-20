@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:02:59 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 20:42:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 {
 	t_pipecmd	*cmd;
 
-	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd = ft_calloc(sizeof(*cmd), 1);
+	if (!cmd)
+		print_error("malloc error");
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;

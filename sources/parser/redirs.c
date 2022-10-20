@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:04:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 20:42:33 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd)
 {
 	t_redircmd	*cmd;
 
-	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd = ft_calloc(sizeof(*cmd), 1);
+	if (!cmd)
+		print_error("malloc error");
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
 	cmd->file = file;

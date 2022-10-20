@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/20 15:58:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 21:21:22 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	ft_execve(char *cmd, char **argv, t_env *env)
 	if (p_id == 0)
 	{
 		ret = execve(path, argv, env->env);
-		print_error("Command not found\n");
+		ft_fprintf(2, "%s: command not found\n", cmd);
+		exit(1);
 	}
 	waitpid(p_id, NULL, 0);
 	return (ret);

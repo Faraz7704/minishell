@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 15:58:36 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 21:56:31 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ int	run_redircmd(t_cmd *cmd, t_env *env)
 {
 	t_redircmd	*rcmd;
 	int			p_id;
+	int			fd_redirect;
 
 	rcmd = (t_redircmd *)cmd;
 	p_id = ft_fork();
 	if (p_id == 0)
 	{
 		close(rcmd->fd);
-		if (open(rcmd->file, rcmd->mode, 0666) < 0)
+		fd_redirect = open(rcmd->file, rcmd->mode, 0666);
+		if (fd_redirect < 0)
 		{
 			if (access(rcmd->file, R_OK | W_OK | X_OK) == -1)
 				ft_fprintf(2, "%s: Permission denied\n", rcmd->file);
@@ -56,6 +58,11 @@ int	run_redircmd(t_cmd *cmd, t_env *env)
 			exit(1);
 		}
 		runcmd(rcmd->cmd, env);
+		if (dup2(fd_redirect, rcmd->fd) < 0)
+		{
+			ft_fprintf(2, "dup2 has failed\n");
+			exit(0);
+		}
 		exit(0);
 	}
 	waitpid(p_id, NULL, 0);

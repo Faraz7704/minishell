@@ -6,26 +6,19 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:03:08 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 21:42:35 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_cmd	*parseexec(char **ps, char *es)
+static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
 {
-	char		*argv;
-	int			tok;
-	int			argc;
-	t_execcmd	*cmd;
-	t_cmd		*ret;
+	int		tok;
+	int		argc;
+	char	*argv;
 
-	if (peek(ps, es, "("))
-		return (parseblock(ps, es));
-	ret = execcmd();
-	cmd = (t_execcmd *)ret;
 	argc = 0;
-	ret = parseredirs(ret, ps, es);
 	while (!peek(ps, es, "|)"))
 	{
 		tok = gettoken(ps, es, &argv);
@@ -43,12 +36,27 @@ t_cmd	*parseexec(char **ps, char *es)
 	return (ret);
 }
 
+t_cmd	*parseexec(char **ps, char *es)
+{
+	t_execcmd	*cmd;
+	t_cmd		*ret;
+
+	if (peek(ps, es, "("))
+		return (parseblock(ps, es));
+	ret = execcmd();
+	cmd = (t_execcmd *)ret;
+	ret = parseredirs(ret, ps, es);
+	ret = parseargv(cmd, ret, ps, es);
+	return (ret);
+}
+
 t_cmd	*execcmd(void)
 {
 	t_execcmd	*cmd;
 
-	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd = ft_calloc(sizeof(*cmd), 1);
+	if (!cmd)
+		print_error("malloc error");
 	cmd->type = EXEC;
 	return ((t_cmd *)cmd);
 }
