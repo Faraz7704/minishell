@@ -1,47 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:04:48 by fkhan            ###   ########.fr       */
+/*   Created: 2022/10/20 16:03:49 by fkhan             #+#    #+#             */
+/*   Updated: 2022/10/20 16:06:16 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_cmd	*parsecmd(char *s)
-{
-	char	*es;
-	t_cmd	*cmd;
-
-	es = s + ft_strlen(s);
-	cmd = parseline(&s, es);
-	if (s != es)
-	{
-		ft_fprintf(2, "leftovers: %s\n", s);
-		print_error("syntax");
-	}
-	return (cmd);
-}
-
-t_cmd	*parseline(char **ps, char *es)
+t_cmd	*parseblock(char **ps, char *es)
 {
 	t_cmd	*cmd;
 
-	cmd = parsepipe(ps, es);
+	if (!peek(ps, es, "("))
+		print_error("parseblock");
+	gettoken(ps, es, 0);
+	cmd = parseline(ps, es);
+	if (!peek(ps, es, ")"))
+		print_error("syntax - missing )");
+	gettoken(ps, es, 0);
+	cmd = parseredirs(cmd, ps, es);
 	return (cmd);
-}
-
-int	peek(char **ps, char *es, char *toks)
-{
-	char	*s;
-
-	s = *ps;
-	while (s < es && ft_strchr(WHITESPACE, *s))
-		s++;
-	*ps = s;
-	return (*s && ft_strchr(toks, *s));
 }

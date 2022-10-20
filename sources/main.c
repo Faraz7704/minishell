@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 00:58:17 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 16:07:03 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	init_fd(void)
 
 static int	getcmd(char **buf)
 {
-	buf[0] = readline(BEGIN(49, 34)"minishell>$"CLOSE);
+	buf[0] = readline("minishell>$");
 	if (buf[0] == 0)
 		return (-1);
 	add_history(buf[0]);

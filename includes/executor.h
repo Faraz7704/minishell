@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 01:00:23 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 16:09:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,28 @@
 # include "minishell.h"
 
 // executor
-int		exec(char *cmd, char **argv, t_env *env);
-int		runcmd(t_cmd *cmd, t_env *env);
+int					exec(char *cmd, char **argv, t_env *env);
+int					runcmd(t_cmd *cmd, t_env *env);
 
 // builtins
-void	ft_echo(char **argv);
-void	ft_env(t_env *env);
-void	ft_exit(char **argv, t_env *env);
-void	ft_export(char **argv, t_env *env);
-void	ft_pwd(void);
-char	*ft_get_pwd(void);
-char	*ft_update_pwd(char *key, t_env *env);
-void	ft_unset(char **argv, t_env *env);
-void	ft_cd(char **argv, t_env *env);
-void	ft_chdir(char *path, t_list	*kms);
+void				ft_echo(char **argv);
+void				ft_env(t_env *env);
+void				ft_exit(char **argv, t_env *env);
+void				ft_export(char **argv, t_env *env);
+void				ft_pwd(void);
+char				*ft_get_pwd(void);
+char				*ft_update_pwd(char *key, t_env *env);
+void				ft_unset(char **argv, t_env *env);
+void				ft_cd(char **argv, t_env *env);
+void				ft_chdir(char *path, t_list	*kms);
+int					ft_execve(char *cmd, char **argv, t_env *env);
 
 // executor_utils
-int		len_ch(char *str, char ch);
-int		ncompare(char *str1, char *str2, int n);
-char	*make_command(char *path, char *bin);
-char	*str_ndup(char *str, unsigned int n);
-char	*full_command_path(char *cmd, char **env);
-unsigned long long		ft_atoull(char *str, int *minus);
+int					len_ch(char *str, char ch);
+int					ncompare(char *str1, char *str2, int n);
+char				*make_command(char *path, char *bin);
+char				*str_ndup(char *str, unsigned int n);
+char				*full_command_path(char *cmd, char **env);
+unsigned long long	ft_atoull(char *str, int *minus);
 
 #endif

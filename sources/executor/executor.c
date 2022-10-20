@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 01:01:04 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 15:58:36 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exec(char *cmd, char **argv, t_env *env)
 	if (ft_strequals(cmd, "cd"))
 		ft_cd(argv, env);
 	else if (ft_strequals(cmd, "env"))
-		print_keymaps(env->kms);
+		print_env(env->kms);
 	else if (ft_strequals(cmd, "pwd"))
 		ft_pwd();
 	else if (ft_strequals(cmd, "echo"))
@@ -33,16 +33,7 @@ int	exec(char *cmd, char **argv, t_env *env)
 	else if (ft_strequals(cmd, "exit"))
 		ft_exit(argv, env);
 	else
-	{
-		char *path = full_command_path(cmd, env->env);
-		pid_t p_id = ft_fork();
-		if (p_id == 0)
-		{
-			execve(path, argv, env->env);
-			print_error("Command not found\n");
-		}
-		waitpid(p_id, NULL, 0);
-	}
+		ft_execve(cmd, argv, env);
 	return (0);
 }
 

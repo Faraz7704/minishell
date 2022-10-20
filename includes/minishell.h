@@ -6,16 +6,12 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 00:32:30 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/20 16:09:29 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define CLOSE "\001\033[0m\002"                 // Закрыть все свойства
-# define BLOD  "\001\033[1m\002"                 // Подчеркнуть, жирным шрифтом, выделить
-# define BEGIN(x,y) "\001\033["#x";"#y"m\002"    // x: background, y: foreground
 
 # include <stdlib.h> // malloc, free, exit, getenv
 // write, access, read, close, fork, getcwd, chdir
@@ -53,23 +49,23 @@ typedef struct s_cmd
 typedef struct s_execcmd
 {
 	enum e_cmd_type	type;
-	char		*argv[MAXARGS];
+	char			*argv[MAXARGS];
 }	t_execcmd;
 
 typedef struct s_pipecmd
 {
 	enum e_cmd_type	type;
-	t_cmd 		*left;
-	t_cmd 		*right;
+	t_cmd			*left;
+	t_cmd			*right;
 }	t_pipecmd;
 
 typedef struct s_redircmd
 {
 	enum e_cmd_type	type;
-	t_cmd 		*cmd;
-	char		*file;
-	int			mode;
-	int			fd;
+	t_cmd			*cmd;
+	char			*file;
+	int				mode;
+	int				fd;
 }	t_redircmd;
 
 typedef struct s_keymap
@@ -83,7 +79,6 @@ typedef struct s_env
 	t_list	*kms;
 	char	**env;
 }	t_env;
-
 
 // main
 pid_t		ft_fork(void);
