@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 21:56:31 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/21 15:00:24 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ int	run_redircmd(t_cmd *cmd, t_env *env)
 				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
 			exit(1);
 		}
-		runcmd(rcmd->cmd, env);
 		if (dup2(fd_redirect, rcmd->fd) < 0)
 		{
 			ft_fprintf(2, "dup2 has failed\n");
 			exit(0);
 		}
+		runcmd(rcmd->cmd, env);
 		exit(0);
 	}
 	waitpid(p_id, NULL, 0);

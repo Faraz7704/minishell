@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 20:55:50 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/21 15:18:26 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,14 @@ int	gettoken(char **ps, char *es, char **argv)
 	else if (s[i])
 	{
 		ret = 'a';
-		if (argv)
-			i += parsequote(&s[i], es, argv);
-		else
+		if (!argv)
 		{
 			while (&s[i] < es && !ft_strchr(WHITESPACE, s[i]) && !ft_strchr(SYMBOLS, s[i]))
 				i++;
 		}
 	}
-	if (ret != 'a' && argv)
-		*argv = ft_strldup(&s[index], i - index + 1);
+	if (argv)
+		i += parsequote(&s[index], es, argv);
 	while (&s[i] < es && ft_strchr(WHITESPACE, s[i]))
 		i++;
 	*ps = &s[i];
