@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 20:42:33 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 16:28:10 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 	int		tok;
 	char	*file;
 
-	while (peek(ps, es, "<>"))
+	if (peek(ps, es, "<>"))
 	{
 		tok = gettoken(ps, es, 0);
 		if (gettoken(ps, es, &file) != 'a')
 			print_error("missing file for redirection");
+		cmd = parseredirs(cmd, ps, es);
 		if (tok == '<')
 			cmd = redircmd(cmd, file, O_RDONLY, 0);
 		else if (tok == '>')
