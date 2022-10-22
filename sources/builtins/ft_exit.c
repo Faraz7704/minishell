@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:39:54 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/20 00:29:06 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 16:39:41 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ void	ft_exit(char **argv, t_env *env)
 
 	(void) env;
 	minus = 0;
-	write(2, "exit\n", ft_strlen("exit\n"));
 	if (!argv || !argv[1])
 		exit(0);
 	if (argv[2])
 	{
-		ft_putendl_fd("bash: exit: too many arguments", 2);
+		ft_fprintf(2, "exit: too many arguments");
 		return ;
 	}
 	ft_atoull(argv[1], &minus);
@@ -79,9 +78,7 @@ void	ft_exit(char **argv, t_env *env)
 		((!minus && ft_atoull(argv[1], &minus) > __LONG_LONG_MAX__) || \
 		(minus && ft_atoull(argv[1], &minus) - 1 > __LONG_LONG_MAX__)))
 	{
-		ft_putstr_fd("bash: exit: ", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putendl_fd(": numeric argument required", 2);
+		ft_fprintf(2, "exit: %s: numeric argument required\n", argv[1]);
 		exit(255);
 	}
 	exit((int)(ft_atoi(argv[1]) % 256));
