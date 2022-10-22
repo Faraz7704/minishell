@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 21:04:01 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 23:06:05 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 	t_cmd		*ret;
 
 	if (peek(ps, es, "("))
-		return (parseblock(ps, es));
+		return (parseblock(ps, es, env));
 	ret = execcmd();
 	cmd = (t_execcmd *)ret;
 	ret = parseredirs(ret, ps, es, env);
