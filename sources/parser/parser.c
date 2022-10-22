@@ -6,19 +6,19 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:04:48 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:01:37 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_cmd	*parsecmd(char *s)
+t_cmd	*parsecmd(char *s, t_env *env)
 {
 	char	*es;
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
-	cmd = parseline(&s, es);
+	cmd = parseline(&s, es, env);
 	if (s != es)
 	{
 		ft_fprintf(2, "leftovers: %s\n", s);
@@ -27,11 +27,11 @@ t_cmd	*parsecmd(char *s)
 	return (cmd);
 }
 
-t_cmd	*parseline(char **ps, char *es)
+t_cmd	*parseline(char **ps, char *es, t_env *env)
 {
 	t_cmd	*cmd;
 
-	cmd = parsepipe(ps, es);
+	cmd = parsepipe(ps, es, env);
 	return (cmd);
 }
 

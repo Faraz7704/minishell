@@ -6,23 +6,23 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 16:28:10 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:03:25 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 {
 	int		tok;
 	char	*file;
 
 	if (peek(ps, es, "<>"))
 	{
-		tok = gettoken(ps, es, 0);
-		if (gettoken(ps, es, &file) != 'a')
+		tok = gettoken(ps, es, 0, env);
+		if (gettoken(ps, es, &file, env) != 'a')
 			print_error("missing file for redirection");
-		cmd = parseredirs(cmd, ps, es);
+		cmd = parseredirs(cmd, ps, es, env);
 		if (tok == '<')
 			cmd = redircmd(cmd, file, O_RDONLY, 0);
 		else if (tok == '>')

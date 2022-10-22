@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   block.c                                            :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:03:49 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 21:12:24 by fkhan            ###   ########.fr       */
+/*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
+/*   Updated: 2022/10/22 21:31:20 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_cmd	*parseblock(char **ps, char *es, t_env *env)
+t_km	*expansion(char *q, char *eq, t_env *env)
 {
-	t_cmd	*cmd;
+	char	*s;
+	char	*key;
+	int		len;
+	t_list	*keyvalue;
 
-	if (!peek(ps, es, "("))
-		print_error("parseblock");
-	gettoken(ps, es, 0, env);
-	cmd = parseline(ps, es, env);
-	if (!peek(ps, es, ")"))
-		print_error("syntax - missing )");
-	gettoken(ps, es, 0, env);
-	cmd = parseredirs(cmd, ps, es, env);
-	return (cmd);
+	s = q;
+	len = 0;
+	while (s < eq && ft_isalpha(*s))
+	{
+		len++;
+		s++;
+	}
+	key = ft_strldup(q, len + 1);
+	if (!key)
+		print_error("syntax");
+	keyvalue = find_keymap_key(env->kms, key);
+	if (!keyvalue)
+	{
+		free(key);
+		return (NULL);
+	}
+	free(key);
+	return ((t_km *)keyvalue->content);
 }

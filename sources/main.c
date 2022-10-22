@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:07:03 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:00:57 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 	init_fd();
 	while (getcmd(&buf) >= 0)
 	{
-		runcmd(parsecmd(buf), &environment);
+		runcmd(parsecmd(buf, &environment), &environment);
 		free(buf);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:09:29 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 20:53:47 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 # define WHITESPACE " \t\r\n\v\f"
 # define SYMBOLS "<|>()"
+# define QUOTES "\'\""
 
 # define MAXARGS 10
 

@@ -6,13 +6,13 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/21 15:18:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 21:03:40 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	gettoken(char **ps, char *es, char **argv)
+int	gettoken(char **ps, char *es, char **argv, t_env *env)
 {
 	char	*s;
 	int		i;
@@ -55,7 +55,7 @@ int	gettoken(char **ps, char *es, char **argv)
 		}
 	}
 	if (argv)
-		i += parsequote(&s[index], es, argv);
+		i += parsequote(&s[index], es, argv, env);
 	while (&s[i] < es && ft_strchr(WHITESPACE, s[i]))
 		i++;
 	*ps = &s[i];

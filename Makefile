@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/20 16:06:07 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/22 21:13:32 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SOURCES_LIST 		= main.c debug.c keymap.c sort_list.c \
 						parser/quote.c \
 						parser/redirs.c \
 						parser/token.c \
+						parser/expansion.c \
 						executor/executor.c \
 						executor/executor_utils.c
 						

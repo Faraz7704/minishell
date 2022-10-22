@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 20:55:02 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/22 22:00:58 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	quotelen(char *ps, char *es, char *quote)
 	in_quote = 0;
 	while (&ps[i] < es)
 	{
-		if (!*quote && ft_strchr("\'\"", ps[i]))
+		if (!*quote && ft_strchr(QUOTES, ps[i]))
 			*quote = ps[i];
 		if (ps[i] == *quote)
 		{
@@ -42,12 +42,14 @@ static int	quotelen(char *ps, char *es, char *quote)
 	return (len);
 }
 
-static int	trimquote(char *ps, char *es, char **new)
+static int	trimquote(char *ps, char *es, char **new, t_env *env)
 {
 	int		i;
 	int		j;
 	int		in_quote;
 	char	quote;
+	t_km	*km;
+	char	*temp;
 
 	i = 0;
 	j = 0;
@@ -55,7 +57,7 @@ static int	trimquote(char *ps, char *es, char **new)
 	in_quote = 0;
 	while (&ps[i] < es)
 	{
-		if (!quote && ft_strchr("\'\"", ps[i]))
+		if (!quote && ft_strchr(QUOTES, ps[i]))
 			quote = ps[i];
 		if (ps[i] == quote)
 		{
@@ -66,6 +68,25 @@ static int	trimquote(char *ps, char *es, char **new)
 		if (!in_quote && (ft_strchr(WHITESPACE, ps[i])
 				|| ft_strchr(SYMBOLS, ps[i])))
 			break ;
+		if ((in_quote && quote != '\'' && ps[i] == '$')
+			|| (!in_quote && ps[i] == '$'))
+		{
+			i++;
+			km = expansion(&ps[i], es, env);
+			if (km)
+			{
+				temp = *new;
+				*new = ft_strjoin(temp, km->val);
+				i += ft_strlen(km->key);
+				j += ft_strlen(km->val);
+				free(temp);
+				continue ;
+			}
+			while (&ps[i] < es && ft_isalpha(ps[i]))
+				i++;
+			if (&ps[i] >= es)
+				break ;
+		}
 		(*new)[j] = ps[i];
 		i++;
 		j++;
@@ -76,7 +97,7 @@ static int	trimquote(char *ps, char *es, char **new)
 	return (i);
 }
 
-int	parsequote(char *ps, char *es, char **argv)
+int	parsequote(char *ps, char *es, char **argv, t_env *env)
 {
 	int		len;
 	int		total_len;
@@ -93,7 +114,7 @@ int	parsequote(char *ps, char *es, char **argv)
 	new = malloc(sizeof(char) * (len + 1));
 	if (!new)
 		print_error("malloc error");
-	total_len = trimquote(ps, es, &new);
+	total_len = trimquote(ps, es, &new, env);
 	*argv = new;
 	return (total_len);
 }
