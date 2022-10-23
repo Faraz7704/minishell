@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 19:34:04 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 20:45:44 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*ft_strldup(char *src, int size)
 	char	*dst;
 
 	dst = malloc(sizeof(char *) * size);
+	if (!dst)
+		return (0);
 	ft_strlcpy(dst, src, size);
 	if (!dst)
 		return (0);
