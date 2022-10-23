@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:08:20 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:54:24 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	init_fd();
 	m_env = init_env(env);
-	while (getcmd("minishell>$", &buf) >= 0)
+	while (getcmd("minishell>$ ", &buf) >= 0)
 	{
 		runcmd(parsecmd(buf, m_env));
 		free(buf);

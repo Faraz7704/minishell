@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 21:31:20 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:54:10 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ t_km	*expansion(char *q, char *eq, t_env *env)
 
 	s = q;
 	len = 0;
-	while (s < eq && ft_isalpha(*s))
+	while (s < eq && ft_isalnum(*s))
 	{
 		len++;
 		s++;
 	}
+	if (!len)
+		return (NULL);
 	key = ft_strldup(q, len + 1);
 	if (!key)
 		print_error("syntax");
