@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/20 16:09:07 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:05:54 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // executor
 int					exec(char *cmd, char **argv, t_env *env);
-int					runcmd(t_cmd *cmd, t_env *env);
+int					runcmd(t_cmd *cmd);
 
 // builtins
 void				ft_echo(char **argv);

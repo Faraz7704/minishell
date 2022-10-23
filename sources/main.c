@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 21:00:57 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:08:20 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	init_fd(void)
 	}
 }
 
-static int	getcmd(char **buf)
+int	getcmd(char *prefix, char **buf)
 {
-	buf[0] = readline("minishell>$");
+	buf[0] = readline(prefix);
 	if (buf[0] == 0)
 		return (-1);
 	add_history(buf[0]);
@@ -52,17 +52,17 @@ pid_t	ft_fork(void)
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
-	t_env	environment;
+	t_env	*m_env;
 
 	(void)ac;
 	(void)av;
-	environment.kms = init_keymaps(env);
-	environment.env = env;
 	init_fd();
-	while (getcmd(&buf) >= 0)
+	m_env = init_env(env);
+	while (getcmd("minishell>$", &buf) >= 0)
 	{
-		runcmd(parsecmd(buf, &environment), &environment);
+		runcmd(parsecmd(buf, m_env));
 		free(buf);
 	}
+	free(m_env);
 	return (0);
 }

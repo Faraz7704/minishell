@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 16:40:24 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 17:06:25 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec(char *cmd, char **argv, t_env *env)
 	return (0);
 }
 
-int	run_redircmd(t_cmd *cmd, t_env *env)
+int	run_redircmd(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
 	int			p_id;
@@ -62,14 +62,14 @@ int	run_redircmd(t_cmd *cmd, t_env *env)
 			ft_fprintf(2, "dup2 has failed\n");
 			exit(0);
 		}
-		runcmd(rcmd->cmd, env);
+		runcmd(rcmd->cmd);
 		exit(0);
 	}
 	waitpid(p_id, NULL, 0);
 	return (0);
 }
 
-int	child_pipecmd(t_cmd *cmd, t_env *env, int *argv)
+int	child_pipecmd(t_cmd *cmd, int *argv)
 {
 	int	p_id;
 
@@ -78,14 +78,14 @@ int	child_pipecmd(t_cmd *cmd, t_env *env, int *argv)
 	{
 		close(argv[2]);
 		dup2(argv[1], argv[0]);
-		runcmd(cmd, env);
+		runcmd(cmd);
 		close(argv[1]);
 		exit(0);
 	}
 	return (p_id);
 }
 
-int	run_pipecmd(t_cmd *cmd, t_env *env)
+int	run_pipecmd(t_cmd *cmd)
 {
 	t_pipecmd	*pcmd;
 	int			fd_pipe[2];
@@ -98,11 +98,11 @@ int	run_pipecmd(t_cmd *cmd, t_env *env)
 	fdargs[0] = STDOUT_FILENO;
 	fdargs[1] = fd_pipe[1];
 	fdargs[2] = fd_pipe[0];
-	p_ids[0] = child_pipecmd(pcmd->left, env, fdargs);
+	p_ids[0] = child_pipecmd(pcmd->left, fdargs);
 	fdargs[0] = STDIN_FILENO;
 	fdargs[1] = fd_pipe[0];
 	fdargs[2] = fd_pipe[1];
-	p_ids[1] = child_pipecmd(pcmd->right, env, fdargs);
+	p_ids[1] = child_pipecmd(pcmd->right, fdargs);
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
 	waitpid(p_ids[0], NULL, 0);
@@ -110,7 +110,7 @@ int	run_pipecmd(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-int	runcmd(t_cmd *cmd, t_env *env)
+int	runcmd(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
 
@@ -121,16 +121,16 @@ int	runcmd(t_cmd *cmd, t_env *env)
 		ecmd = (t_execcmd *)cmd;
 		if (ecmd->argv[0] == 0)
 			return (1);
-		if (exec(ecmd->argv[0], ecmd->argv, env))
+		if (exec(ecmd->argv[0], ecmd->argv, ecmd->env))
 		{
 			ft_fprintf(2, "exec %s failed\n", ecmd->argv[0]);
 			return (1);
 		}
 	}
 	else if (cmd->type == REDIR)
-		return (run_redircmd(cmd, env));
+		return (run_redircmd(cmd));
 	else if (cmd->type == PIPE)
-		return (run_pipecmd(cmd, env));
+		return (run_pipecmd(cmd));
 	else
 		print_error("runcmd");
 	return (0);

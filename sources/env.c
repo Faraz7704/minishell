@@ -1,16 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keymap.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/06 17:32:51 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 16:58:43 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	*init_env(char **env)
+{
+	size_t	i;
+	size_t	size;
+	t_env	*new;
+	t_km	*km;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		print_error("malloc error\n");
+	new->kms = NULL;
+	new->env = env;
+	i = 0;
+	size = ft_strdlen(env);
+	while (i < size)
+	{
+		km = malloc(sizeof(t_km));
+		update_keymap(km, env[i]);
+		ft_lstadd_back(&new->kms, ft_lstnew(km));
+		i++;
+	}
+	return (new);
+}
 
 void	update_keymap(t_km *km, char *keyvalue)
 {
@@ -61,26 +85,6 @@ void	add_keymap(t_list **lst, char *keyvalue)
 		update_keymap(km, keyvalue);
 		ft_lstadd_back(lst, ft_lstnew(km));
 	}
-}
-
-t_list	*init_keymaps(char **env)
-{
-	size_t	i;
-	size_t	size;
-	t_list	*new;
-	t_km	*km;
-
-	i = 0;
-	new = NULL;
-	size = ft_strdlen(env);
-	while (i < size)
-	{
-		km = malloc(sizeof(t_km));
-		update_keymap(km, env[i]);
-		ft_lstadd_back(&new, ft_lstnew(km));
-		i++;
-	}
-	return (new);
 }
 
 void	remove_keymap(t_list **lst, char *key)

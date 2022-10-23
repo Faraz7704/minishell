@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 21:30:09 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:08:32 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int		peek(char **ps, char *es, char *toks);
 
 // exec
 t_cmd	*parseexec(char **ps, char *es, t_env *env);
-t_cmd	*execcmd(void);
+t_cmd	*execcmd(t_env *env);
 
 // pipe
 t_cmd	*parsepipe(char **ps, char *es, t_env *env);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 
 // redirs
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
 t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
 
 // block

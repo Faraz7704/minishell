@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/22 21:13:32 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/23 18:05:43 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ NAME 				= minishell
 CC 					= gcc
 FLAGS 				= -Wall -Werror -Wextra
 INCLUDES 			= -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) \
-						-I$(FT_PRINTF_HEADERS)
-LIBRARIES 			= -lft -lft_printf -lreadline \
+						-I$(FT_PRINTF_HEADERS) -I/usr/local/opt/readline/include
+LIBRARIES 			= -lft -lft_printf \
 						-L$(LIBFT_DIRECTORY) -L$(FT_PRINTF_DIRECTORY) \
-						-L/usr/local/Cellar/readline/8.1/lib \
+						-L/usr/local/opt/readline/lib
 
 LIB_DIRECTORY 		= ./lib/
 
@@ -34,7 +34,7 @@ HEADERS_LIST 		= minishell.h
 HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY 	= ./sources/
-SOURCES_LIST 		= main.c debug.c keymap.c sort_list.c \
+SOURCES_LIST 		= main.c debug.c env.c sort_list.c \
 						utils/str_utils.c \
 						utils/str_utils2.c \
 						utils/list_utils.c \
@@ -73,7 +73,7 @@ all: $(NAME)
 bonus: all
 
 $(NAME): $(LIBFT) $(FT_PRINTF) $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) $(INCLUDES) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJECTS) $(LIBRARIES) $(INCLUDES) -lreadline -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 

@@ -6,13 +6,14 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 20:53:47 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:06:53 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include <stdlib.h> // malloc, free, exit, getenv
 // write, access, read, close, fork, getcwd, chdir
 // unlink, execve, dup, dup2, pipe, isatty, ttyname, ttyslot
@@ -42,14 +43,22 @@ enum e_cmd_type {
 	REDIR = 2,
 }	cmd_type;
 
+typedef struct s_env
+{
+	t_list	*kms;
+	char	**env;
+}	t_env;
+
 typedef struct s_cmd
 {
 	enum e_cmd_type	type;
+	t_env			*env;
 }	t_cmd;
 
 typedef struct s_execcmd
 {
 	enum e_cmd_type	type;
+	t_env			*env;
 	char			*argv[MAXARGS];
 }	t_execcmd;
 
@@ -75,14 +84,9 @@ typedef struct s_keymap
 	char			*val;
 }	t_km;
 
-typedef struct s_env
-{
-	t_list	*kms;
-	char	**env;
-}	t_env;
-
 // main
 pid_t		ft_fork(void);
+int			getcmd(char *prefix, char **buf);
 
 // debug
 void		print_error(char *s);
@@ -90,8 +94,8 @@ void		print_keymaps(t_list *lst);
 void		print_export(t_list *lst);
 void		print_env(t_list *lst);
 
-// keymap
-t_list		*init_keymaps(char **env);
+// env
+t_env		*init_env(char **env);
 void		add_keymap(t_list **lst, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
 t_list		*find_keymap_key(t_list *lst, char *keyvalue);
