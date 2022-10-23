@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/22 23:06:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 18:12:06 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	quotelen(char *ps, char *es, char *quote)
 	in_quote = 0;
 	while (&ps[i] < es)
 	{
-		if (!*quote && ft_strchr(QUOTES, ps[i]))
+		if (!in_quote && ft_strchr(QUOTES, ps[i]))
 			*quote = ps[i];
 		if (ps[i] == *quote)
 		{
@@ -57,7 +57,7 @@ static int	trimquote(char *ps, char *es, char **new, t_env *env)
 	in_quote = 0;
 	while (&ps[i] < es)
 	{
-		if (!quote && ft_strchr(QUOTES, ps[i]))
+		if (!in_quote && ft_strchr(QUOTES, ps[i]))
 			quote = ps[i];
 		if (ps[i] == quote)
 		{
