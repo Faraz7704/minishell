@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 17:06:25 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 16:48:17 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	exec(char *cmd, char **argv, t_env *env)
 		ft_export(argv, env);
 	else if (ft_strequals(cmd, "unset"))
 		ft_unset(argv, env);
-	else if (ft_strequals(cmd, "clear"))
-		ft_printf("\e[1;1H\e[2J");
 	else if (ft_strequals(cmd, "exit"))
 		ft_exit(argv, env);
 	else
