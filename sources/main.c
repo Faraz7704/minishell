@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:54:24 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 15:34:44 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	init_fd();
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, &ctrl_c);
 	m_env = init_env(env);
 	while (getcmd("minishell>$ ", &buf) >= 0)
 	{

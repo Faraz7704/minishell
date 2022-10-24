@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
+#    By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/10/23 18:05:43 by fkhan            ###   ########.fr        #
+#    Updated: 2022/10/23 19:03:33 by szhakypo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ HEADERS_LIST 		= minishell.h
 HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY 	= ./sources/
-SOURCES_LIST 		= main.c debug.c env.c sort_list.c \
+SOURCES_LIST 		= main.c debug.c env.c sort_list.c signal.c \
 						utils/str_utils.c \
 						utils/str_utils2.c \
 						utils/list_utils.c \
