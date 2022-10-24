@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 15:36:46 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 17:32:59 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,87 +42,76 @@ static int	quotelen(char *ps, char *es, char *quote)
 	return (len);
 }
 
-static int	trimquote(char *ps, char *es, char **new, t_env *env)
+static void	trimquote(char **ps, char *es, char **argv, t_env *env)
 {
-	int		i;
-	int		j;
+	char	*s;
+	char	*new;
 	int		in_quote;
 	char	quote;
-	t_km	*km;
-	char	*temp;
 
-	i = 0;
-	j = 0;
+	s = *ps;
 	quote = '\0';
 	in_quote = 0;
-	while (&ps[i] < es)
+	new = *argv;
+	while (s < es)
 	{
-		if (!in_quote && ft_strchr(QUOTES, ps[i]))
-			quote = ps[i];
-		if (ps[i] == quote)
+		if (!in_quote && ft_strchr(QUOTES, *s))
+			quote = *s;
+		if (*s == quote)
 		{
 			in_quote = !in_quote;
-			i++;
+			s++;
 			continue ;
 		}
-		if (!in_quote && (ft_strchr(WHITESPACE, ps[i])
-				|| ft_strchr(SYMBOLS, ps[i])))
+		if (!in_quote && (ft_strchr(WHITESPACE, *s)
+				|| ft_strchr(SYMBOLS, *s)))
 			break ;
-		if ((in_quote && quote != '\'' && ps[i] == '$')
-			|| (!in_quote && ps[i] == '$'))
+		if ((in_quote && quote != '\'' && *s == '$')
+			|| (!in_quote && *s == '$'))
 		{
-			i++;
-			km = expansion(&ps[i], es, env);
-			if (km)
+			s++;
+			if (expansion(&s, es, &new, argv, env))
+				continue ;
+			if (s < es && (ft_isalpha(*s) || !in_quote))
 			{
-				temp = *new;
-				*new = ft_strjoin(temp, km->val);
-				i += ft_strlen(km->key);
-				j += ft_strlen(km->val);
-				free(temp);
+				while (s < es && ft_isalpha(*s))
+					s++;
 				continue ;
 			}
-			if (&ps[i] < es && (ft_isalpha(ps[i]) || !in_quote))
+			if (ft_isdigit(*s))
 			{
-				while (&ps[i] < es && ft_isalpha(ps[i]))
-					i++;
+				s++;
 				continue ;
 			}
-			if (ft_isdigit(ps[i]))
-			{
-				i++;
-				continue ;
-			}
-			i--;
+			s--;
 		}
-		(*new)[j] = ps[i];
-		i++;
-		j++;
+		*new = *s;
+		s++;
+		new++;
 	}
-	(*new)[j] = '\0';
-	if (in_quote)
-		return (-1);
-	return (i);
+	*new = '\0';
+	*ps = s;
 }
 
-int	parsequote(char *ps, char *es, char **argv, t_env *env)
+void	parsequote(char **ps, char *es, char **argv, t_env *env)
 {
 	int		len;
-	int		total_len;
-	char	*new;
 	char	quote;
 
 	quote = '\0';
-	len = quotelen(ps, es, &quote);
+	len = quotelen(*ps, es, &quote);
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
 		exit(1);
 	}
-	new = malloc(sizeof(char) * (len + 1));
-	if (!new)
+	if (!argv)
+	{
+		*ps += len;
+		return ;
+	}
+	*argv = malloc(sizeof(char) * (len + 1));
+	if (!*argv)
 		print_error("malloc error");
-	total_len = trimquote(ps, es, &new, env);
-	*argv = new;
-	return (total_len);
+	trimquote(ps, es, argv, env);
 }
