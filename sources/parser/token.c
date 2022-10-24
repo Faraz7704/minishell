@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 17:09:33 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/25 00:11:32 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,29 @@
 
 int	gettoken(char **ps, char *es, char **argv, t_env *env)
 {
-	char	*s;
 	int		ret;
 
-	s = *ps;
-	while (s < es && ft_strchr(WHITESPACE, *s))
-		s++;
-	ret = *s;
-	if (*s == '|' || *s == '(' || *s == ')')
-		s++;
-	else if (*s == '<')
+	while (*ps < es && ft_strchr(WHITESPACE, **ps))
+		(*ps)++;
+	ret = **ps;
+	if (**ps == '|' || **ps == '(' || **ps == ')')
+		(*ps)++;
+	else if (**ps == '<' && *((*ps)++) == '<')
 	{
-		s++;
-		if (*s == '<')
-		{
-			ret = '-';
-			s++;
-		}
+		ret = '-';
+		(*ps)++;
 	}
-	else if (*s == '>')
+	else if (**ps == '>' && *((*ps)++) == '>')
 	{
-		s++;
-		if (*s == '>')
-		{
-			ret = '+';
-			s++;
-		}
+		ret = '+';
+		(*ps)++;
 	}
-	else if (*s)
+	else if (**ps)
 	{
 		ret = 'a';
-		parsequote(&s, es, argv, env);
+		parsequote(ps, es, argv, env);
 	}
-	while (s < es && ft_strchr(WHITESPACE, *s))
-		s++;
-	*ps = s;
+	while (*ps < es && ft_strchr(WHITESPACE, **ps))
+		(*ps)++;
 	return (ret);
 }
