@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:06:53 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 15:39:46 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,11 @@ void		ft_remove_char(char *str, char c);
 
 // list_utils
 void		ft_lstdel(void *content);
+
+//signals
+void		sig_handler(int sig_num);
+void		ctrl_c(int sig);
+int			ctrl_d(void);
+void		sig_handler_heredoc(int sig_num);
 
 #endif
