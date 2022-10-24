@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 02:09:36 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/25 02:35:33 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	update_keymap(t_km *km, char *keyvalue)
 
 	size = ft_strclen(keyvalue, '=') + 1;
 	index = size;
-	if (km->key)
-		free(km->key);
 	km->key = ft_strldup(keyvalue, size);
 	if (index >= ft_strlen(keyvalue))
 	{
@@ -46,8 +44,6 @@ void	update_keymap(t_km *km, char *keyvalue)
 		return ;
 	}
 	size = ft_strlen(&keyvalue[index]) + 1;
-	if (km->val)
-		free(km->val);
 	km->val = ft_strldup(&keyvalue[index], size);
 }
 
