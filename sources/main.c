@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 19:04:21 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/24 15:34:44 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &ctrl_c);
 	m_env = init_env(env);
-	while (getcmd("minishell>$", &buf) >= 0)
+	while (getcmd("minishell>$ ", &buf) >= 0)
 	{
 		runcmd(parsecmd(buf, m_env));
 		free(buf);

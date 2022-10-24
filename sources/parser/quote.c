@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:12:06 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/23 20:42:50 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,18 @@ static int	trimquote(char *ps, char *es, char **new, t_env *env)
 				free(temp);
 				continue ;
 			}
-			while (&ps[i] < es && ft_isalpha(ps[i]))
+			if (&ps[i] < es && (ft_isalpha(ps[i]) || !in_quote))
+			{
+				while (&ps[i] < es && ft_isalpha(ps[i]))
+					i++;
+				continue ;
+			}
+			if (ft_isdigit(ps[i]))
+			{
 				i++;
-			continue ;
+				continue ;
+			}
+			i--;
 		}
 		(*new)[j] = ps[i];
 		i++;
