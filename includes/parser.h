@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:08:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 17:32:27 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
 t_cmd	*parseblock(char **ps, char *es, t_env *env);
 
 // quote
-int		parsequote(char *ps, char *es, char **argv, t_env *env);
+void	parsequote(char **ps, char *es, char **argv, t_env *env);
 
 // token
 int		gettoken(char **ps, char *es, char **argv, t_env *env);
 
 // expansion
-t_km	*expansion(char *q, char *eq, t_env *env);
+int		expansion(char **q, char *eq, char **s, char **argv, t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 18:09:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/24 16:37:31 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,15 @@ static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
 {
 	int		tok;
 	int		argc;
-	char	*argv;
 
 	argc = 0;
 	while (!peek(ps, es, "|)"))
 	{
-		tok = gettoken(ps, es, &argv, cmd->env);
+		tok = gettoken(ps, es, &cmd->argv[argc], cmd->env);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
 			print_error("syntax");
-		cmd->argv[argc] = argv;
 		argc++;
 		if (argc >= MAXARGS)
 			print_error("too many args");
