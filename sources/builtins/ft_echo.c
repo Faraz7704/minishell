@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/24 16:29:04 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/25 00:22:57 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ static int ft_n_compere(char *flag)
 	int	i;
 
 	i = 0;
-	if(flag[i] == '-')
-		i++;
-	else 
-		return (1);
-
-	while(flag[i])
+	if (flag != NULL)
 	{
-		if (flag[i] == 'n')
+		if(flag[i] == '-')
 			i++;
-		else
+		else 
 			return (1);
+
+		while(flag[i])
+		{
+			if (flag[i] == 'n')
+				i++;
+			else
+				return (1);
+		}
+			return (0);
 	}
-	return (0);
+	else
+		return (1);
 }
 
 void	ft_echo(char **argv)
