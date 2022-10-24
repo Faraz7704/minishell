@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/20 01:04:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/25 01:53:56 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_chdir(char *path, t_list	*kms)
 		home_km = find_keymap_key(kms, "HOME");
 		if (home_km && chdir(((t_km *)home_km->content)->val) < 0)
 			ft_fprintf(2, "cd: %s: No such file or directory\n", path);
+		else if (!home_km)
+			ft_fprintf(2, "cd: HOME not set\n");
 		return ;
 	}
 	parse_path = ft_first_word(path);

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/24 23:37:19 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/25 02:13:42 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 	char	*path;
 	pid_t	p_id;
 
+	update_env(env);
 	path = full_command_path(cmd, env->env);
 	p_id = ft_fork();
 	if (p_id == 0)

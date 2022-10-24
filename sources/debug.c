@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:40:37 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/17 23:28:30 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/25 01:35:27 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,13 @@ void	print_keymaps(t_list *lst)
 			ft_printf("%s=%s\n", km->key, km->val);
 		curr = curr->next;
 	}
+}
+
+void	print_strsplit(char **split)
+{
+	int		i;
+
+	i = 0;
+	while (split[i])
+		ft_printf("%s\n", split[i++]);
 }

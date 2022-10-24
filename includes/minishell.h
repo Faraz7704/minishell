@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 15:39:46 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/25 02:19:15 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,20 @@ void		print_error(char *s);
 void		print_keymaps(t_list *lst);
 void		print_export(t_list *lst);
 void		print_env(t_list *lst);
+void		print_strsplit(char **split);
 
-// env
-t_env		*init_env(char **env);
+// keymap
+char		*mergekeymap(t_km *km);
 void		add_keymap(t_list **lst, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
 t_list		*find_keymap_key(t_list *lst, char *keyvalue);
 void		remove_keymap(t_list **lst, char *key);
+
+// env
+t_env		*init_env(char **env);
+char		**ft_getenv(t_list *lst);
+void		update_env(t_env *env);
+void		clear_env(t_env *env);
 
 // sort_list
 t_list		*sort_keymap_alpha(t_list *lst);
