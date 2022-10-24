@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:23:00 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 00:02:18 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/25 02:37:58 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int verif_key(char *str)
+static int	verify_key(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && !ft_isalnum(str[i]))
 			return (0);
@@ -33,7 +33,7 @@ void	ft_export(char **argv, t_env *env)
 	i = 1;
 	while (argv[i])
 	{
-		if (ft_isdigit(*argv[i]) || !verif_key(argv[i]))
+		if (ft_isdigit(*argv[i]) || !verify_key(argv[i]))
 			ft_fprintf(2, "export: `%s': not a valid identifier\n", argv[i]);
 		else
 			add_keymap(&env->kms, argv[i]);
