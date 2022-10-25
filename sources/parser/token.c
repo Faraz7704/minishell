@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/25 18:19:41 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/25 18:23:52 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,16 @@ static int	getredirtoken(char **ps)
 	int		ret;
 
 	ret = **ps;
+	(*ps)++;
 	if (**ps == '<')
 	{
+		ret = '-';
 		(*ps)++;
-		if (**ps == '<')
-		{
-			ret = '-';
-			(*ps)++;
-		}
 	}
 	else if (**ps == '>')
 	{
+		ret = '+';
 		(*ps)++;
-		if (**ps == '>')
-		{
-			ret = '+';
-			(*ps)++;
-		}
 	}
 	return (ret);
 }
