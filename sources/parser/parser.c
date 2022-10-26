@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/23 17:06:39 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/26 22:55:35 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 t_cmd	*parsecmd(char *s, t_env *env)
 {
 	char	*es;
+	char	*ps;
+	char	*q;
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
-	cmd = parseline(&s, es, env);
-	if (s != es)
+	ps = expandline(s, es, env);
+	q = ps;
+	es = q + ft_strlen(q);
+	cmd = parseline(&q, es, env);
+	if (q != es)
 	{
-		ft_fprintf(2, "leftovers: %s\n", s);
+		ft_fprintf(2, "leftovers: %s\n", q);
 		print_error("syntax");
 	}
+	free(ps);
 	return (cmd);
 }
 

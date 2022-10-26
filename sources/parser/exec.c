@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 16:37:31 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/26 18:56:40 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
 	argc = 0;
 	while (!peek(ps, es, "|)"))
 	{
-		tok = gettoken(ps, es, &cmd->argv[argc], cmd->env);
+		tok = gettoken(ps, es, &cmd->argv[argc]);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
