@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/26 22:41:07 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/27 17:50:26 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ char	*parsekey(char *q, char *eq)
 	char	*key;
 
 	i = 0;
-	while (&q[i] < eq && ft_isalnum(q[i]))
+	if (&q[i] < eq && ft_isdigit(q[i]))
 		i++;
-	if (!i)
-		return (NULL);
+	else
+	{
+		while (&q[i] < eq && ft_isalnum(q[i]))
+			i++;
+		if (!i)
+			return (NULL);
+	}
 	key = ft_strldup(q, i + 1);
 	if (!key)
 		print_error("malloc error\n");
@@ -59,7 +64,7 @@ int	expand_size(char *ps, char *es, t_env *env)
 		else if (!in_quote && *ps == '$')
 		{
 			ps++;
-			if (ft_isalnum(*ps))
+			if (ps < es && !ft_strchr(WHITESPACE, *ps))
 			{
 				km = parsekeymap(&ps, es, env);
 				if (km)
@@ -78,24 +83,22 @@ int	expand_size(char *ps, char *es, t_env *env)
 
 void	expand(char *ps, char *es, char **argv, t_env *env)
 {
-	char	*s;
 	char	*new;
 	int		in_quote;
 	t_km	*km;
 
-	s = ps;
 	new = *argv;
 	in_quote = 0;
-	while (s < es)
+	while (ps < es)
 	{
-		if (*s == '\'')
+		if (*ps == '\'')
 			in_quote = !in_quote;
-		else if (!in_quote && *s == '$')
+		else if (!in_quote && *ps == '$')
 		{
-			s++;
-			if (ft_isalnum(*s))
+			ps++;
+			if (ps < es && !ft_strchr(WHITESPACE, *ps))
 			{
-				km = parsekeymap(&s, es, env);
+				km = parsekeymap(&ps, es, env);
 				if (km)
 				{
 					*new = '\0';
@@ -103,10 +106,10 @@ void	expand(char *ps, char *es, char **argv, t_env *env)
 				}
 				continue ;
 			}
-			s--;
+			ps--;
 		}
-		*new = *s;
-		s++;
+		*new = *ps;
+		ps++;
 		new++;
 	}
 	*new = '\0';
