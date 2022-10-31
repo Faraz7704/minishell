@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/27 17:50:26 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/31 20:21:03 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,86 +49,119 @@ t_km	*parsekeymap(char **q, char *eq, t_env *env)
 	return ((t_km *)keyvalue->content);
 }
 
-int	expand_size(char *ps, char *es, t_env *env)
+// int	expand_size(char *ps, char *es, t_env *env)
+// {
+// 	int		in_quote;
+// 	int		len;
+// 	t_km	*km;
+
+// 	len = 0;
+// 	in_quote = 0;
+// 	while (ps < es)
+// 	{
+// 		if (*ps == '\'')
+// 			in_quote = !in_quote;
+// 		else if (!in_quote && *ps == '$')
+// 		{
+// 			ps++;
+// 			if (ps < es && !ft_strchr(WHITESPACE, *ps))
+// 			{
+// 				km = parsekeymap(&ps, es, env);
+// 				if (km)
+// 					len += ft_strlen(km->val);
+// 				continue ;
+// 			}
+// 			ps--;
+// 		}
+// 		len++;
+// 		ps++;
+// 	}
+// 	if (in_quote)
+// 		return (-1);
+// 	return (len);
+// }
+
+// void	expand(char *ps, char *es, char **argv, t_env *env)
+// {
+// 	char	*new;
+// 	int		in_quote;
+// 	t_km	*km;
+
+// 	new = *argv;
+// 	in_quote = 0;
+// 	while (ps < es)
+// 	{
+// 		if (*ps == '\'')
+// 			in_quote = !in_quote;
+// 		else if (!in_quote && *ps == '$')
+// 		{
+// 			ps++;
+// 			if (ps < es && !ft_strchr(WHITESPACE, *ps))
+// 			{
+// 				km = parsekeymap(&ps, es, env);
+// 				if (km)
+// 				{
+// 					*new = '\0';
+// 					new += ft_strlcat(new, km->val, ft_strlen(km->val) + 1);
+// 				}
+// 				continue ;
+// 			}
+// 			ps--;
+// 		}
+// 		*new = *ps;
+// 		ps++;
+// 		new++;
+// 	}
+// 	*new = '\0';
+// }
+
+// char	*expandline(char *ps, char *es, t_env *env)
+// {
+// 	char	*ret;
+// 	int		len;
+
+// 	len = expand_size(ps, es, env);
+// 	if (len < 0)
+// 	{
+// 		ft_fprintf(2, "syntax - missing '\n");
+// 		exit(1);
+// 	}
+// 	ret = ft_calloc(sizeof(char), (len + 1));
+// 	if (!ret)
+// 		print_error("malloc error\n");
+// 	expand(ps, es, &ret, env);
+// 	return (ret);
+// }
+
+int	expandsize(char **ps, char *es, t_env *env)
 {
-	int		in_quote;
-	int		len;
 	t_km	*km;
 
-	len = 0;
-	in_quote = 0;
-	while (ps < es)
+	(*ps)++;
+	if (*ps < es && !ft_strchr(WHITESPACE, **ps))
 	{
-		if (*ps == '\'')
-			in_quote = !in_quote;
-		else if (!in_quote && *ps == '$')
-		{
-			ps++;
-			if (ps < es && !ft_strchr(WHITESPACE, *ps))
-			{
-				km = parsekeymap(&ps, es, env);
-				if (km)
-					len += ft_strlen(km->val);
-				continue ;
-			}
-			ps--;
-		}
-		len++;
-		ps++;
+		km = parsekeymap(ps, es, env);
+		if (km)
+			return (ft_strlen(km->val));
 	}
-	if (in_quote)
-		return (-1);
-	return (len);
+	return (1);
 }
 
-void	expand(char *ps, char *es, char **argv, t_env *env)
+void	expandline(char **ps, char *es, char **argv, t_env *env)
 {
-	char	*new;
-	int		in_quote;
 	t_km	*km;
 
-	new = *argv;
-	in_quote = 0;
-	while (ps < es)
+	(*ps)++;
+	if (*ps < es && !ft_strchr(WHITESPACE, **ps))
 	{
-		if (*ps == '\'')
-			in_quote = !in_quote;
-		else if (!in_quote && *ps == '$')
+		km = parsekeymap(ps, es, env);
+		if (km)
 		{
-			ps++;
-			if (ps < es && !ft_strchr(WHITESPACE, *ps))
-			{
-				km = parsekeymap(&ps, es, env);
-				if (km)
-				{
-					*new = '\0';
-					new += ft_strlcat(new, km->val, ft_strlen(km->val) + 1);
-				}
-				continue ;
-			}
-			ps--;
+			**argv = '\0';
+			*argv += ft_strlcat(*argv, km->val, ft_strlen(km->val) + 1);
 		}
-		*new = *ps;
-		ps++;
-		new++;
+		return ;
 	}
-	*new = '\0';
-}
-
-char	*expandline(char *ps, char *es, t_env *env)
-{
-	char	*ret;
-	int		len;
-
-	len = expand_size(ps, es, env);
-	if (len < 0)
-	{
-		ft_fprintf(2, "syntax - missing '\n");
-		exit(1);
-	}
-	ret = ft_calloc(sizeof(char), (len + 1));
-	if (!ret)
-		print_error("malloc error\n");
-	expand(ps, es, &ret, env);
-	return (ret);
+	**argv = *(*ps - 1);
+	(*argv)++;
 }

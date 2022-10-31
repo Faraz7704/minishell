@@ -6,13 +6,13 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/26 18:56:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/31 20:22:09 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
+static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 {
 	int		tok;
 	int		argc;
@@ -20,7 +20,13 @@ static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
 	argc = 0;
 	while (!peek(ps, es, "|)"))
 	{
-		tok = gettoken(ps, es, &cmd->argv[argc]);
+		if (peek(ps, es, "<>"))
+		{
+			gettoken(ps, es, 0, env);
+			gettoken(ps, es, 0, env);
+			continue ;
+		}
+		tok = gettoken(ps, es, &cmd->argv[argc], env);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
@@ -28,23 +34,23 @@ static t_cmd	*parseargv(t_execcmd *cmd, t_cmd *ret, char **ps, char *es)
 		argc++;
 		if (argc >= MAXARGS)
 			print_error("too many args");
-		ret = parseredirs(ret, ps, es);
 	}
 	cmd->argv[argc] = 0;
-	return (ret);
 }
 
 t_cmd	*parseexec(char **ps, char *es, t_env *env)
 {
 	t_execcmd	*cmd;
 	t_cmd		*ret;
+	char		*q;
 
 	if (peek(ps, es, "("))
 		return (parseblock(ps, es, env));
 	ret = execcmd(env);
 	cmd = (t_execcmd *)ret;
-	ret = parseredirs(ret, ps, es);
-	ret = parseargv(cmd, ret, ps, es);
+	q = *ps;
+	ret = parseredirs(ret, &q, es, env);
+	parseargv(cmd, ps, es, env);
 	return (ret);
 }
 

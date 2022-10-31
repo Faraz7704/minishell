@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 02:35:33 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/31 20:20:54 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_list	*find_keymap_key(t_list *lst, char *keyvalue)
 	size = ft_strclen(keyvalue, '=') + 1;
 	key = ft_strldup(keyvalue, size);
 	curr = lst;
-	while (curr && !ft_strequals(((t_km *)curr->content)->key, key))
+	while (curr && !ft_strequals(key, ((t_km *)curr->content)->key))
 		curr = curr->next;
 	free(key);
 	return (curr);

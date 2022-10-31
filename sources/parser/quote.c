@@ -6,13 +6,13 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/26 22:56:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/10/31 20:15:16 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static int	quotelen(char *ps, char *es, char *quote)
+static int	quotelen(char *ps, char *es, char *quote, t_env *env)
 {
 	int		len;
 	int		in_quote;
@@ -32,6 +32,12 @@ static int	quotelen(char *ps, char *es, char *quote)
 		if (!in_quote && (ft_strchr(WHITESPACE, *ps)
 				|| ft_strchr(SYMBOLS, *ps)))
 			break ;
+		if ((in_quote && *quote != '\'' && *ps == '$')
+			|| (!in_quote && *ps == '$'))
+		{
+			len += expandsize(&ps, es, env);
+			continue ;
+		}
 		len++;
 		ps++;
 	}
@@ -40,7 +46,7 @@ static int	quotelen(char *ps, char *es, char *quote)
 	return (len);
 }
 
-static void	trimquote(char **ps, char *es, char **argv)
+static void	trimquote(char **ps, char *es, char **argv, t_env *env)
 {
 	char	*s;
 	char	*new;
@@ -64,6 +70,12 @@ static void	trimquote(char **ps, char *es, char **argv)
 		if (!in_quote && (ft_strchr(WHITESPACE, *s)
 				|| ft_strchr(SYMBOLS, *s)))
 			break ;
+		if ((in_quote && quote != '\'' && *s == '$')
+			|| (!in_quote && *s == '$'))
+		{
+			expandline(&s, es, &new, env);
+			continue ;
+		}
 		*new = *s;
 		s++;
 		new++;
@@ -72,25 +84,27 @@ static void	trimquote(char **ps, char *es, char **argv)
 	*ps = s;
 }
 
-void	parsequote(char **ps, char *es, char **argv)
+void	parsequote(char **ps, char *es, char **argv, t_env *env)
 {
 	int		len;
 	char	quote;
 
 	quote = '\0';
-	len = quotelen(*ps, es, &quote);
+	if (!argv)
+	{
+		while ((*ps) < es && !ft_strchr(WHITESPACE, **ps)
+			&& !ft_strchr(SYMBOLS, **ps))
+			(*ps)++;
+		return ;
+	}
+	len = quotelen(*ps, es, &quote, env);
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
 		exit(1);
 	}
-	if (!argv)
-	{
-		*ps += len;
-		return ;
-	}
 	*argv = ft_calloc(sizeof(char), (len + 1));
 	if (!*argv)
 		print_error("malloc error");
-	trimquote(ps, es, argv);
+	trimquote(ps, es, argv, env);
 }

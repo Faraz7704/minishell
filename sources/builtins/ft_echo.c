@@ -3,38 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 00:22:57 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/10/27 18:27:56 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_n_compere(char *flag)
+static int	ft_n_compere(char *flag)
 {
 	int	i;
 
 	i = 0;
 	if (flag != NULL)
 	{
-		if(flag[i] == '-')
-			i++;
-		else 
+		if (flag[i] != '-')
 			return (1);
-
-		while(flag[i])
+		i++;
+		while (flag[i])
 		{
-			if (flag[i] == 'n')
-				i++;
-			else
+			if (flag[i] != 'n')
 				return (1);
+			i++;
 		}
-			return (0);
+		return (0);
 	}
-	else
-		return (1);
+	return (1);
 }
 
 void	ft_echo(char **argv)
