@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 13:06:35 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 18:42:34 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,46 @@ void	expandline(char **ps, char *es, char **argv, t_env *env)
 	}
 	**argv = *(*ps - 1);
 	(*argv)++;
+}
+
+char	*expandline_v2(char *ps, char *es, t_env *env)
+{
+	t_km	*km;
+	char	*new;
+	char	*temp;
+	char	*s;
+	int		i;
+	size_t	len;
+
+	len = ft_strclen(ps, *es) + 1;
+	new = ft_calloc(sizeof(char), len);
+	if (!new)
+		print_error("malloc error\n");
+	i = 0;
+	s = ps;
+	while (s < es)
+	{
+		if (*s == '$')
+		{
+			s++;
+			if (s < es && !ft_strchr(WHITESPACE, *s))
+			{
+				km = parsekeymap(&s, es, env);
+				if (km)
+				{
+					len = (len - (ft_strlen(km->key) + 1)) + ft_strlen(km->val);
+					temp = new;
+					new = ft_strljoin(new, km->val, len);
+					free(temp);
+					i += ft_strlen(km->val);
+				}
+				continue ;
+			}
+			s--;
+		}
+		new[i] = *s;
+		i++;
+		s++;
+	}
+	return (new);
 }

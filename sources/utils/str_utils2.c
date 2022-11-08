@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/16 19:33:06 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:09:03 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,16 @@ void	ft_remove_char(char *str, char c)
 		}
 		i++;
 	}
+}
+
+char	*ft_strljoin(char *s1, char *s2, int n)
+{
+	char	*new;
+
+	new = ft_calloc(sizeof(char), n);
+	if (!new)
+		print_error("malloc error");
+	new += ft_strlcpy(new, s1, ft_strlen(s1));
+	ft_strlcpy(new, s2, ft_strlen(s2) + 1);
+	return (new);
 }

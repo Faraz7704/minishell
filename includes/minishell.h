@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 13:32:55 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 15:29:16 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int			ft_strcontains(char *s1, char *s2);
 // str_utils2
 char		*ft_first_word(char *str);
 void		ft_remove_char(char *str, char c);
+char		*ft_strljoin(char *s1, char *s2, int n);
 
 // list_utils
 void		ft_lstdel(void *content);
