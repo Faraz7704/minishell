@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/25 02:20:12 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 13:06:01 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	init_fd();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &ctrl_c);
+	init_fd();
 	m_env = init_env(env);
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
 	{

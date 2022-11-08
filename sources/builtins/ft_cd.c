@@ -6,36 +6,62 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 01:53:56 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 10:18:38 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 
-void	ft_chdir(char *path, t_list	*kms)
+static int	ft_chspecial(char *path, char *key, t_list *kms)
 {
-	t_list	*home_km;
+	t_list	*km;
+
+	km = find_keymap_key(kms, key);
+	if (km && chdir(((t_km *)km->content)->val) < 0)
+	{
+		ft_fprintf(2, "cd: %s: No such file or directory\n", path);
+		return (2);
+	}
+	else if (!km)
+	{
+		ft_fprintf(2, "cd: %s not set\n", key);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_chdir(char *path)
+{
 	char	*parse_path;
 
-	if (!path || *path == '~')
-	{
-		home_km = find_keymap_key(kms, "HOME");
-		if (home_km && chdir(((t_km *)home_km->content)->val) < 0)
-			ft_fprintf(2, "cd: %s: No such file or directory\n", path);
-		else if (!home_km)
-			ft_fprintf(2, "cd: HOME not set\n");
-		return ;
-	}
 	parse_path = ft_first_word(path);
 	if (chdir(parse_path) < 0)
+	{
 		ft_fprintf(2, "cd: %s: No such file or directory\n", parse_path);
+		return (1);
+	}
 	free(parse_path);
+	return (0);
 }
 
 void	ft_cd(char **argv, t_env *env)
 {
+	char	*path;
+
+	path = argv[1];
+	if (!path || *path == '-')
+	{
+		if (!ft_chspecial(path, "OLDPWD", env->kms))
+			ft_printf("%s\n", ft_get_pwd());
+		return ;
+	}
+	if (!path || *path == '~')
+	{
+		ft_chspecial(path, "HOME", env->kms);
+		return ;
+	}
 	ft_update_pwd("OLDPWD", env);
-	ft_chdir(argv[1], env->kms);
+	ft_chdir(path);
 	ft_update_pwd("PWD", env);
 }

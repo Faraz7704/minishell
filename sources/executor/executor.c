@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 16:48:17 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:29:32 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ int	run_redircmd(t_cmd *cmd)
 				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
 			exit(1);
 		}
-		if (dup2(fd_redirect, rcmd->fd) < 0)
-		{
-			ft_fprintf(2, "dup2 has failed\n");
-			exit(0);
-		}
 		runcmd(rcmd->cmd);
 		exit(0);
 	}
@@ -67,17 +62,17 @@ int	run_redircmd(t_cmd *cmd)
 	return (0);
 }
 
-int	child_pipecmd(t_cmd *cmd, int *argv)
+int	child_pipecmd(t_cmd *cmd, int fd, int pipe_in, int pipe_out)
 {
 	int	p_id;
 
 	p_id = ft_fork();
 	if (p_id == 0)
 	{
-		close(argv[2]);
-		dup2(argv[1], argv[0]);
+		close(pipe_out);
+		dup2(pipe_in, fd);
 		runcmd(cmd);
-		close(argv[1]);
+		close(pipe_in);
 		exit(0);
 	}
 	return (p_id);
@@ -88,19 +83,12 @@ int	run_pipecmd(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	int			fd_pipe[2];
 	int			p_ids[2];
-	int			fdargs[3];
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(fd_pipe) < 0)
 		print_error("pipe");
-	fdargs[0] = STDOUT_FILENO;
-	fdargs[1] = fd_pipe[1];
-	fdargs[2] = fd_pipe[0];
-	p_ids[0] = child_pipecmd(pcmd->left, fdargs);
-	fdargs[0] = STDIN_FILENO;
-	fdargs[1] = fd_pipe[0];
-	fdargs[2] = fd_pipe[1];
-	p_ids[1] = child_pipecmd(pcmd->right, fdargs);
+	p_ids[0] = child_pipecmd(pcmd->left, STDOUT_FILENO, fd_pipe[1], fd_pipe[0]);
+	p_ids[1] = child_pipecmd(pcmd->right, STDIN_FILENO, fd_pipe[0], fd_pipe[1]);
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
 	waitpid(p_ids[0], NULL, 0);

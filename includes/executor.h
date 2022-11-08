@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/24 23:37:16 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/08 12:55:14 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char				*ft_get_pwd(void);
 char				*ft_update_pwd(char *key, t_env *env);
 void				ft_unset(char **argv, t_env *env);
 void				ft_cd(char **argv, t_env *env);
-void				ft_chdir(char *path, t_list	*kms);
+int					ft_chdir(char *path);
 void				ft_execve(char *cmd, char **argv, t_env *env);
 
 // executor_utils
