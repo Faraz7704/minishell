@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 13:29:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:35:50 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	run_redircmd(t_cmd *cmd)
 	t_redircmd	*rcmd;
 	int			p_id;
 	int			fd_redirect;
+	int			stat;
 
 	rcmd = (t_redircmd *)cmd;
 	p_id = ft_fork();
@@ -53,12 +54,13 @@ int	run_redircmd(t_cmd *cmd)
 				ft_fprintf(2, "%s: Permission denied\n", rcmd->file);
 			else
 				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
-			exit(1);
+			exit(1); // why you need this?
 		}
 		runcmd(rcmd->cmd);
-		exit(0);
+		exit(0);// why you need this?
 	}
-	waitpid(p_id, NULL, 0);
+	waitpid(p_id, &stat, 0);
+	g_var = stat;
 	return (0);
 }
 
@@ -83,6 +85,7 @@ int	run_pipecmd(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	int			fd_pipe[2];
 	int			p_ids[2];
+	int			stat;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(fd_pipe) < 0)
@@ -92,7 +95,8 @@ int	run_pipecmd(t_cmd *cmd)
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
 	waitpid(p_ids[0], NULL, 0);
-	waitpid(p_ids[1], NULL, 0);
+	waitpid(p_ids[1], &stat, 0);
+	g_var = stat;
 	return (0);
 }
 

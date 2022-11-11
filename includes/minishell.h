@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 15:29:16 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:11:49 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_keymap
 	char			*val;
 }	t_km;
 
+int	g_var;
+
 // main
 pid_t		ft_fork(void);
 int			getcmd(char *prefix, char **buf);
@@ -131,5 +133,6 @@ void		sig_handler(int sig_num);
 void		ctrl_c(int sig);
 int			ctrl_d(void);
 void		sig_handler_heredoc(int sig_num);
+void		define_input_signals(void);
 
 #endif

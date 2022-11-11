@@ -3,25 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:59:13 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/11/08 18:24:14 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:38:00 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	define_input_signals(void)
+{
+	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 int	ctrl_d(void)
 {
-	printf("Exit");
-	exit(1);
+	g_var = 131;
+	ft_printf("Exit");
+	exit(g_var);
 }
 
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	printf("\n");
+	g_var = 130;
+	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -31,7 +39,7 @@ void	sig_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		printf("\n");
+		ft_printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

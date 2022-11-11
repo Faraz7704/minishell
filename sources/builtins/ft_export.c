@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:23:00 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 02:37:58 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:32:53 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_export(char **argv, t_env *env)
 			add_keymap(&env->kms, argv[i]);
 		i++;
 	}
+	g_var = 0;
 	if (i == 1)
 		print_export(env->kms);
 }
