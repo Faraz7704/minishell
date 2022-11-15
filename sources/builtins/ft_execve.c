@@ -17,7 +17,6 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 {
 	char	*path;
 	pid_t	p_id;
-	int		stat;
 
 	update_env(env);
 	p_id = ft_fork();
@@ -26,9 +25,7 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 		path = full_command_path(cmd, env->env);
 		execve(path, argv, env->env);
 		ft_fprintf(2, "%s: command not found\n", cmd);
-		exit_app(127, 0, 0);
+		exit_app(127);
 	}
-	waitpid(p_id, &stat, 0);
-	if (WEXITSTATUS(stat))
-		g_var = WEXITSTATUS(stat);
+	waitpid(p_id, &g_appinfo.exit_status, 0);
 }

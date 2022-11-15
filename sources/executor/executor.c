@@ -50,7 +50,7 @@ int	run_redircmd(t_cmd *cmd)
 			dup2(rcmd->fd, STDIN_FILENO);
 			runcmd(rcmd->cmd);
 			close(rcmd->fd);
-			exit_app(0, 0, 0);
+			exit_app(0);
 		}
 		close(rcmd->fd);
 		fd_redirect = open(rcmd->file, rcmd->mode, 0666);
@@ -60,12 +60,12 @@ int	run_redircmd(t_cmd *cmd)
 				ft_fprintf(2, "%s: Permission denied\n", rcmd->file);
 			else
 				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
-			exit_app(1, 0, 0);
+			exit_app(1);
 		}
 		runcmd(rcmd->cmd);
-		exit_app(0, 0, 0);
+		exit_app(0);
 	}
-	waitpid(p_id, &g_var, 0);
+	waitpid(p_id, &g_appinfo.exit_status, 0);
 	return (0);
 }
 
@@ -80,7 +80,7 @@ int	child_pipecmd(t_cmd *cmd, int fd, int pipe_in, int pipe_out)
 		dup2(pipe_in, fd);
 		runcmd(cmd);
 		close(pipe_in);
-		exit_app(0, 0, 0);
+		exit_app(0);
 	}
 	return (p_id);
 }
@@ -90,7 +90,6 @@ int	run_pipecmd(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	int			fd_pipe[2];
 	int			p_ids[2];
-	int			stat;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(fd_pipe) < 0)
@@ -99,9 +98,8 @@ int	run_pipecmd(t_cmd *cmd)
 	p_ids[1] = child_pipecmd(pcmd->right, STDIN_FILENO, fd_pipe[0], fd_pipe[1]);
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
-	waitpid(p_ids[0], NULL, 0);
-	waitpid(p_ids[1], &stat, 0);
-	g_var = stat;
+	waitpid(p_ids[0], &g_appinfo.exit_status, 0);
+	waitpid(p_ids[1], &g_appinfo.exit_status, 0);
 	return (0);
 }
 

@@ -18,17 +18,17 @@ void	define_input_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	ctrl_d(void)
+void	ctrl_d(void)
 {
-	g_var = 131;
+	g_appinfo.exit_status = 131;
 	ft_printf("Exit");
-	exit(g_var);
+	exit_app(g_appinfo.exit_status);
 }
 
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	g_var = 130;
+	g_appinfo.exit_status = 130;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -50,5 +50,5 @@ void	sig_handler(int sig_num)
 void	sig_handler_heredoc(int sig_num)
 {
 	if (sig_num == SIGINT)
-		exit(1);
+		exit_app(1);
 }

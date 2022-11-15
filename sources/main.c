@@ -14,7 +14,7 @@
 #include "executor.h"
 #include "parser.h"
 
-int	g_var;
+t_appinfo	g_appinfo;
 
 static void	init_fd(void)
 {
@@ -90,42 +90,30 @@ static void	clear_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	exit_app(int code, t_cmd *cmd, t_env *env)
+void	exit_app(int status)
 {
-	static t_cmd	*m_cmd = NULL;
-	static t_env	*m_env = NULL;
-
-	if (code == -1)
-	{
-		m_cmd = cmd;
-		m_env = env;
-		return ;
-	}
-	clear_cmd(m_cmd);
-	clear_env(m_env);
+	clear_cmd(g_appinfo.cmd);
+	clear_env(g_appinfo.env);
 	exit_fd();
-	exit(code);
+	exit(status);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	char	*buf;
-	t_env	*m_env;
-	t_cmd	*cmd;
 
 	(void)ac;
 	(void)av;
 	define_input_signals();
 	init_fd();
-	m_env = init_env(env);
+	g_appinfo.exit_status = 0;
+	g_appinfo.env = init_env(env);
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
 	{
-		cmd = parsecmd(buf, m_env);
-		exit_app(-1, cmd, m_env);
-		runcmd(cmd);
+		g_appinfo.cmd = parsecmd(buf, g_appinfo.env);
+		runcmd(g_appinfo.cmd);
 		free(buf);
-		ft_printf("%d\n", g_var);
 	}
-	exit_app(0, 0, 0);
-	return (g_var);
+	exit_app(g_appinfo.exit_status);
+	return (g_appinfo.exit_status);
 }

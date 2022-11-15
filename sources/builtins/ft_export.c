@@ -39,7 +39,6 @@ void	ft_export(char **argv, t_env *env)
 			add_keymap(&env->kms, argv[i]);
 		i++;
 	}
-	g_var = 0;
 	if (i == 1)
 		print_export(env->kms);
 }

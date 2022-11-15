@@ -54,5 +54,4 @@ void	ft_echo(char **argv)
 	}
 	if (n == 0)
 		ft_printf("\n");
-	g_var = 0;
 }

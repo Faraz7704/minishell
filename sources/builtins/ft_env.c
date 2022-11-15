@@ -15,5 +15,4 @@
 void	ft_env(t_env *env)
 {
 	print_env(env->kms);
-	g_var = 0;
 }

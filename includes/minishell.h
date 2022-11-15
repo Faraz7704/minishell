@@ -81,12 +81,17 @@ typedef struct s_keymap
 	char			*val;
 }	t_km;
 
-int	g_var;
+typedef struct s_appinfo
+{
+	int			exit_status;
+	t_cmd		*cmd;
+	t_env		*env;
+}	t_appinfo;
 
 // main
 pid_t		ft_fork(void);
 int			getcmd(char *prefix, char **buf);
-void		exit_app(int code, t_cmd *cmd, t_env *env);
+void		exit_app(int status);
 
 // debug
 void		print_error(char *s);
@@ -131,8 +136,10 @@ void		ft_lstdel(void *content);
 //signals
 void		sig_handler(int sig_num);
 void		ctrl_c(int sig);
-int			ctrl_d(void);
+void		ctrl_d(void);
 void		sig_handler_heredoc(int sig_num);
 void		define_input_signals(void);
+
+extern t_appinfo	g_appinfo;
 
 #endif

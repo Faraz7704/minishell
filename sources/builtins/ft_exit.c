@@ -67,7 +67,7 @@ void	ft_exit(char **argv, t_env *env)
 	(void) env;
 	minus = 0;
 	if (!argv || !argv[1])
-		exit_app(0, 0, 0);
+		exit_app(0);
 	if (argv[2])
 	{
 		ft_fprintf(2, "exit: too many arguments");
@@ -79,9 +79,9 @@ void	ft_exit(char **argv, t_env *env)
 		(minus && ft_atoull(argv[1], &minus) - 1 > __LONG_LONG_MAX__)))
 	{
 		ft_fprintf(2, "exit: %s: numeric argument required\n", argv[1]);
-		exit_app(255, 0, 0);
+		exit_app(255);
 	}
 	ft_printf("exit\n");
-	g_var = ft_atoi(argv[1]) % 256;
-	exit_app(g_var, 0, 0);
+	g_appinfo.exit_status = ft_atoi(argv[1]) % 256;
+	exit_app(g_appinfo.exit_status);
 }
