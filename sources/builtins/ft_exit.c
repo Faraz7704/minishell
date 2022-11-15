@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 18:39:54 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/22 16:39:41 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:32:42 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ void	ft_exit(char **argv, t_env *env)
 		ft_fprintf(2, "exit: %s: numeric argument required\n", argv[1]);
 		exit_app(255, 0, 0);
 	}
-	exit_app((int)(ft_atoi(argv[1]) % 256), 0, 0);
+	ft_printf("exit\n");
+	g_var = ft_atoi(argv[1]) % 256;
+	exit_app(g_var, 0, 0);
 }

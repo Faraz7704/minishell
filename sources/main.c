@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 13:06:01 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:14:16 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 #include "parser.h"
+
+int	g_var;
 
 static void	init_fd(void)
 {
@@ -113,8 +115,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, &ctrl_c);
+	define_input_signals();
 	init_fd();
 	m_env = init_env(env);
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
@@ -123,8 +124,8 @@ int	main(int ac, char **av, char **env)
 		exit_app(-1, cmd, m_env);
 		runcmd(cmd);
 		free(buf);
+		ft_printf("%d\n", g_var);
 	}
-	// rl_clear_history();
 	exit_app(0, 0, 0);
-	return (0);
+	return (g_var);
 }

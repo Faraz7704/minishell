@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 02:13:42 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:36:27 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 {
 	char	*path;
 	pid_t	p_id;
+	int		stat;
 
 	update_env(env);
 	p_id = ft_fork();
@@ -25,7 +26,9 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 		path = full_command_path(cmd, env->env);
 		execve(path, argv, env->env);
 		ft_fprintf(2, "%s: command not found\n", cmd);
-		exit_app(1, 0, 0);
+		exit_app(127, 0, 0);
 	}
-	waitpid(p_id, NULL, 0);
+	waitpid(p_id, &stat, 0);
+	if (WEXITSTATUS(stat))
+		g_var = WEXITSTATUS(stat);
 }

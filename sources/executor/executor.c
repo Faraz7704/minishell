@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
+/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 13:29:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/11 21:35:50 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ int	run_redircmd(t_cmd *cmd)
 		runcmd(rcmd->cmd);
 		exit_app(0, 0, 0);
 	}
-	waitpid(p_id, NULL, 0);
-	if (rcmd->fd > 2)
-		close(rcmd->fd);
+	waitpid(p_id, &g_var, 0);
 	return (0);
 }
 
@@ -92,6 +90,7 @@ int	run_pipecmd(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	int			fd_pipe[2];
 	int			p_ids[2];
+	int			stat;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(fd_pipe) < 0)
@@ -101,7 +100,8 @@ int	run_pipecmd(t_cmd *cmd)
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
 	waitpid(p_ids[0], NULL, 0);
-	waitpid(p_ids[1], NULL, 0);
+	waitpid(p_ids[1], &stat, 0);
+	g_var = stat;
 	return (0);
 }
 
