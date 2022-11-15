@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME 				= minishell
-CC 					= gcc
+CC 					= gcc -g
 FLAGS 				= -Wall -Werror -Wextra
 INCLUDES 			= -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) \
 						-I$(FT_PRINTF_HEADERS) -I/usr/local/opt/readline/include

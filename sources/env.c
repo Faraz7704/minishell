@@ -19,20 +19,27 @@ t_env	*init_env(char **env)
 	t_env	*new;
 	t_km	*km;
 
+	(void)env;
 	new = malloc(sizeof(t_env));
 	if (!new)
 		print_error("malloc error\n");
-	new->kms = NULL;
-	new->env = env;
-	i = 0;
 	size = ft_strdlen(env);
+	new->kms = NULL;
+	new->env = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!new->env)
+		print_error("malloc error\n");
+	i = 0;
 	while (i < size)
 	{
 		km = malloc(sizeof(t_km));
+		if (!km)
+			print_error("malloc error\n");
 		update_keymap(km, env[i]);
+		new->env[i] = ft_strdup(env[i]);
 		ft_lstadd_back(&new->kms, ft_lstnew(km));
 		i++;
 	}
+	new->env[i] = 0;
 	return (new);
 }
 
@@ -49,7 +56,7 @@ char	**ft_getenv(t_list *lst)
 	i = 0;
 	while (curr)
 	{
-		ret[i++] = mergekeymap((t_km *)curr->content);
+		ret[i++] = merge_keymap((t_km *)curr->content);
 		curr = curr->next;
 	}
 	ret[i] = 0;
@@ -58,14 +65,26 @@ char	**ft_getenv(t_list *lst)
 
 void	update_env(t_env *env)
 {
-	if (!env->env)
-		free(env->env);
+	ft_clearsplit(env->env);
 	env->env = ft_getenv(env->kms);
+}
+
+void	clear_keymap(void *content)
+{
+	t_km	*km;
+
+	km = (t_km *)content;
+	free(km->key);
+	free(km->val);
+	free(km);
 }
 
 void	clear_env(t_env *env)
 {
-	if (!env->env)
-		free(env->env);
-	ft_lstclear(&env->kms, ft_lstdel);
+	if (!env)
+		return ;
+	ft_clearsplit(env->env);
+	ft_lstclear(&env->kms, clear_keymap);
+	free(env->kms);
+	free(env);
 }

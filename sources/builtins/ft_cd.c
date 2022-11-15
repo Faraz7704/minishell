@@ -39,6 +39,7 @@ int	ft_chdir(char *path)
 	if (chdir(parse_path) < 0)
 	{
 		ft_fprintf(2, "cd: %s: No such file or directory\n", parse_path);
+		free(parse_path);
 		return (1);
 	}
 	free(parse_path);
@@ -48,12 +49,17 @@ int	ft_chdir(char *path)
 void	ft_cd(char **argv, t_env *env)
 {
 	char	*path;
+	char	*pwd;
 
 	path = argv[1];
 	if (!path || *path == '-')
 	{
 		if (!ft_chspecial(path, "OLDPWD", env->kms))
-			ft_printf("%s\n", ft_get_pwd());
+		{
+			pwd = ft_get_pwd();
+			ft_printf("%s\n", pwd);
+			free(pwd);
+		}
 		return ;
 	}
 	if (!path || *path == '~')

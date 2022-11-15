@@ -32,20 +32,25 @@ void	ft_pwd(void)
 	free(pwd);
 }
 
-char	*ft_update_pwd(char *key, t_env *env)
+void	ft_update_pwd(char *key, t_env *env)
 {
 	t_list	*curr;
 	char	*keyvalue;
 	char	*keytemp;
+	char	*pwdtemp;
 
 	keyvalue = NULL;
 	curr = find_keymap_key(env->kms, key);
 	if (curr)
 	{
 		keytemp = ft_strjoin(key, "=");
-		keyvalue = ft_strjoin(keytemp, ft_get_pwd());
+		pwdtemp = ft_get_pwd();
+		keyvalue = ft_strjoin(keytemp, pwdtemp);
 		free(keytemp);
+		free(pwdtemp);
+		free(((t_km *)curr->content)->key);
+		free(((t_km *)curr->content)->val);
 		update_keymap((t_km *)curr->content, keyvalue);
+		free(keyvalue);
 	}
-	return (keyvalue);
 }

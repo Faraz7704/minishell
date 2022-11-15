@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*mergekeymap(t_km *km)
+char	*merge_keymap(t_km *km)
 {
 	char	*ret;
 	char	*temp;
@@ -69,10 +69,17 @@ void	add_keymap(t_list **lst, char *keyvalue)
 
 	curr = find_keymap_key(lst[0], keyvalue);
 	if (curr)
-		update_keymap((t_km *)curr->content, keyvalue);
+	{
+		km = (t_km *)curr->content;
+		free(km->key);
+		free(km->val);
+		update_keymap(km, keyvalue);
+	}
 	else
 	{
 		km = malloc(sizeof(t_km));
+		if (!km)
+			print_error("malloc error\n");
 		update_keymap(km, keyvalue);
 		ft_lstadd_back(lst, ft_lstnew(km));
 	}
@@ -95,6 +102,7 @@ void	remove_keymap(t_list **lst, char *key)
 				last->next = next;
 			else
 				lst[0] = next;
+			clear_keymap(curr->content);
 			free(curr);
 			curr = NULL;
 		}

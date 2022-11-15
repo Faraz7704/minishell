@@ -26,13 +26,13 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 			print_error("missing file for redirection");
 		cmd = parseredirs(cmd, ps, es, env);
 		if (tok == '<')
-			cmd = redircmd(cmd, file, O_RDONLY, 0);
+			cmd = redircmd(cmd, file, O_RDONLY, STDIN_FILENO);
 		else if (tok == '>')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, 1);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
 		else if (tok == '+')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
 		else if (tok == '-')
-			cmd = heredoc(cmd, ".tmp", file, env);
+			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 	}
 	else
 	{
@@ -42,36 +42,37 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	return (cmd);
 }
 
-t_cmd	*heredoc(t_cmd *cmd, char *file, char *delim, t_env *env)
+t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
 {
-	char	*buf;
-	char	*temp;
-	int		fd;
+	char		*buf;
+	char		*temp;
+	static int	pipe_out = -1;
+	int			fd_pipe[2];
 
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (fd < 0)
-	{
-		ft_fprintf(2, "%s: Open failed fro heredoc\n", file);
-		exit(1);
-	}
+	if (pipe(fd_pipe) < 0)
+		print_error("pipe");
+	if (pipe_out >= 0)
+		close(pipe_out);
+	pipe_out = fd_pipe[0];
 	while (1)
 	{
 		buf = readline("> ");
 		if (!buf)
 			break ;
-		if (ft_strequals(buf, delim))
+		temp = expandline_v2(buf, buf + ft_strlen(buf), env);
+		if (ft_strequals(temp, delim))
 		{
 			free(buf);
+			free(temp);
 			break ;
 		}
-		temp = expandline_v2(buf, buf + ft_strlen(buf), env);
-		ft_fprintf(fd, "%s\n", temp);
+		ft_fprintf(fd_pipe[1], "%s\n", temp);
 		free(buf);
 		free(temp);
 	}
-	close(fd);
-	cmd = redircmd(cmd, file, O_RDONLY, 0);
-	return (cmd);
+	close(fd_pipe[1]);
+	free(delim);
+	return (redircmd(subcmd, file, O_RDONLY, pipe_out));
 }
 
 t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd)

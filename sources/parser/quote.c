@@ -94,7 +94,7 @@ void	parsequote(char **ps, char *es, char **argv, t_env *env)
 	{
 		while ((*ps) < es && !ft_strchr(WHITESPACE, **ps)
 			&& !ft_strchr(SYMBOLS, **ps))
-			(*ps)++;
+				(*ps)++;
 		return ;
 	}
 	len = quotelen(*ps, es, &quote, env);

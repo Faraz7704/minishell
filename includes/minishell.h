@@ -35,13 +35,11 @@
 # define SYMBOLS "<|>()"
 # define QUOTES "\'\""
 
-# define MAXARGS 10
-
-enum e_cmd_type {
+typedef enum e_cmd_type {
 	EXEC = 0,
 	PIPE = 1,
 	REDIR = 2,
-}	cmd_type;
+}	t_cmd_type;
 
 typedef struct s_env
 {
@@ -51,27 +49,26 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	enum e_cmd_type	type;
-	t_env			*env;
+	t_cmd_type		type;
 }	t_cmd;
 
 typedef struct s_execcmd
 {
-	enum e_cmd_type	type;
+	t_cmd_type		type;
+	char			**argv;
 	t_env			*env;
-	char			*argv[MAXARGS];
 }	t_execcmd;
 
 typedef struct s_pipecmd
 {
-	enum e_cmd_type	type;
+	t_cmd_type		type;
 	t_cmd			*left;
 	t_cmd			*right;
 }	t_pipecmd;
 
 typedef struct s_redircmd
 {
-	enum e_cmd_type	type;
+	t_cmd_type		type;
 	t_cmd			*cmd;
 	char			*file;
 	int				mode;
@@ -87,6 +84,7 @@ typedef struct s_keymap
 // main
 pid_t		ft_fork(void);
 int			getcmd(char *prefix, char **buf);
+void		exit_app(int code, t_cmd *cmd, t_env *env);
 
 // debug
 void		print_error(char *s);
@@ -96,7 +94,7 @@ void		print_env(t_list *lst);
 void		print_strsplit(char **split);
 
 // keymap
-char		*mergekeymap(t_km *km);
+char		*merge_keymap(t_km *km);
 void		add_keymap(t_list **lst, char *keyvalue);
 void		update_keymap(t_km *km, char *keyvalue);
 t_list		*find_keymap_key(t_list *lst, char *keyvalue);
@@ -107,6 +105,7 @@ t_env		*init_env(char **env);
 char		**ft_getenv(t_list *lst);
 void		update_env(t_env *env);
 void		clear_env(t_env *env);
+void		clear_keymap(void *content);
 
 // sort_list
 t_list		*sort_keymap_alpha(t_list *lst);
@@ -122,6 +121,7 @@ int			ft_strcontains(char *s1, char *s2);
 char		*ft_first_word(char *str);
 void		ft_remove_char(char *str, char c);
 char		*ft_strljoin(char *s1, char *s2, int n);
+void		ft_clearsplit(char **str);
 
 // list_utils
 void		ft_lstdel(void *content);

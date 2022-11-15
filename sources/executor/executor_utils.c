@@ -47,6 +47,8 @@ char	*make_command(char *path, char *bin)
 	char	*buff;
 
 	buff = malloc(sizeof(char) * (len_ch(path, 0) + len_ch(bin, 0) + 2));
+	if (!buff)
+		print_error("malloc error");
 	i = 0;
 	j = 0;
 	while (path[j])
@@ -68,6 +70,8 @@ char	*str_ndup(char *str, unsigned int n)
 
 	i = 0;
 	buff = malloc(sizeof(char) * (n + 1));
+	if (!buff)
+		print_error("malloc error");
 	while (i < n)
 		buff[i++] = *str++;
 	buff[n] = 0;

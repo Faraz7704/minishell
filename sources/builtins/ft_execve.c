@@ -19,13 +19,13 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 	pid_t	p_id;
 
 	update_env(env);
-	path = full_command_path(cmd, env->env);
 	p_id = ft_fork();
 	if (p_id == 0)
 	{
+		path = full_command_path(cmd, env->env);
 		execve(path, argv, env->env);
 		ft_fprintf(2, "%s: command not found\n", cmd);
-		exit(1);
+		exit_app(1, 0, 0);
 	}
 	waitpid(p_id, NULL, 0);
 }

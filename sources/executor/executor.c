@@ -45,6 +45,13 @@ int	run_redircmd(t_cmd *cmd)
 	p_id = ft_fork();
 	if (p_id == 0)
 	{
+		if (ft_strequals(rcmd->file, ".") && rcmd->fd > 2)
+		{
+			dup2(rcmd->fd, STDIN_FILENO);
+			runcmd(rcmd->cmd);
+			close(rcmd->fd);
+			exit_app(0, 0, 0);
+		}
 		close(rcmd->fd);
 		fd_redirect = open(rcmd->file, rcmd->mode, 0666);
 		if (fd_redirect < 0)
@@ -53,12 +60,14 @@ int	run_redircmd(t_cmd *cmd)
 				ft_fprintf(2, "%s: Permission denied\n", rcmd->file);
 			else
 				ft_fprintf(2, "%s: Open failed\n", rcmd->file);
-			exit(1);
+			exit_app(1, 0, 0);
 		}
 		runcmd(rcmd->cmd);
-		exit(0);
+		exit_app(0, 0, 0);
 	}
 	waitpid(p_id, NULL, 0);
+	if (rcmd->fd > 2)
+		close(rcmd->fd);
 	return (0);
 }
 
@@ -73,7 +82,7 @@ int	child_pipecmd(t_cmd *cmd, int fd, int pipe_in, int pipe_out)
 		dup2(pipe_in, fd);
 		runcmd(cmd);
 		close(pipe_in);
-		exit(0);
+		exit_app(0, 0, 0);
 	}
 	return (p_id);
 }

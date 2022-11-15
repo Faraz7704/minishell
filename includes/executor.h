@@ -26,7 +26,7 @@ void				ft_exit(char **argv, t_env *env);
 void				ft_export(char **argv, t_env *env);
 void				ft_pwd(void);
 char				*ft_get_pwd(void);
-char				*ft_update_pwd(char *key, t_env *env);
+void				ft_update_pwd(char *key, t_env *env);
 void				ft_unset(char **argv, t_env *env);
 void				ft_cd(char **argv, t_env *env);
 int					ft_chdir(char *path);

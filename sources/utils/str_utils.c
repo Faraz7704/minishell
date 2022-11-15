@@ -26,7 +26,7 @@ char	*ft_strldup(char *src, int size)
 {
 	char	*dst;
 
-	dst = malloc(sizeof(char *) * size);
+	dst = malloc(sizeof(char) * size);
 	if (!dst)
 		return (0);
 	ft_strlcpy(dst, src, size);

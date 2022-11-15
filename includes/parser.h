@@ -31,7 +31,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 // redirs
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env);
 t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd);
-t_cmd	*heredoc(t_cmd *cmd, char *file, char *delim, t_env *env);
+t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env);
 
 // block
 t_cmd	*parseblock(char **ps, char *es, t_env *env);
