@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:59:13 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/11/11 21:38:00 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:58:35 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@ void	ctrl_d(void)
 
 void	ctrl_c(int sig)
 {
+	int		ret;
+
 	(void)sig;
-	g_appinfo.exit_status = 130;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	ret = waitpid(-1, NULL, WNOHANG);
+	if (ret == -1 && sig == SIGINT)
+	{
+		g_appinfo.exit_status = 130;
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 void	sig_handler(int sig_num)
