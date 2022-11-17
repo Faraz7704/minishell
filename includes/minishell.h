@@ -28,6 +28,7 @@
 # include <readline/readline.h> //readline, rl_on_new_line, rl_replace_line
 # include <readline/history.h> //rl_clear_history, add_history, rl_redisplay
 # include <term.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <errno.h>
 # include "ft_printf.h"
 # include "libft.h"
 
@@ -83,9 +84,9 @@ typedef struct s_keymap
 
 typedef struct s_appinfo
 {
-	int			exit_status;
 	t_cmd		*cmd;
 	t_env		*env;
+	int			exit_status;
 }	t_appinfo;
 
 // main

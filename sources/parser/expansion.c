@@ -18,7 +18,7 @@ char	*parsekey(char *q, char *eq)
 	char	*key;
 
 	i = 0;
-	if (&q[i] < eq && ft_isdigit(q[i]))
+	if (&q[i] < eq && (ft_isdigit(q[i]) || q[i] == '?'))
 		i++;
 	else
 	{
@@ -68,7 +68,7 @@ void	expandline(char **ps, char *es, char **argv, t_env *env)
 	t_km	*km;
 
 	(*ps)++;
-	if (*ps < es && !ft_strchr(WHITESPACE, **ps))
+	if (*ps < es && !ft_strchr(WHITESPACE, **ps) && !ft_strchr(QUOTES, **ps))
 	{
 		km = parsekeymap(ps, es, env);
 		if (km)
@@ -78,7 +78,7 @@ void	expandline(char **ps, char *es, char **argv, t_env *env)
 		}
 		return ;
 	}
-	**argv = *(*ps - 1);
+	**argv = *((*ps) - 1);
 	(*argv)++;
 }
 

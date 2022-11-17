@@ -47,7 +47,8 @@ size_t	ft_strdlen(char **s)
 
 int	ft_strequals(char *s1, char *s2)
 {
-	return (s1 && s2 && !ft_strncmp(s1, s2, ft_strlen(s1)));
+	return (s1 && s2 && ft_strlen(s1) == ft_strlen(s2)
+		&& !ft_strncmp(s1, s2, ft_strlen(s1)));
 }
 
 int	ft_strcontains(char *s1, char *s2)

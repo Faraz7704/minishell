@@ -21,6 +21,7 @@ static int	ft_chspecial(char *path, char *key, t_list *kms)
 	if (km && chdir(((t_km *)km->content)->val) < 0)
 	{
 		ft_fprintf(2, "cd: %s: No such file or directory\n", path);
+		g_appinfo.exit_status = 1;
 		return (2);
 	}
 	else if (!km)
@@ -39,6 +40,7 @@ int	ft_chdir(char *path)
 	if (chdir(parse_path) < 0)
 	{
 		ft_fprintf(2, "cd: %s: No such file or directory\n", parse_path);
+		g_appinfo.exit_status = 1;
 		free(parse_path);
 		return (1);
 	}
@@ -57,8 +59,11 @@ void	ft_cd(char **argv, t_env *env)
 		if (!ft_chspecial(path, "OLDPWD", env->kms))
 		{
 			pwd = ft_get_pwd();
-			ft_printf("%s\n", pwd);
-			free(pwd);
+			if (pwd)
+			{
+				ft_printf("%s\n", pwd);
+				free(pwd);
+			}
 		}
 		return ;
 	}

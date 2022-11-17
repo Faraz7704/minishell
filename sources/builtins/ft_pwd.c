@@ -23,13 +23,22 @@ char	*ft_get_pwd(void)
 void	ft_pwd(void)
 {
 	char	*pwd;
+	t_list	*curr;
 
 	pwd = ft_get_pwd();
 	if (pwd)
+	{
 		ft_printf("%s\n", pwd);
+		free(pwd);
+	}
 	else
-		print_error("Error\n");
-	free(pwd);
+	{
+		curr = find_keymap_key(g_appinfo.env->kms, "PWD");
+		if (curr)
+			ft_printf("%s\n", ((t_km *)curr->content)->val);
+		else
+			ft_printf("error: can't find PWD\n");
+	}
 }
 
 void	ft_update_pwd(char *key, t_env *env)
@@ -45,6 +54,12 @@ void	ft_update_pwd(char *key, t_env *env)
 	{
 		keytemp = ft_strjoin(key, "=");
 		pwdtemp = ft_get_pwd();
+		if (!pwdtemp)
+		{
+			free(keytemp);
+			free(pwdtemp);
+			return ;
+		}
 		keyvalue = ft_strjoin(keytemp, pwdtemp);
 		free(keytemp);
 		free(pwdtemp);

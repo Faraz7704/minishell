@@ -95,7 +95,20 @@ void	exit_app(int status)
 	clear_cmd(g_appinfo.cmd);
 	clear_env(g_appinfo.env);
 	exit_fd();
+	ft_printf("status: %d\n", status);
 	exit(status);
+}
+
+static void	update_exitstatus()
+{
+	char	*temp;
+	char	*keyvalue;
+
+	temp = ft_itoa(g_appinfo.exit_status);
+	keyvalue = ft_strjoin("?=", temp);
+	free(temp);
+	add_keymap(&g_appinfo.env->kms, keyvalue);
+	free(keyvalue);
 }
 
 int	main(int ac, char **av, char **env)
@@ -111,7 +124,9 @@ int	main(int ac, char **av, char **env)
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
 	{
 		g_appinfo.cmd = parsecmd(buf, g_appinfo.env);
+		g_appinfo.exit_status = 0;
 		runcmd(g_appinfo.cmd);
+		update_exitstatus();
 		free(buf);
 	}
 	exit_app(g_appinfo.exit_status);

@@ -25,7 +25,7 @@ t_env	*init_env(char **env)
 		print_error("malloc error\n");
 	size = ft_strdlen(env);
 	new->kms = NULL;
-	new->env = (char **)malloc(sizeof(char *) * (size + 1));
+	new->env = (char **)malloc(sizeof(char *) * (size + 2));
 	if (!new->env)
 		print_error("malloc error\n");
 	i = 0;
@@ -39,7 +39,10 @@ t_env	*init_env(char **env)
 		ft_lstadd_back(&new->kms, ft_lstnew(km));
 		i++;
 	}
-	new->env[i] = 0;
+	new->env[i] = ft_strdup("?=0");
+	add_keymap(&new->kms, new->env[i]);
+	new->env[++i] = 0;
+	add_keymap(&new->kms, "OLDPWD");
 	return (new);
 }
 
@@ -75,7 +78,8 @@ void	clear_keymap(void *content)
 
 	km = (t_km *)content;
 	free(km->key);
-	free(km->val);
+	if (km->val)
+		free(km->val);
 	free(km);
 }
 

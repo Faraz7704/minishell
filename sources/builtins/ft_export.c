@@ -17,6 +17,8 @@ static int	verify_key(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '=')
+		return (0);
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && !ft_isalnum(str[i]))
@@ -34,7 +36,10 @@ void	ft_export(char **argv, t_env *env)
 	while (argv[i])
 	{
 		if (ft_isdigit(*argv[i]) || !verify_key(argv[i]))
+		{
 			ft_fprintf(2, "export: `%s': not a valid identifier\n", argv[i]);
+			g_appinfo.exit_status = 1;
+		}
 		else
 			add_keymap(&env->kms, argv[i]);
 		i++;

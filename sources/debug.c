@@ -31,7 +31,7 @@ void	print_export(t_list *lst)
 		km = (t_km *)curr->content;
 		if (km->val != NULL)
 		{
-			if (!ft_strequals(km->key, "_"))
+			if (!ft_strequals(km->key, "_") && !ft_strequals(km->key, "?"))
 				ft_printf("declare -x %s=\"%s\"\n", km->key, km->val);
 		}
 		else
@@ -50,7 +50,7 @@ void	print_env(t_list *lst)
 	while (curr)
 	{
 		km = (t_km *)curr->content;
-		if (km->val != NULL && !ft_strequals(km->key, "OLDPWD"))
+		if (km->val != NULL && !ft_strequals(km->key, "OLDPWD") && !ft_strequals(km->key, "?"))
 			ft_printf("%s=%s\n", km->key, km->val);
 		curr = curr->next;
 	}

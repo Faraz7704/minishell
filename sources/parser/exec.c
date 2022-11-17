@@ -16,6 +16,7 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 {
 	int		tok;
 	int		argc;
+	char	*temp;
 
 	argc = 0;
 	while (!peek(&ps, es, "|)"))
@@ -23,10 +24,13 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 		if (peek(&ps, es, "<>"))
 		{
 			gettoken(&ps, es, 0, env);
-			gettoken(&ps, es, 0, env);
+			gettoken(&ps, es, &temp, env);
+			free(temp);
 			continue ;
 		}
-		tok = gettoken(&ps, es, 0, env);
+		temp = NULL;
+		tok = gettoken(&ps, es, &temp, env);
+		free(temp);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
@@ -40,6 +44,7 @@ static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 {
 	int		tok;
 	int		argc;
+	char	*temp;
 
 	argc = 0;
 	while (!peek(ps, es, "|)"))
@@ -47,7 +52,8 @@ static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 		if (peek(ps, es, "<>"))
 		{
 			gettoken(ps, es, 0, env);
-			gettoken(ps, es, 0, env);
+			gettoken(ps, es, &temp, env);
+			free(temp);
 			continue ;
 		}
 		tok = gettoken(ps, es, &cmd->argv[argc], env);

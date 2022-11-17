@@ -72,7 +72,8 @@ void	add_keymap(t_list **lst, char *keyvalue)
 	{
 		km = (t_km *)curr->content;
 		free(km->key);
-		free(km->val);
+		if (km->val)
+			free(km->val);
 		update_keymap(km, keyvalue);
 	}
 	else

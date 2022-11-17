@@ -24,6 +24,8 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 		tok = gettoken(ps, es, 0, env);
 		if (gettoken(ps, es, &file, env) != 'a')
 			print_error("missing file for redirection");
+		if (tok == '-')
+			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 		cmd = parseredirs(cmd, ps, es, env);
 		if (tok == '<')
 			cmd = redircmd(cmd, file, O_RDONLY, STDIN_FILENO);
@@ -31,12 +33,11 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
 		else if (tok == '+')
 			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
-		else if (tok == '-')
-			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 	}
 	else
 	{
-		gettoken(ps, es, 0, env);
+		gettoken(ps, es, &file, env);
+		free(file);
 		cmd = parseredirs(cmd, ps, es, env);
 	}
 	return (cmd);
