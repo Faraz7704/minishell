@@ -62,13 +62,13 @@ t_list	*find_keymap_key(t_list *lst, char *keyvalue)
 	return (curr);
 }
 
-void	add_keymap(t_list **lst, char *keyvalue)
+void	add_keymap(t_list **lst, char *keyvalue, int addonly)
 {
 	t_list	*curr;
 	t_km	*km;
 
 	curr = find_keymap_key(lst[0], keyvalue);
-	if (curr)
+	if (curr && !addonly)
 	{
 		km = (t_km *)curr->content;
 		free(km->key);
@@ -76,7 +76,7 @@ void	add_keymap(t_list **lst, char *keyvalue)
 			free(km->val);
 		update_keymap(km, keyvalue);
 	}
-	else
+	else if (!curr)
 	{
 		km = malloc(sizeof(t_km));
 		if (!km)

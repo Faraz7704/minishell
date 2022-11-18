@@ -107,7 +107,7 @@ static void	update_exitstatus()
 	temp = ft_itoa(g_appinfo.exit_status);
 	keyvalue = ft_strjoin("?=", temp);
 	free(temp);
-	add_keymap(&g_appinfo.env->kms, keyvalue);
+	add_keymap(&g_appinfo.env->kms, keyvalue, 0);
 	free(keyvalue);
 }
 
