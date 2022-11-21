@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:28:45 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 15:45:39 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	{
 		tok = gettoken(ps, es, 0, env);
 		if (gettoken(ps, es, &file, env) != 'a')
-			print_error("missing file for redirection");
+		{
+			ft_fprintf(1, "syntax error near unexpected token `newline'\n");
+			return (0);
+		}
 		if (tok == '-')
 			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 		cmd = parseredirs(cmd, ps, es, env);

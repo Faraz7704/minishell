@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:15:39 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 15:49:52 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	parsequote(char **ps, char *es, char **argv, t_env *env)
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
-		return (1);
+		return (-1);
 	}
 	*argv = ft_calloc(sizeof(char), (len + 1));
 	if (!*argv)

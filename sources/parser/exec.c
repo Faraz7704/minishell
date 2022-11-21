@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:28:50 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 15:51:42 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 		}
 		temp = NULL;
 		tok = gettoken(&ps, es, &temp, env);
-		if (tok && !*temp)
+		if (tok == -1)
+			return (0);
+		if (tok > 0 && !*temp)
 		{
 			free(temp);
 			continue ;
 		}
 		free(temp);
-		if (tok == -1)
-			return (0);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
@@ -64,7 +64,7 @@ static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 			continue ;
 		}
 		tok = gettoken(ps, es, &cmd->argv[argc], env);
-		if (tok && !*cmd->argv[argc])
+		if (tok > 0 && !*cmd->argv[argc])
 		{
 			free(cmd->argv[argc]);
 			continue ;
