@@ -6,18 +6,32 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:59:13 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/11/21 14:20:17 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 15:01:00 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void new_line_prom(int signum)
+
+static void	sig_handler(int sig_num)
 {
-	(void)signum;
-	g_appinfo.exit_status = 130;
-	//write(1, "\n", 1);
+	if (sig_num == SIGINT)
+	{
+		g_appinfo.exit_status = 1;
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	return ;
 }
+
+//static void new_line_prom(int signum)
+//{
+//	(void)signum;
+//	g_appinfo.exit_status = 130;
+//	write(1, "\n", 1);
+//}
 
 static void	quit_func(int signum)
 {
@@ -34,7 +48,7 @@ void	define_input_signals(void)
 
 void	define_exec_signals(void)
 {
-	signal(SIGINT, new_line_prom);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, quit_func);
 }
 
