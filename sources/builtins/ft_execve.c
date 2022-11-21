@@ -43,8 +43,6 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 		path = full_command_path(cmd, env->env);
 		execve(path, argv, env->env);
 		fstatus = stat(cmd, &buff);
-		// ft_printf("error: %d\n", errno);
-		// ft_printf("fstatus: %d\n", fstatus);
 		check_cmddir(cmd);
 		if (!fstatus)
 		{

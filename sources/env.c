@@ -19,7 +19,6 @@ t_env	*init_env(char **env)
 	t_env	*new;
 	t_km	*km;
 
-	(void)env;
 	new = malloc(sizeof(t_env));
 	if (!new)
 		print_error("malloc error\n");
@@ -40,9 +39,9 @@ t_env	*init_env(char **env)
 		i++;
 	}
 	new->env[i] = ft_strdup("?=0");
-	add_keymap(&new->kms, new->env[i]);
+	add_keymap(&new->kms, new->env[i], 0);
 	new->env[++i] = 0;
-	add_keymap(&new->kms, "OLDPWD");
+	add_keymap(&new->kms, "OLDPWD", 1);
 	return (new);
 }
 

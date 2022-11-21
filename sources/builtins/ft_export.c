@@ -41,7 +41,7 @@ void	ft_export(char **argv, t_env *env)
 			g_appinfo.exit_status = 1;
 		}
 		else
-			add_keymap(&env->kms, argv[i]);
+			add_keymap(&env->kms, argv[i], 0);
 		i++;
 	}
 	if (i == 1)

@@ -103,7 +103,7 @@ void		print_strsplit(char **split);
 
 // keymap
 char		*merge_keymap(t_km *km);
-void		add_keymap(t_list **lst, char *keyvalue);
+void		add_keymap(t_list **lst, char *keyvalue, int addonly);
 void		update_keymap(t_km *km, char *keyvalue);
 t_list		*find_keymap_key(t_list *lst, char *keyvalue);
 void		remove_keymap(t_list **lst, char *key);
