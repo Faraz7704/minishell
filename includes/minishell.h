@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 15:55:02 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 17:22:06 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void		ft_clearsplit(char **str);
 void		ft_lstdel(void *content);
 
 //signals
-// void		sig_handler(int sig_num);
 void		ctrl_c(int sig);
 void		ctrl_d(void);
 void		sig_handler_heredoc(int sig_num);

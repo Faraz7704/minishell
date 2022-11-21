@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:09:46 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 17:43:49 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	expandsize(char **ps, char *es, t_env *env)
 		km = parsekeymap(ps, es, env);
 		if (km)
 			return (ft_strlen(km->val));
+		return (0);
 	}
 	return (1);
 }

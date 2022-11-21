@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 15:49:52 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 18:05:12 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ int	parsequote(char **ps, char *es, char **argv, t_env *env)
 		return (0);
 	}
 	len = quotelen(*ps, es, &quote, env);
+	ft_printf("quote: %c len: %d\n", quote, len);
+	// if (!len && !quote)
+	// 	return (-2);
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
