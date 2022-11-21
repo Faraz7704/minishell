@@ -6,7 +6,7 @@
 /*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/11 21:35:50 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:12:27 by szhakypo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int	exec(char *cmd, char **argv, t_env *env)
 {
+	define_exec_signals();
 	if (ft_strequals(cmd, "cd"))
 		ft_cd(argv, env);
 	else if (ft_strequals(cmd, "env"))
