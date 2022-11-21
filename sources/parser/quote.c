@@ -35,7 +35,7 @@ static int	quotelen(char *ps, char *es, char *quote, t_env *env)
 		if ((in_quote && *quote != '\'' && *ps == '$')
 			|| (!in_quote && *ps == '$'))
 		{
-			len += expandsize(&ps, es, env);
+			len += expandsize(&ps, es, in_quote, env);
 			continue ;
 		}
 		len++;
@@ -73,8 +73,9 @@ static void	trimquote(char **ps, char *es, char **argv, t_env *env)
 		if ((in_quote && quote != '\'' && *s == '$')
 			|| (!in_quote && *s == '$'))
 		{
-			expandline(&s, es, &new, env);
-			continue ;
+			if (!expandline(&s, es, &new, env) || !in_quote)
+				continue ;
+			s--;
 		}
 		*new = *s;
 		s++;
@@ -90,17 +91,14 @@ int	parsequote(char **ps, char *es, char **argv, t_env *env)
 	char	quote;
 
 	quote = '\0';
-	if (!argv)
+	len = quotelen(*ps, es, &quote, env);
+	if (!argv || (len == 0 && !quote))
 	{
 		while ((*ps) < es && !ft_strchr(WHITESPACE, **ps)
 			&& !ft_strchr(SYMBOLS, **ps))
 				(*ps)++;
-		return (0);
+		return (-2);
 	}
-	len = quotelen(*ps, es, &quote, env);
-	ft_printf("quote: %c len: %d\n", quote, len);
-	// if (!len && !quote)
-	// 	return (-2);
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
@@ -110,5 +108,5 @@ int	parsequote(char **ps, char *es, char **argv, t_env *env)
 	if (!*argv)
 		print_error("malloc error");
 	trimquote(ps, es, argv, env);
-	return (0);
+	return ('a');
 }

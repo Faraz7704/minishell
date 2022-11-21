@@ -32,10 +32,8 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 		tok = gettoken(&ps, es, &temp, env);
 		if (tok == -1)
 			return (0);
-		// if (tok == -2 && !argc)
-		// {
-		// 	continue ;
-		// }
+		if (tok == -2)
+			continue ;
 		free(temp);
 		if (tok == 0)
 			break ;
@@ -63,10 +61,8 @@ static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 			continue ;
 		}
 		tok = gettoken(ps, es, &cmd->argv[argc], env);
-		// if (tok == -2 && !argc)
-		// {
-		// 	continue ;
-		// }
+		if (tok == -2)
+			continue ;
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
@@ -87,9 +83,6 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 		return (parseblock(ps, es, env));
 	ret = execcmd(env);
 	cmd = (t_execcmd *)ret;
-	size = parseargv_size(*ps, es, env);
-	ft_printf("size: %d\n", size);
-	exit(1);
 	q = *ps;
 	ret = parseredirs(ret, &q, es, env);
 	if (!ret)
@@ -98,6 +91,7 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 		*ps = es;
 		return (0);
 	}
+	size = parseargv_size(*ps, es, env);
 	if (!size)
 	{
 		free(cmd);

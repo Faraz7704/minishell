@@ -43,8 +43,8 @@ int		parsequote(char **ps, char *es, char **argv, t_env *env);
 int		gettoken(char **ps, char *es, char **argv, t_env *env);
 
 // expansion
-int		expandsize(char **ps, char *es, t_env *env);
-void	expandline(char **ps, char *es, char **argv, t_env *env);
+int		expandsize(char **ps, char *es, int in_quote, t_env *env);
+int		expandline(char **ps, char *es, char **argv, t_env *env);
 char	*expandline_v2(char *ps, char *es, t_env *env);
 
 #endif

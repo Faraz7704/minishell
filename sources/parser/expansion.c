@@ -49,7 +49,7 @@ t_km	*parsekeymap(char **q, char *eq, t_env *env)
 	return ((t_km *)keyvalue->content);
 }
 
-int	expandsize(char **ps, char *es, t_env *env)
+int	expandsize(char **ps, char *es, int in_quote, t_env *env)
 {
 	t_km	*km;
 
@@ -59,30 +59,30 @@ int	expandsize(char **ps, char *es, t_env *env)
 		km = parsekeymap(ps, es, env);
 		if (km)
 			return (ft_strlen(km->val));
-		return (0);
+		return (in_quote);
 	}
 	return (1);
 }
 
-void	expandline(char **ps, char *es, char **argv, t_env *env)
+int	expandline(char **ps, char *es, char **argv, t_env *env)
 {
 	t_km	*km;
 
 	(*ps)++;
 	if (*ps < es && !ft_strchr(WHITESPACE, **ps))
 	{
-		if (ft_strchr(QUOTES, **ps))
-			return ;
 		km = parsekeymap(ps, es, env);
 		if (km)
 		{
 			**argv = '\0';
 			*argv += ft_strlcat(*argv, km->val, ft_strlen(km->val) + 1);
+			return (0);
 		}
-		return ;
+		return (1);
 	}
 	**argv = *((*ps) - 1);
 	(*argv)++;
+	return (0);
 }
 
 char	*expandline_v2(char *ps, char *es, t_env *env)

@@ -39,9 +39,11 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	}
 	else
 	{
-		if (gettoken(ps, es, &file, env) < 0)
+		tok = gettoken(ps, es, &file, env);
+		if (tok == -1)
 			return (0);
-		free(file);
+		if (tok != -2)
+			free(file);
 		cmd = parseredirs(cmd, ps, es, env);
 	}
 	return (cmd);

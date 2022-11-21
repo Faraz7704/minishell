@@ -15,7 +15,6 @@
 int	gettoken(char **ps, char *es, char **argv, t_env *env)
 {
 	int		ret;
-	int		err;
 
 	while (*ps < es && ft_strchr(WHITESPACE, **ps))
 		(*ps)++;
@@ -42,10 +41,7 @@ int	gettoken(char **ps, char *es, char **argv, t_env *env)
 	}
 	else if (**ps)
 	{
-		ret = 'a';
-		err = parsequote(ps, es, argv, env);
-		if (err < 0)
-			return (err);
+		ret = parsequote(ps, es, argv, env);
 	}
 	while (*ps < es && ft_strchr(WHITESPACE, **ps))
 		(*ps)++;
