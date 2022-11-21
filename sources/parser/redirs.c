@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 18:49:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:28:45 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	int		tok;
 	char	*file;
 
-	if (*ps >= es || peek(ps, es, "|)"))
+	if (!cmd || *ps >= es || peek(ps, es, "|)"))
 		return (cmd);
 	if (peek(ps, es, "<>"))
 	{
@@ -36,7 +36,8 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	}
 	else
 	{
-		gettoken(ps, es, &file, env);
+		if (gettoken(ps, es, &file, env) < 0)
+			return (0);
 		free(file);
 		cmd = parseredirs(cmd, ps, es, env);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:13:31 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:49:16 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_appinfo
 pid_t		ft_fork(void);
 int			getcmd(char *prefix, char **buf);
 void		exit_app(int status);
+void		update_exitstatus(void);
 
 // debug
 void		print_error(char *s);

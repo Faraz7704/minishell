@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:12:27 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:48:51 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 int	exec(char *cmd, char **argv, t_env *env)
 {
 	define_exec_signals();
+	if (ft_strequals(cmd, "exit"))
+	{
+		ft_exit(argv, env);
+		return (0);
+	}
+	g_appinfo.exit_status = 0;
 	if (ft_strequals(cmd, "cd"))
 		ft_cd(argv, env);
 	else if (ft_strequals(cmd, "env"))
@@ -29,8 +35,6 @@ int	exec(char *cmd, char **argv, t_env *env)
 		ft_export(argv, env);
 	else if (ft_strequals(cmd, "unset"))
 		ft_unset(argv, env);
-	else if (ft_strequals(cmd, "exit"))
-		ft_exit(argv, env);
 	else
 		ft_execve(cmd, argv, env);
 	return (0);

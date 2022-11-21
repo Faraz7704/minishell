@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 17:01:33 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/11/11 21:36:27 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:00:25 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_cmddir(char *cmd)
 	int	i;
 
 	i = 0;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		if (cmd[i] == '/')
 			return ;
@@ -33,7 +33,7 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 	char		*path;
 	pid_t		p_id;
 	int			status;
-	struct stat buff;
+	struct stat	buff;
 	int			fstatus;
 
 	update_env(env);
@@ -42,6 +42,8 @@ void	ft_execve(char *cmd, char **argv, t_env *env)
 	{
 		path = full_command_path(cmd, env->env);
 		execve(path, argv, env->env);
+		if (errno == 8)
+			exit_app(0);
 		fstatus = stat(cmd, &buff);
 		check_cmddir(cmd);
 		if (!fstatus)

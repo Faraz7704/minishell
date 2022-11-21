@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 15:49:18 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:16:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env);
 t_cmd	*parseblock(char **ps, char *es, t_env *env);
 
 // quote
-void	parsequote(char **ps, char *es, char **argv, t_env *env);
+int		parsequote(char **ps, char *es, char **argv, t_env *env);
 
 // token
 int		gettoken(char **ps, char *es, char **argv, t_env *env);
