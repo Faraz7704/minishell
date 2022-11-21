@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:37:26 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:15:52 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:49:16 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void		ctrl_c(int sig);
 void		ctrl_d(void);
 void		sig_handler_heredoc(int sig_num);
 void		define_input_signals(void);
+void		define_exec_signals(void);
 
 extern t_appinfo	g_appinfo;
 

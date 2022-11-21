@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:59:38 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 14:40:02 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:48:51 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int	exec(char *cmd, char **argv, t_env *env)
 {
+	define_exec_signals();
 	if (ft_strequals(cmd, "exit"))
 	{
 		ft_exit(argv, env);
