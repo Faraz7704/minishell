@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/08 19:10:21 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:09:46 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ void	expandline(char **ps, char *es, char **argv, t_env *env)
 	t_km	*km;
 
 	(*ps)++;
-	if (*ps < es && !ft_strchr(WHITESPACE, **ps) && !ft_strchr(QUOTES, **ps))
+	if (*ps < es && !ft_strchr(WHITESPACE, **ps))
 	{
+		if (ft_strchr(QUOTES, **ps))
+			return ;
 		km = parsekeymap(ps, es, env);
 		if (km)
 		{

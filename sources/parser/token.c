@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/31 19:49:47 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:17:43 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	gettoken(char **ps, char *es, char **argv, t_env *env)
 	else if (**ps)
 	{
 		ret = 'a';
-		parsequote(ps, es, argv, env);
+		if (parsequote(ps, es, argv, env))
+			return (-1);
 	}
 	while (*ps < es && ft_strchr(WHITESPACE, **ps))
 		(*ps)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szhakypo <szhakypo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 19:44:41 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/11 21:14:16 by szhakypo         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:37:01 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	exit_app(int status)
 	exit(status);
 }
 
-static void	update_exitstatus()
+void	update_exitstatus()
 {
 	char	*temp;
 	char	*keyvalue;
@@ -124,7 +124,6 @@ int	main(int ac, char **av, char **env)
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
 	{
 		g_appinfo.cmd = parsecmd(buf, g_appinfo.env);
-		g_appinfo.exit_status = 0;
 		runcmd(g_appinfo.cmd);
 		update_exitstatus();
 		free(buf);

@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 15:59:56 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/31 20:15:16 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:15:39 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	trimquote(char **ps, char *es, char **argv, t_env *env)
 	*ps = s;
 }
 
-void	parsequote(char **ps, char *es, char **argv, t_env *env)
+int	parsequote(char **ps, char *es, char **argv, t_env *env)
 {
 	int		len;
 	char	quote;
@@ -95,16 +95,17 @@ void	parsequote(char **ps, char *es, char **argv, t_env *env)
 		while ((*ps) < es && !ft_strchr(WHITESPACE, **ps)
 			&& !ft_strchr(SYMBOLS, **ps))
 				(*ps)++;
-		return ;
+		return (0);
 	}
 	len = quotelen(*ps, es, &quote, env);
 	if (len < 0)
 	{
 		ft_fprintf(2, "syntax - missing %c\n", quote);
-		exit(1);
+		return (1);
 	}
 	*argv = ft_calloc(sizeof(char), (len + 1));
 	if (!*argv)
 		print_error("malloc error");
 	trimquote(ps, es, argv, env);
+	return (0);
 }

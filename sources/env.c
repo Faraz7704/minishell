@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/25 02:19:20 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:36:14 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	clear_keymap(void *content)
 
 	km = (t_km *)content;
 	free(km->key);
-	if (km->val)
+	if (km->val && *km->val)
 		free(km->val);
 	free(km);
 }

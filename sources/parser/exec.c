@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:30 by fkhan             #+#    #+#             */
-/*   Updated: 2022/10/31 20:22:09 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:28:50 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 			continue ;
 		}
 		free(temp);
+		if (tok == -1)
+			return (0);
 		if (tok == 0)
 			break ;
 		if (tok != 'a')
@@ -85,16 +87,23 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 
 	if (peek(ps, es, "("))
 		return (parseblock(ps, es, env));
-	size = parseargv_size(*ps, es, env);
-	if (!size)
-	{
-		*ps = es;
-		return (0);
-	}
 	ret = execcmd(env);
 	cmd = (t_execcmd *)ret;
 	q = *ps;
 	ret = parseredirs(ret, &q, es, env);
+	if (!ret)
+	{
+		free(cmd);
+		*ps = es;
+		return (0);
+	}
+	size = parseargv_size(*ps, es, env);
+	if (!size)
+	{
+		free(cmd);
+		*ps = es;
+		return (0);
+	}
 	cmd->argv = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (!cmd->argv)
 		print_error("malloc error\n");

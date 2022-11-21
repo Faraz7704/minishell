@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:06:26 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/10/31 20:20:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/21 14:36:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_keymap(t_list **lst, char *keyvalue, int addonly)
 	{
 		km = (t_km *)curr->content;
 		free(km->key);
-		if (km->val)
+		if (km->val && *km->val)
 			free(km->val);
 		update_keymap(km, keyvalue);
 	}
