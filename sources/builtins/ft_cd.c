@@ -18,7 +18,7 @@ static int	ft_chspecial(char *path, char *key, t_list *kms)
 	t_list	*km;
 
 	km = find_keymap_key(kms, key);
-	if (km && chdir(((t_km *)km->content)->val) < 0)
+	if (!path || (km && chdir(((t_km *)km->content)->val) < 0))
 	{
 		ft_fprintf(2, "cd: %s: No such file or directory\n", path);
 		g_appinfo.exit_status = 1;

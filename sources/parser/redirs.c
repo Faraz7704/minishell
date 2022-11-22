@@ -40,27 +40,28 @@ static void	heredoc(char *delim, t_env *env, int fd_pipe)
 static t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
 {
 	int			p_id;
-	int			stat;
-	static int	pipe_out = -1;
 	int			fd_pipe[2];
 
 	if (pipe(fd_pipe) < 0)
 		print_error("pipe");
-	if (pipe_out >= 0)
-		close(pipe_out);
-	pipe_out = fd_pipe[0];
+	if (g_appinfo.pipe_out >= 0)
+		close(g_appinfo.pipe_out);
+	g_appinfo.pipe_out = fd_pipe[0];
 	p_id = ft_fork();
 	if (p_id == 0)
 	{
 		signal(SIGINT, &sig_handler_heredoc);
+		g_appinfo.cmd = subcmd;
 		heredoc(delim, env, fd_pipe[1]);
+		free(file);
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		exit_app(0);
 	}
+	free(delim);
+	waitpid(p_id, NULL, 0);
 	close(fd_pipe[1]);
-	waitpid(p_id, &stat, 0);
-	if (WEXITSTATUS(stat))
-		g_appinfo.exit_status = WEXITSTATUS(stat);
-	return (redircmd(subcmd, file, O_RDONLY, pipe_out));
+	return (redircmd(subcmd, file, O_RDONLY, g_appinfo.pipe_out));
 }
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)

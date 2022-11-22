@@ -78,6 +78,7 @@ static void	clear_cmd(t_cmd *cmd)
 		redircmd = (t_redircmd *)cmd;
 		clear_cmd(redircmd->cmd);
 		free(redircmd->file);
+		close(redircmd->fd);
 	}
 	else if (cmd->type == PIPE)
 	{
@@ -93,6 +94,7 @@ static void	clear_cmd(t_cmd *cmd)
 void	exit_app(int status)
 {
 	clear_cmd(g_appinfo.cmd);
+	g_appinfo.cmd = NULL;
 	clear_env(g_appinfo.env);
 	exit_fd();
 	ft_printf("status: %d\n", status);
@@ -123,10 +125,13 @@ int	main(int ac, char **av, char **env)
 	g_appinfo.env = init_env(env);
 	while (getcmd("\33[1;31mಠ_ಠ minishell>$\033[0m ", &buf) >= 0)
 	{
+		g_appinfo.pipe_out = -1;
 		g_appinfo.cmd = parsecmd(buf, g_appinfo.env);
 		runcmd(g_appinfo.cmd);
 		update_exitstatus();
 		free(buf);
+		clear_cmd(g_appinfo.cmd);
+		g_appinfo.cmd = NULL;
 	}
 	exit_app(g_appinfo.exit_status);
 	return (g_appinfo.exit_status);

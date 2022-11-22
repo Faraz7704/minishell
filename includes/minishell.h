@@ -87,6 +87,7 @@ typedef struct s_appinfo
 	t_cmd		*cmd;
 	t_env		*env;
 	int			exit_status;
+	int			pipe_out;
 }	t_appinfo;
 
 // main
