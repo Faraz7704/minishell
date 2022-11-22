@@ -6,11 +6,62 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/21 15:45:39 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/22 21:42:59 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static void	heredoc(char *delim, t_env *env, int fd_pipe)
+{
+	char		*buf;
+	char		*temp;
+
+	while (1)
+	{
+		buf = readline("> ");
+		if (!buf)
+			break ;
+		temp = expandline_v2(buf, buf + ft_strlen(buf), env);
+		if (ft_strequals(temp, delim))
+		{
+			free(buf);
+			free(temp);
+			break ;
+		}
+		ft_fprintf(fd_pipe, "%s\n", temp);
+		free(buf);
+		free(temp);
+	}
+	close(fd_pipe);
+	free(delim);
+}
+
+static t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
+{
+	int			p_id;
+	int			stat;
+	static int	pipe_out = -1;
+	int			fd_pipe[2];
+
+	if (pipe(fd_pipe) < 0)
+		print_error("pipe");
+	if (pipe_out >= 0)
+		close(pipe_out);
+	pipe_out = fd_pipe[0];
+	p_id = ft_fork();
+	if (p_id == 0)
+	{
+		signal(SIGINT, &sig_handler_heredoc);
+		heredoc(delim, env, fd_pipe[1]);
+		exit_app(0);
+	}
+	close(fd_pipe[1]);
+	waitpid(p_id, &stat, 0);
+	if (WEXITSTATUS(stat))
+		g_appinfo.exit_status = WEXITSTATUS(stat);
+	return (redircmd(subcmd, file, O_RDONLY, pipe_out));
+}
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 {
@@ -47,39 +98,6 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 		cmd = parseredirs(cmd, ps, es, env);
 	}
 	return (cmd);
-}
-
-t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
-{
-	char		*buf;
-	char		*temp;
-	static int	pipe_out = -1;
-	int			fd_pipe[2];
-
-	if (pipe(fd_pipe) < 0)
-		print_error("pipe");
-	if (pipe_out >= 0)
-		close(pipe_out);
-	pipe_out = fd_pipe[0];
-	while (1)
-	{
-		buf = readline("> ");
-		if (!buf)
-			break ;
-		temp = expandline_v2(buf, buf + ft_strlen(buf), env);
-		if (ft_strequals(temp, delim))
-		{
-			free(buf);
-			free(temp);
-			break ;
-		}
-		ft_fprintf(fd_pipe[1], "%s\n", temp);
-		free(buf);
-		free(temp);
-	}
-	close(fd_pipe[1]);
-	free(delim);
-	return (redircmd(subcmd, file, O_RDONLY, pipe_out));
 }
 
 t_cmd	*redircmd(t_cmd *subcmd, char *file, int mode, int fd)
