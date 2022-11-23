@@ -50,7 +50,8 @@ void	print_env(t_list *lst)
 	while (curr)
 	{
 		km = (t_km *)curr->content;
-		if (km->val != NULL && !ft_strequals(km->key, "OLDPWD") && !ft_strequals(km->key, "?"))
+		if (km->val != NULL && !ft_strequals(km->key, "OLDPWD")
+			&& !ft_strequals(km->key, "?"))
 			ft_printf("%s=%s\n", km->key, km->val);
 		curr = curr->next;
 	}
