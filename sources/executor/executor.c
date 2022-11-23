@@ -68,8 +68,8 @@ int	child_pipecmd(t_cmd *cmd, int fd, int pipe_in, int pipe_out)
 	{
 		close(pipe_out);
 		dup2(pipe_in, fd);
-		runcmd(cmd);
 		close(pipe_in);
+		runcmd(cmd);
 		exit_app(g_appinfo.exit_status);
 	}
 	return (p_id);
