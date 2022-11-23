@@ -38,6 +38,9 @@ SOURCES_LIST 		= main.c debug.c env.c keymap.c sort_list.c signal.c \
 						utils/str_utils.c \
 						utils/str_utils2.c \
 						utils/list_utils.c \
+						utils/env_utils.c \
+						utils/utils.c \
+						utils/signal_utils.c \
 						builtins/ft_cd.c \
 						builtins/ft_echo.c \
 						builtins/ft_env.c \
@@ -48,6 +51,7 @@ SOURCES_LIST 		= main.c debug.c env.c keymap.c sort_list.c signal.c \
 						builtins/ft_execve.c \
 						parser/parser.c \
 						parser/exec.c \
+						parser/exec_utils.c \
 						parser/pipe.c \
 						parser/block.c \
 						parser/quote.c \
@@ -55,7 +59,8 @@ SOURCES_LIST 		= main.c debug.c env.c keymap.c sort_list.c signal.c \
 						parser/token.c \
 						parser/expansion.c \
 						executor/executor.c \
-						executor/executor_utils.c
+						executor/executor_utils.c \
+						executor/executor_utils2.c
 						
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 

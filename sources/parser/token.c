@@ -12,6 +12,31 @@
 
 #include "parser.h"
 
+int	redirtoken(char **ps, int *ret)
+{
+	if (**ps == '<')
+	{
+		(*ps)++;
+		if (**ps == '<')
+		{
+			*ret = '-';
+			(*ps)++;
+		}
+		return (1);
+	}
+	if (**ps == '>')
+	{
+		(*ps)++;
+		if (**ps == '>')
+		{
+			*ret = '+';
+			(*ps)++;
+		}
+		return (1);
+	}
+	return (0);
+}
+
 int	gettoken(char **ps, char *es, char **argv, t_env *env)
 {
 	int		ret;
@@ -21,28 +46,8 @@ int	gettoken(char **ps, char *es, char **argv, t_env *env)
 	ret = **ps;
 	if (**ps == '|' || **ps == '(' || **ps == ')')
 		(*ps)++;
-	else if (**ps == '<')
-	{
-		(*ps)++;
-		if (**ps == '<')
-		{
-			ret = '-';
-			(*ps)++;
-		}
-	}
-	else if (**ps == '>')
-	{
-		(*ps)++;
-		if (**ps == '>')
-		{
-			ret = '+';
-			(*ps)++;
-		}
-	}
-	else if (**ps)
-	{
+	else if (!redirtoken(ps, &ret) && **ps)
 		ret = parsequote(ps, es, argv, env);
-	}
 	while (*ps < es && ft_strchr(WHITESPACE, **ps))
 		(*ps)++;
 	return (ret);

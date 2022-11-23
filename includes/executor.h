@@ -40,4 +40,7 @@ char				*str_ndup(char *str, unsigned int n);
 char				*full_command_path(char *cmd, char **env);
 unsigned long long	ft_atoull(char *str, int *minus);
 
+// executor_utils2
+void				child_redircmd(t_redircmd *rcmd);
+
 #endif

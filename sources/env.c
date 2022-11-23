@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+static t_env	*new_env(int size)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		print_error("malloc error\n");
+	new->kms = NULL;
+	new->env = (char **)malloc(sizeof(char *) * (size + 2));
+	if (!new->env)
+		print_error("malloc error\n");
+	return (new);
+}
+
 t_env	*init_env(char **env)
 {
 	size_t	i;
@@ -19,14 +33,8 @@ t_env	*init_env(char **env)
 	t_env	*new;
 	t_km	*km;
 
-	new = malloc(sizeof(t_env));
-	if (!new)
-		print_error("malloc error\n");
 	size = ft_strdlen(env);
-	new->kms = NULL;
-	new->env = (char **)malloc(sizeof(char *) * (size + 2));
-	if (!new->env)
-		print_error("malloc error\n");
+	new = new_env(size);
 	i = 0;
 	while (i < size)
 	{
@@ -69,25 +77,4 @@ void	update_env(t_env *env)
 {
 	ft_clearsplit(env->env);
 	env->env = ft_getenv(env->kms);
-}
-
-void	clear_keymap(void *content)
-{
-	t_km	*km;
-
-	km = (t_km *)content;
-	free(km->key);
-	if (km->val && *km->val)
-		free(km->val);
-	free(km);
-}
-
-void	clear_env(t_env *env)
-{
-	if (!env)
-		return ;
-	ft_clearsplit(env->env);
-	ft_lstclear(&env->kms, clear_keymap);
-	free(env->kms);
-	free(env);
 }

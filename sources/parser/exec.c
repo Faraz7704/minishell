@@ -21,13 +21,8 @@ static int	parseargv_size(char *ps, char *es, t_env *env)
 	argc = 0;
 	while (!peek(&ps, es, "|)"))
 	{
-		if (peek(&ps, es, "<>"))
-		{
-			gettoken(&ps, es, 0, env);
-			gettoken(&ps, es, &temp, env);
-			free(temp);
+		if (peekredir(&ps, es, &temp, env))
 			continue ;
-		}
 		temp = NULL;
 		tok = gettoken(&ps, es, &temp, env);
 		if (tok == -1)
@@ -53,13 +48,8 @@ static void	parseargv(t_execcmd *cmd, char **ps, char *es, t_env *env)
 	argc = 0;
 	while (!peek(ps, es, "|)"))
 	{
-		if (peek(ps, es, "<>"))
-		{
-			gettoken(ps, es, 0, env);
-			gettoken(ps, es, &temp, env);
-			free(temp);
+		if (peekredir(ps, es, &temp, env))
 			continue ;
-		}
 		tok = gettoken(ps, es, &cmd->argv[argc], env);
 		if (tok == -2)
 			continue ;
@@ -86,18 +76,10 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 	q = *ps;
 	ret = parseredirs(ret, &q, es, env);
 	if (!ret)
-	{
-		free(cmd);
-		*ps = es;
-		return (0);
-	}
+		return (clearexec((t_cmd *)cmd, ps, es));
 	size = parseargv_size(*ps, es, env);
 	if (!size)
-	{
-		free(cmd);
-		*ps = es;
-		return (0);
-	}
+		return (clearexec((t_cmd *)cmd, ps, es));
 	cmd->argv = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (!cmd->argv)
 		print_error("malloc error\n");

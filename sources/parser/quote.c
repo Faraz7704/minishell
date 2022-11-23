@@ -12,25 +12,36 @@
 
 #include "parser.h"
 
+static int	checkquote(char **ps, char *quote, int *in_quote)
+{
+	if (!*in_quote && ft_strchr(QUOTES, **ps))
+		*quote = **ps;
+	if (**ps == *quote)
+	{
+		*in_quote = !(*in_quote);
+		(*ps)++;
+		return (1);
+	}
+	if (!*in_quote && (ft_strchr(WHITESPACE, **ps)
+			|| ft_strchr(SYMBOLS, **ps)))
+		return (-1);
+	return (0);
+}
+
 static int	quotelen(char *ps, char *es, char *quote, t_env *env)
 {
 	int		len;
 	int		in_quote;
+	int		stat;
 
 	len = 0;
 	in_quote = 0;
 	while (ps < es)
 	{
-		if (!in_quote && ft_strchr(QUOTES, *ps))
-			*quote = *ps;
-		if (*ps == *quote)
-		{
-			in_quote = !in_quote;
-			ps++;
+		stat = checkquote(&ps, quote, &in_quote);
+		if (stat == 1)
 			continue ;
-		}
-		if (!in_quote && (ft_strchr(WHITESPACE, *ps)
-				|| ft_strchr(SYMBOLS, *ps)))
+		if (stat == -1)
 			break ;
 		if ((in_quote && *quote != '\'' && *ps == '$')
 			|| (!in_quote && *ps == '$'))
@@ -46,43 +57,32 @@ static int	quotelen(char *ps, char *es, char *quote, t_env *env)
 	return (len);
 }
 
-static void	trimquote(char **ps, char *es, char **argv, t_env *env)
+static void	trimquote(char **ps, char *es, char *argv, t_env *env)
 {
-	char	*s;
-	char	*new;
-	int		in_quote;
 	char	quote;
+	int		in_q;
+	int		stat;
 
-	s = *ps;
 	quote = '\0';
-	in_quote = 0;
-	new = *argv;
-	while (s < es)
+	in_q = 0;
+	while (*ps < es)
 	{
-		if (!in_quote && ft_strchr(QUOTES, *s))
-			quote = *s;
-		if (*s == quote)
-		{
-			in_quote = !in_quote;
-			s++;
+		stat = checkquote(ps, &quote, &in_q);
+		if (stat == 1)
 			continue ;
-		}
-		if (!in_quote && (ft_strchr(WHITESPACE, *s)
-				|| ft_strchr(SYMBOLS, *s)))
+		if (stat == -1)
 			break ;
-		if ((in_quote && quote != '\'' && *s == '$')
-			|| (!in_quote && *s == '$'))
+		if ((in_q && quote != '\'' && **ps == '$') || (!in_q && **ps == '$'))
 		{
-			if (!expandline(&s, es, &new, env) || !in_quote)
+			if (!expandline(ps, es, &argv, env) || !in_q)
 				continue ;
-			s--;
+			(*ps)--;
 		}
-		*new = *s;
-		s++;
-		new++;
+		*argv = **ps;
+		(*ps)++;
+		argv++;
 	}
-	*new = '\0';
-	*ps = s;
+	*argv = '\0';
 }
 
 int	parsequote(char **ps, char *es, char **argv, t_env *env)
@@ -107,6 +107,6 @@ int	parsequote(char **ps, char *es, char **argv, t_env *env)
 	*argv = ft_calloc(sizeof(char), (len + 1));
 	if (!*argv)
 		print_error("malloc error");
-	trimquote(ps, es, argv, env);
+	trimquote(ps, es, *argv, env);
 	return ('a');
 }

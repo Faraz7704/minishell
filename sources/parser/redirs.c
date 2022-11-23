@@ -22,7 +22,7 @@ static void	heredoc(char *delim, t_env *env, int fd_pipe)
 		buf = readline("> ");
 		if (!buf)
 			break ;
-		temp = expandline_v2(buf, buf + ft_strlen(buf), env);
+		temp = expansion(buf, buf + ft_strlen(buf), env);
 		if (ft_strequals(temp, delim))
 		{
 			free(buf);
@@ -59,9 +59,23 @@ static t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
 		exit_app(0);
 	}
 	free(delim);
-	waitpid(p_id, NULL, 0);
 	close(fd_pipe[1]);
+	waitpid(p_id, NULL, 0);
 	return (redircmd(subcmd, file, O_RDONLY, g_appinfo.pipe_out));
+}
+
+static t_cmd	*go_next(t_cmd *cmd, char **ps, char *es, t_env *env)
+{
+	int		tok;
+	char	*file;
+
+	tok = gettoken(ps, es, &file, env);
+	if (tok == -1)
+		return (0);
+	if (tok != -2)
+		free(file);
+	cmd = parseredirs(cmd, ps, es, env);
+	return (cmd);
 }
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
@@ -75,29 +89,19 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 	{
 		tok = gettoken(ps, es, 0, env);
 		if (gettoken(ps, es, &file, env) != 'a')
-		{
-			ft_fprintf(1, "syntax error near unexpected token `newline'\n");
-			return (0);
-		}
+			return (ft_fprintf(1, "syntax error\n"), NULL);
 		if (tok == '-')
 			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 		cmd = parseredirs(cmd, ps, es, env);
 		if (tok == '<')
-			cmd = redircmd(cmd, file, O_RDONLY, STDIN_FILENO);
+			cmd = redircmd(cmd, file, O_RDONLY, 0);
 		else if (tok == '>')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (tok == '+')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO);
+			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
 	}
 	else
-	{
-		tok = gettoken(ps, es, &file, env);
-		if (tok == -1)
-			return (0);
-		if (tok != -2)
-			free(file);
-		cmd = parseredirs(cmd, ps, es, env);
-	}
+		cmd = go_next(cmd, ps, es, env);
 	return (cmd);
 }
 

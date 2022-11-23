@@ -55,12 +55,3 @@ void	ctrl_c(int sig)
 		rl_redisplay();
 	}
 }
-
-void	sig_handler_heredoc(int sig_num)
-{
-	if (sig_num == SIGINT)
-	{
-		write(1, "\n", 1);
-		exit_app(1);
-	}
-}

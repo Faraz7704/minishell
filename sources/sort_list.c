@@ -30,6 +30,20 @@ static int	is_strgreater(char *s1, char *s2)
 	return (ft_strlen(s2) > len);
 }
 
+static void	swap_keymap(t_list **lst, t_km *km, t_list *prev, t_list *curr)
+{
+	if (!prev)
+	{
+		lst[0] = ft_lstnew(km);
+		lst[0]->next = curr;
+	}
+	else
+	{
+		prev->next = ft_lstnew(km);
+		prev->next->next = curr;
+	}
+}
+
 static void	insert_keymap_alpha(t_list **lst, t_km *km)
 {
 	t_list	*curr;
@@ -43,16 +57,7 @@ static void	insert_keymap_alpha(t_list **lst, t_km *km)
 		km_curr = (t_km *)curr->content;
 		if (!is_strgreater(km_curr->key, km->key))
 		{
-			if (!prev)
-			{
-				lst[0] = ft_lstnew(km);
-				lst[0]->next = curr;
-			}
-			else
-			{
-				prev->next = ft_lstnew(km);
-				prev->next->next = curr;
-			}
+			swap_keymap(lst, km, prev, curr);
 			return ;
 		}
 		prev = curr;

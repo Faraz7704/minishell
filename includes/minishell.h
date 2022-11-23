@@ -91,8 +91,6 @@ typedef struct s_appinfo
 }	t_appinfo;
 
 // main
-pid_t		ft_fork(void);
-int			getcmd(char *prefix, char **buf);
 void		exit_app(int status);
 void		update_exitstatus(void);
 
@@ -136,12 +134,19 @@ void		ft_clearsplit(char **str);
 // list_utils
 void		ft_lstdel(void *content);
 
-//signals
+// signal
 void		ctrl_c(int sig);
 void		ctrl_d(void);
-void		sig_handler_heredoc(int sig_num);
 void		define_input_signals(void);
 void		define_exec_signals(void);
+
+// signal_utils
+void		sig_handler_heredoc(int sig_num);
+
+// utils
+pid_t		ft_fork(void);
+int			getcmd(char *prefix, char **buf);
+void		clear_cmd(t_cmd *cmd);
 
 extern t_appinfo	g_appinfo;
 

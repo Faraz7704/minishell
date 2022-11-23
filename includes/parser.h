@@ -24,6 +24,10 @@ int		peek(char **ps, char *es, char *toks);
 t_cmd	*parseexec(char **ps, char *es, t_env *env);
 t_cmd	*execcmd(t_env *env);
 
+// exec_utils
+int		peekredir(char **ps, char *es, char **temp, t_env *env);
+t_cmd	*clearexec(t_cmd *cmd, char **ps, char *es);
+
 // pipe
 t_cmd	*parsepipe(char **ps, char *es, t_env *env);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
@@ -44,6 +48,6 @@ int		gettoken(char **ps, char *es, char **argv, t_env *env);
 // expansion
 int		expandsize(char **ps, char *es, int in_quote, t_env *env);
 int		expandline(char **ps, char *es, char **argv, t_env *env);
-char	*expandline_v2(char *ps, char *es, t_env *env);
+char	*expansion(char *ps, char *es, t_env *env);
 
 #endif

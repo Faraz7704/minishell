@@ -85,43 +85,25 @@ int	expandline(char **ps, char *es, char **argv, t_env *env)
 	return (0);
 }
 
-char	*expandline_v2(char *ps, char *es, t_env *env)
+char	*expansion(char *ps, char *es, t_env *env)
 {
-	t_km	*km;
 	char	*new;
-	char	*temp;
+	char	*new_temp;
 	char	*s;
-	int		i;
 	size_t	len;
 
 	len = ft_strclen(ps, *es) + 1;
 	new = ft_calloc(sizeof(char), len);
 	if (!new)
 		print_error("malloc error\n");
-	i = 0;
 	s = ps;
+	new_temp = new;
 	while (s < es)
 	{
-		if (*s == '$')
-		{
-			s++;
-			if (s < es && !ft_strchr(WHITESPACE, *s))
-			{
-				km = parsekeymap(&s, es, env);
-				if (km)
-				{
-					len = (len - (ft_strlen(km->key) + 1)) + ft_strlen(km->val);
-					temp = new;
-					new = ft_strljoin(new, km->val, len);
-					free(temp);
-					i += ft_strlen(km->val);
-				}
-				continue ;
-			}
-			s--;
-		}
-		new[i] = *s;
-		i++;
+		if (*s == '$' && expandline(&s, es, &new_temp, env))
+			continue ;
+		*new_temp = *s;
+		new_temp++;
 		s++;
 	}
 	return (new);
