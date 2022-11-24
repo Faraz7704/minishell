@@ -26,6 +26,32 @@ static t_env	*new_env(int size)
 	return (new);
 }
 
+static void	update_shellvl(t_env *new)
+{
+	t_list	*curr;
+	t_km	*km;
+	char	*temp;
+	char	*temp2;
+	int		value;
+
+	curr = find_keymap_key(new->kms, "SHLVL");
+	if (curr)
+	{
+		km = (t_km *)curr->content;
+		value = ft_atoi(km->val);
+		if (value >= 0)
+		{
+			temp = ft_itoa(value + 1);
+			temp2 = ft_strjoin("SHLVL=", temp);
+			free(temp);
+			add_keymap(&new->kms, temp2, 0);
+			free(temp2);
+			return ;
+		}
+	}
+	add_keymap(&new->kms, "SHLVL=1", 0);
+}
+
 t_env	*init_env(char **env)
 {
 	size_t	i;
@@ -50,6 +76,7 @@ t_env	*init_env(char **env)
 	add_keymap(&new->kms, new->env[i], 0);
 	new->env[++i] = 0;
 	add_keymap(&new->kms, "OLDPWD", 1);
+	update_shellvl(new);
 	return (new);
 }
 
