@@ -79,7 +79,7 @@ t_cmd	*parseexec(char **ps, char *es, t_env *env)
 		return (clearexec((t_cmd *)cmd, ps, es));
 	size = parseargv_size(*ps, es, env);
 	if (!size)
-		return (clearexec((t_cmd *)cmd, ps, es));
+		return (clearexec(ret, ps, es));
 	cmd->argv = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (!cmd->argv)
 		print_error("malloc error\n");

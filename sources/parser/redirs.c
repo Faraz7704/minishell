@@ -12,58 +12,6 @@
 
 #include "parser.h"
 
-static void	heredoc(char *delim, t_env *env, int fd_pipe)
-{
-	char		*buf;
-	char		*temp;
-
-	while (1)
-	{
-		buf = readline("> ");
-		if (!buf)
-			break ;
-		temp = expansion(buf, buf + ft_strlen(buf), env);
-		if (ft_strequals(temp, delim))
-		{
-			free(buf);
-			free(temp);
-			break ;
-		}
-		ft_fprintf(fd_pipe, "%s\n", temp);
-		free(buf);
-		free(temp);
-	}
-	close(fd_pipe);
-	free(delim);
-}
-
-static t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
-{
-	int			p_id;
-	int			fd_pipe[2];
-
-	if (pipe(fd_pipe) < 0)
-		print_error("pipe");
-	if (g_appinfo.pipe_out >= 0)
-		close(g_appinfo.pipe_out);
-	g_appinfo.pipe_out = fd_pipe[0];
-	p_id = ft_fork();
-	if (p_id == 0)
-	{
-		signal(SIGINT, &sig_handler_heredoc);
-		g_appinfo.cmd = subcmd;
-		heredoc(delim, env, fd_pipe[1]);
-		free(file);
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
-		exit_app(0);
-	}
-	free(delim);
-	close(fd_pipe[1]);
-	waitpid(p_id, NULL, 0);
-	return (redircmd(subcmd, file, O_RDONLY, g_appinfo.pipe_out));
-}
-
 static t_cmd	*go_next(t_cmd *cmd, char **ps, char *es, t_env *env)
 {
 	int		tok;
@@ -75,6 +23,17 @@ static t_cmd	*go_next(t_cmd *cmd, char **ps, char *es, t_env *env)
 	if (tok != -2)
 		free(file);
 	cmd = parseredirs(cmd, ps, es, env);
+	return (cmd);
+}
+
+static t_cmd	*get_redircmd(int tok, t_cmd *cmd, char	*file)
+{
+	if (tok == '<')
+		cmd = redircmd(cmd, file, O_RDONLY, 0);
+	else if (tok == '>')
+		cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, 1);
+	else if (tok == '+')
+		cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
 	return (cmd);
 }
 
@@ -93,12 +52,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, t_env *env)
 		if (tok == '-')
 			cmd = heredoccmd(cmd, ft_strdup("."), file, env);
 		cmd = parseredirs(cmd, ps, es, env);
-		if (tok == '<')
-			cmd = redircmd(cmd, file, O_RDONLY, 0);
-		else if (tok == '>')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_TRUNC, 1);
-		else if (tok == '+')
-			cmd = redircmd(cmd, file, O_WRONLY | O_CREAT | O_APPEND, 1);
+		cmd = get_redircmd(tok, cmd, file);
 	}
 	else
 		cmd = go_next(cmd, ps, es, env);

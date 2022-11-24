@@ -26,7 +26,7 @@ int	peekredir(char **ps, char *es, char **temp, t_env *env)
 
 t_cmd	*clearexec(t_cmd *cmd, char **ps, char *es)
 {
-	free(cmd);
+	clear_cmd(cmd);
 	*ps = es;
 	return (0);
 }

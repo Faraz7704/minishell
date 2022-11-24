@@ -20,9 +20,11 @@ void	child_redircmd(t_redircmd *rcmd)
 
 	if (ft_strequals(rcmd->file, ".") && rcmd->fd > 2)
 	{
+		if (g_appinfo.pipe_out == -1)
+			exit_app(g_appinfo.exit_status);
 		dup2(rcmd->fd, STDIN_FILENO);
-		runcmd(rcmd->cmd);
 		close(rcmd->fd);
+		runcmd(rcmd->cmd);
 		exit_app(g_appinfo.exit_status);
 	}
 	close(rcmd->fd);

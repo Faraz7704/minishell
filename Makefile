@@ -55,6 +55,7 @@ SOURCES_LIST 		= main.c debug.c env.c keymap.c sort_list.c signal.c \
 						parser/pipe.c \
 						parser/block.c \
 						parser/quote.c \
+						parser/redirs_utils.c \
 						parser/redirs.c \
 						parser/token.c \
 						parser/expansion.c \

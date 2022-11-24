@@ -88,6 +88,8 @@ typedef struct s_appinfo
 	t_env		*env;
 	int			exit_status;
 	int			pipe_out;
+	int			pipe_in;
+	char		*delim;
 }	t_appinfo;
 
 // main
