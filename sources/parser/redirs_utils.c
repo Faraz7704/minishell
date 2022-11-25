@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirs.c                                           :+:      :+:    :+:   */
+/*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:04:32 by fkhan             #+#    #+#             */
-/*   Updated: 2022/11/22 21:42:59 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/25 17:12:12 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_cmd	*heredoccmd(t_cmd *subcmd, char *file, char *delim, t_env *env)
 	waitpid(p_id, &stat, 0);
 	if (WEXITSTATUS(stat))
 	{
+		g_appinfo.exit_status = WEXITSTATUS(stat);
 		close(fd_pipe[0]);
 		g_appinfo.pipe_out = -1;
 	}

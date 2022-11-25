@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 18:59:13 by szhakypo          #+#    #+#             */
-/*   Updated: 2022/11/22 20:26:05 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/11/25 16:58:44 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ void	ctrl_c(int sig)
 	{
 		g_appinfo.exit_status = 1;
 		update_exitstatus();
-		ft_printf("\n");
 		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("  \b\b", 2);
+		write(2, "\n", 1);
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 }
